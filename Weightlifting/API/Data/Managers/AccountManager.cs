@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-using AutoMapper;
-
 using API.Data.Models;
 using API.DTOs.Account;
 using API.JWT;
@@ -14,14 +12,12 @@ namespace API.Data.Managers
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly JWTHandler _jwtHandler;
-        private readonly IMapper _mapper;
         private readonly DatabaseContext _context;
 
-        public AccountManager(UserManager<ApplicationUser> userManager, JWTHandler jwtHandler, IMapper mapper, DatabaseContext context)
+        public AccountManager(UserManager<ApplicationUser> userManager, JWTHandler jwtHandler, DatabaseContext context)
         {
             _userManager = userManager;
             _jwtHandler = jwtHandler;
-            _mapper = mapper;
             _context = context;
         }
 
