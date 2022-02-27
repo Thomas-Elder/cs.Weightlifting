@@ -9,7 +9,7 @@ using API.Data.Models;
 
 namespace API.JWT
 {
-    public class JWTHandler
+    public class JWTHandler : IJWTHandler
     {
         private readonly IConfigurationSection _jwtSettings;
         private readonly UserManager<ApplicationUser> _userManager;
