@@ -19,9 +19,6 @@ builder.Services.AddSwaggerGen();
 // Configure Identity
 
 
-// Add Mapper
-
-
 // Rego Managers
 
 
