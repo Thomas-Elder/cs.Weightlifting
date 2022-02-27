@@ -1,3 +1,9 @@
+
+using Microsoft.EntityFrameworkCore;
+
+using API.Data;
+using API.Data.Managers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -14,13 +20,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Add DBContext
-
+builder.Services.AddDbContext<DatabaseContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("WeightliftingDB"));
+});
 
 // Configure Identity
 
 
 // Rego Managers
-
+builder.Services.AddScoped<IAccountManager, AccountManager>();
 
 var app = builder.Build();
 
