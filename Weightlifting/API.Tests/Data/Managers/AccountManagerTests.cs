@@ -20,7 +20,7 @@ namespace API.Tests.Data.Managers
     {
         private AccountManager _sut;
         private UserManager<ApplicationUser> mock_UserManager;
-        private DatabaseContext mock_DatabaseContext;
+        private UserContext mock_DatabaseContext;
         private IJWTHandler mock_JWTHandler;
 
         public AccountManagerTests()
@@ -32,11 +32,11 @@ namespace API.Tests.Data.Managers
 
             mock_JWTHandler = Substitute.For<IJWTHandler>();
 
-            var options = new DbContextOptionsBuilder<DatabaseContext>()
+            var options = new DbContextOptionsBuilder<UserContext>()
                 .UseInMemoryDatabase(databaseName: "WeightliftingTest")
                 .Options;
 
-            mock_DatabaseContext = new DatabaseContext(options);
+            mock_DatabaseContext = new UserContext(options);
 
             _sut = new AccountManager(
                 mock_UserManager,
