@@ -11,10 +11,10 @@ namespace API.Data.Managers
     {
 
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly JWTHandler _jwtHandler;
+        private readonly IJWTHandler _jwtHandler;
         private readonly DatabaseContext _context;
 
-        public AccountManager(UserManager<ApplicationUser> userManager, JWTHandler jwtHandler, DatabaseContext context)
+        public AccountManager(UserManager<ApplicationUser> userManager, IJWTHandler jwtHandler, DatabaseContext context)
         {
             _userManager = userManager;
             _jwtHandler = jwtHandler;
@@ -26,9 +26,50 @@ namespace API.Data.Managers
             throw new NotImplementedException();
         }
 
-        public Task<UserAuthenticationResponseDTO> Login(UserAuthenticationDTO userAuthenticationDTO)
+        public async Task<UserAuthenticationResponseDTO> Login(UserAuthenticationDTO userAuthenticationDTO)
         {
-            throw new NotImplementedException();
+            // Check user exists
+            var user = await _userManager.FindByEmailAsync(userAuthenticationDTO.UserName);
+
+            if (user == null)
+            {
+                return new UserAuthenticationResponseDTO()
+                {
+                    IsSuccess = false,
+                    Errors = new Dictionary<string, string>
+                    {
+                        {
+                            "Email",  "Email not found."
+                        }
+                    }
+                };
+            }
+
+            // Check password correct
+            var passwordCheck = await _userManager.CheckPasswordAsync(user, userAuthenticationDTO.Password);
+
+            if (!passwordCheck)
+            {
+                return new UserAuthenticationResponseDTO()
+                {
+                    IsSuccess = false,
+                    Errors = new Dictionary<string, string>
+                    {
+                        {
+                            "Password",  "Password incorrect."
+                        }
+                    }
+                };
+            }
+
+            // Get JWT for authorised routes
+            var token = await _jwtHandler.GetToken(user);
+
+            return new UserAuthenticationResponseDTO()
+            {
+                IsSuccess = true,
+                Token = token
+            };
         }
 
         public Task<ApplicationUser> Get(string id)
