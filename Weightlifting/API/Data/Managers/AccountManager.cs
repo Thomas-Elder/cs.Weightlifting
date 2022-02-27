@@ -12,9 +12,9 @@ namespace API.Data.Managers
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IJWTHandler _jwtHandler;
-        private readonly DatabaseContext _context;
+        private readonly UserContext _context;
 
-        public AccountManager(UserManager<ApplicationUser> userManager, IJWTHandler jwtHandler, DatabaseContext context)
+        public AccountManager(UserManager<ApplicationUser> userManager, IJWTHandler jwtHandler, UserContext context)
         {
             _userManager = userManager;
             _jwtHandler = jwtHandler;
