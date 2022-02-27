@@ -9,6 +9,7 @@ using API.Data;
 using API.Data.Managers;
 using API.JWT;
 using API.Data.Models;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,15 +32,47 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 // Add JWTHandler rego
-builder.Services.AddScoped<JWTHandler>();
+builder.Services.AddScoped<IJWTHandler, JWTHandler>();
 
 // Configure Swagger to have auth option
-builder.Services.AddSwaggerGen();
-
-// Add DBContext
-builder.Services.AddDbContext<DatabaseContext>(options =>
+builder.Services.AddSwaggerGen(c =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("WeightliftingDB"));
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Token only",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] { }
+        }
+    });
+});
+
+// Add Weightlifting DBContext
+builder.Services.AddDbContext<WeightliftingContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Weightlifting.WeightliftingDB"));
+});
+
+// Add User DBContext
+builder.Services.AddDbContext<UserContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Weightlifting.UserDB"));
 });
 
 // Configure Identity
@@ -52,7 +85,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     options.Password.RequiredLength = 3;
     options.User.RequireUniqueEmail = true;
 })
-    .AddEntityFrameworkStores<DatabaseContext>()
+    .AddEntityFrameworkStores<UserContext>()
     .AddDefaultTokenProviders();
 
 
