@@ -1,5 +1,5 @@
 ﻿using API.Data.Models;
-using API.Account.DTOs;
+using API.DTOs.Account;
 
 namespace API.Data.Managers
 {

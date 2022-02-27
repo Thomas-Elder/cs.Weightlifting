@@ -1,5 +1,5 @@
 ﻿using API.Data.Models;
-using API.Account.DTOs;
+using API.DTOs.Account;
 
 namespace API.Data.Managers
 {
@@ -10,14 +10,15 @@ namespace API.Data.Managers
             throw new NotImplementedException();
         }
 
+        public Task<UserRegistrationResponseDTO> Register(UserRegistrationDTO userRegistrationDTO)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<UserAuthenticationResponseDTO> Login(UserAuthenticationDTO userAuthenticationDTO)
         {
             throw new NotImplementedException();
         }
 
-        public Task<UserRegistrationResponseDTO> Register(UserRegistrationDTO userRegistrationDTO)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
