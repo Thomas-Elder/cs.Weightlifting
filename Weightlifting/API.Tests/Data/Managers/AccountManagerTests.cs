@@ -81,7 +81,7 @@ namespace API.Tests.Data.Managers
 
             mock_UserManager.FindByEmailAsync(Arg.Any<string>()).Returns(Task.FromResult(Substitute.For<ApplicationUser>()));
 
-            mock_UserManager.CheckPasswordAsync(Substitute.For<ApplicationUser>(), "Incorrect").Returns(Task.FromResult(false));
+            mock_UserManager.CheckPasswordAsync(Arg.Any<ApplicationUser>(), Arg.Any<string>()).Returns(Task.FromResult(false));
 
             // Act
             var result = await _sut.Login(userAuthenticationDTO);
@@ -102,7 +102,7 @@ namespace API.Tests.Data.Managers
 
             mock_UserManager.FindByEmailAsync(Arg.Any<string>()).Returns(Task.FromResult(Substitute.For<ApplicationUser>()));
 
-            mock_UserManager.CheckPasswordAsync(Substitute.For<ApplicationUser>(), "Correct").Returns(Task.FromResult(true));
+            mock_UserManager.CheckPasswordAsync(Arg.Any<ApplicationUser>(), Arg.Any<string>()).Returns(Task.FromResult(true));
 
             // Act
             var result = await _sut.Login(userAuthenticationDTO);
