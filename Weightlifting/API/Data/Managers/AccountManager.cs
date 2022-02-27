@@ -3,7 +3,7 @@
 using API.Data.Models;
 using API.DTOs.Account;
 using API.JWT;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Data.Managers
 {
@@ -70,11 +70,6 @@ namespace API.Data.Managers
                 IsSuccess = true,
                 Token = token
             };
-        }
-
-        public Task<ApplicationUser> Get(string id)
-        {
-            throw new NotImplementedException();
         }
     }
 }
