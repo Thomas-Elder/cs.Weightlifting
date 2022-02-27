@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API.DTOs
+namespace API.Account.DTOs
 {
     public class UserRegistrationDTO
     {

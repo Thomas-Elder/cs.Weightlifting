@@ -1,4 +1,4 @@
-﻿namespace API.DTOs
+﻿namespace API.Account.DTOs
 {
     public class UserRegistrationResponseDTO
     {
