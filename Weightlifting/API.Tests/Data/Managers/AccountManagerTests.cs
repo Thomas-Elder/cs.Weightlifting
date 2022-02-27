@@ -50,6 +50,7 @@ namespace API.Tests.Data.Managers
             mock_DatabaseContext.Database.EnsureDeleted();
         }
 
+        #region Login
         [Fact]
         public async void Login_WhenCalledWithNonExistentUserDetails_ReturnsUserAuthenticationResponseDTOWithIsSuccessFalse()
         {
@@ -110,5 +111,50 @@ namespace API.Tests.Data.Managers
             // Assert
             Assert.True(result.IsSuccess);
         }
+        #endregion
+
+        #region Register
+        [Fact]
+        public async void Register_WhenCalledWithExistingEmail_ReturnsUserRegistrationResponseDTOWithisSuccessfulRegistrationFalse()
+        {
+            // Arrange
+            UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO() 
+            { 
+                FirstName = "New",
+                Email = "existing@gmail.com",
+                Password = "match",
+                ConfirmPassword = "match"
+            };
+            
+            mock_UserManager.CreateAsync(Arg.Any<ApplicationUser>(), Arg.Any<string>()).Returns(IdentityResult.Failed());
+
+            // Act
+            var result = await _sut.Register(userRegistrationDTO);
+
+            // Assert
+            Assert.False(result.isSuccessfulRegistration);
+        }
+
+        [Fact]
+        public async void Register_WhenCalledWithUniqueEmail_ReturnsUserRegistrationResponseDTOWithisSuccessfulRegistrationTrue()
+        {
+            // Arrange
+            UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO()
+            {
+                FirstName = "New",
+                Email = "unique@gmail.com",
+                Password = "match",
+                ConfirmPassword = "match"
+            };
+
+            mock_UserManager.CreateAsync(Arg.Any<ApplicationUser>(), Arg.Any<string>()).Returns(IdentityResult.Success);
+
+            // Act
+            var result = await _sut.Register(userRegistrationDTO);
+
+            // Assert
+            Assert.True(result.isSuccessfulRegistration);
+        }
+        #endregion
     }
 }

@@ -21,9 +21,34 @@ namespace API.Data.Managers
             _context = context;
         }
 
-        public Task<UserRegistrationResponseDTO> Register(UserRegistrationDTO userRegistrationDTO)
+        public async Task<UserRegistrationResponseDTO> Register(UserRegistrationDTO userRegistrationDTO)
         {
-            throw new NotImplementedException();
+            ApplicationUser user = new ApplicationUser()
+            {
+                UserName = userRegistrationDTO.Email,
+                FirstName = userRegistrationDTO.FirstName,
+                Email = userRegistrationDTO.Email
+            };
+
+            var result = await _userManager.CreateAsync(user, userRegistrationDTO.Password);
+
+            if (!result.Succeeded)
+            {
+                return new UserRegistrationResponseDTO()
+                {
+                    isSuccessfulRegistration = false,
+                    Errors = new Dictionary<string, string> {
+                        {
+                        "Registration", "Error registering user"
+                        }
+                    }
+                };
+            }
+
+            return new UserRegistrationResponseDTO
+            {
+                isSuccessfulRegistration = true
+            };
         }
 
         public async Task<UserAuthenticationResponseDTO> Login(UserAuthenticationDTO userAuthenticationDTO)
