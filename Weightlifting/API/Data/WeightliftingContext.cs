@@ -5,8 +5,8 @@ namespace API.Data
 {
     public class WeightliftingContext : DbContext
     {
-        public DbSet<Athlete>? Athletes { get; set; }
-        public DbSet<Coach>? Coaches { get; set; }
+        public DbSet<Athlete> Athletes { get; set; }
+        public DbSet<Coach> Coaches { get; set; }
 
         public WeightliftingContext(DbContextOptions<WeightliftingContext> options) : base(options)
         {
