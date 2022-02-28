@@ -12,14 +12,12 @@ namespace API.Data.Managers
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IJWTHandler _jwtHandler;
-        private readonly UserContext _context;
         private readonly WeightliftingContext _weightliftingContext;
 
-        public AccountManager(UserManager<ApplicationUser> userManager, IJWTHandler jwtHandler, UserContext context, WeightliftingContext weightliftingContext)
+        public AccountManager(UserManager<ApplicationUser> userManager, IJWTHandler jwtHandler, WeightliftingContext weightliftingContext)
         {
             _userManager = userManager;
             _jwtHandler = jwtHandler;
-            _context = context;
             _weightliftingContext = weightliftingContext;
         }
 
