@@ -14,10 +14,23 @@ namespace API.Controllers
             _accountManager = accountManager;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(UserRegistrationDTO userRegistrationDTO)
+        [HttpPost("register/athlete")]
+        public async Task<IActionResult> RegisterAthlete(UserRegistrationDTO userRegistrationDTO)
         {
-            var result = await _accountManager.Register(userRegistrationDTO);
+            var result = await _accountManager.RegisterAthlete(userRegistrationDTO);
+
+            if (!result.isSuccessfulRegistration)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost("register/coach")]
+        public async Task<IActionResult> RegisterCoach(UserRegistrationDTO userRegistrationDTO)
+        {
+            var result = await _accountManager.RegisterCoach(userRegistrationDTO);
 
             if (!result.isSuccessfulRegistration)
             {
