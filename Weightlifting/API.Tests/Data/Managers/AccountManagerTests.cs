@@ -20,7 +20,7 @@ namespace API.Tests.Data.Managers
     {
         private AccountManager _sut;
         private UserManager<ApplicationUser> mock_UserManager;
-        private UserContext mock_DatabaseContext;
+        private WeightliftingContext mock_WeightliftingContext;
         private IJWTHandler mock_JWTHandler;
 
         public AccountManagerTests()
@@ -32,22 +32,22 @@ namespace API.Tests.Data.Managers
 
             mock_JWTHandler = Substitute.For<IJWTHandler>();
 
-            var options = new DbContextOptionsBuilder<UserContext>()
-                .UseInMemoryDatabase(databaseName: "WeightliftingTest")
+            var weightliftingOptions = new DbContextOptionsBuilder<WeightliftingContext>()
+                .UseInMemoryDatabase(databaseName: "WeightliftinTest")
                 .Options;
 
-            mock_DatabaseContext = new UserContext(options);
+            mock_WeightliftingContext = new WeightliftingContext(weightliftingOptions);
 
             _sut = new AccountManager(
                 mock_UserManager,
                 mock_JWTHandler,
-                mock_DatabaseContext
+                mock_WeightliftingContext
                 );
         }
 
         public void Dispose()
         {
-            mock_DatabaseContext.Database.EnsureDeleted();
+            mock_WeightliftingContext.Database.EnsureDeleted();
         }
 
         #region Login
