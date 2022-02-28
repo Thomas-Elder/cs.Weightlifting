@@ -113,7 +113,7 @@ namespace API.Tests.Data.Managers
         }
         #endregion
 
-        #region Register
+        #region RegisterAthlete
         [Fact]
         public async void RegisterAthlete_WhenCalledWithExistingEmail_ReturnsUserRegistrationResponseDTOWithisSuccessfulRegistrationFalse()
         {
@@ -151,6 +151,50 @@ namespace API.Tests.Data.Managers
 
             // Act
             var result = await _sut.RegisterAthlete(userRegistrationDTO);
+
+            // Assert
+            Assert.True(result.isSuccessfulRegistration);
+        }
+        #endregion
+
+        #region RegisterCoach
+        [Fact]
+        public async void RegisterCoach_WhenCalledWithExistingEmail_ReturnsUserRegistrationResponseDTOWithisSuccessfulRegistrationFalse()
+        {
+            // Arrange
+            UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO()
+            {
+                FirstName = "New",
+                Email = "existing@gmail.com",
+                Password = "match",
+                ConfirmPassword = "match"
+            };
+
+            mock_UserManager.CreateAsync(Arg.Any<ApplicationUser>(), Arg.Any<string>()).Returns(IdentityResult.Failed());
+
+            // Act
+            var result = await _sut.RegisterCoach(userRegistrationDTO);
+
+            // Assert
+            Assert.False(result.isSuccessfulRegistration);
+        }
+
+        [Fact]
+        public async void RegisterCoach_WhenCalledWithUniqueEmail_ReturnsUserRegistrationResponseDTOWithisSuccessfulRegistrationTrue()
+        {
+            // Arrange
+            UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO()
+            {
+                FirstName = "New",
+                Email = "unique@gmail.com",
+                Password = "match",
+                ConfirmPassword = "match"
+            };
+
+            mock_UserManager.CreateAsync(Arg.Any<ApplicationUser>(), Arg.Any<string>()).Returns(IdentityResult.Success);
+
+            // Act
+            var result = await _sut.RegisterCoach(userRegistrationDTO);
 
             // Assert
             Assert.True(result.isSuccessfulRegistration);
