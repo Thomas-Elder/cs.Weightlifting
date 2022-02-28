@@ -91,6 +91,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 // Rego Managers
 builder.Services.AddScoped<IAccountManager, AccountManager>();
+builder.Services.AddScoped<ICoachesManager, CoachesManager>();
 
 var app = builder.Build();
 
