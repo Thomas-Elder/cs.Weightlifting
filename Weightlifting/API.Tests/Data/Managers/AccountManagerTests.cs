@@ -115,7 +115,7 @@ namespace API.Tests.Data.Managers
 
         #region Register
         [Fact]
-        public async void Register_WhenCalledWithExistingEmail_ReturnsUserRegistrationResponseDTOWithisSuccessfulRegistrationFalse()
+        public async void RegisterAthlete_WhenCalledWithExistingEmail_ReturnsUserRegistrationResponseDTOWithisSuccessfulRegistrationFalse()
         {
             // Arrange
             UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO() 
@@ -129,14 +129,14 @@ namespace API.Tests.Data.Managers
             mock_UserManager.CreateAsync(Arg.Any<ApplicationUser>(), Arg.Any<string>()).Returns(IdentityResult.Failed());
 
             // Act
-            var result = await _sut.Register(userRegistrationDTO);
+            var result = await _sut.RegisterAthlete(userRegistrationDTO);
 
             // Assert
             Assert.False(result.isSuccessfulRegistration);
         }
 
         [Fact]
-        public async void Register_WhenCalledWithUniqueEmail_ReturnsUserRegistrationResponseDTOWithisSuccessfulRegistrationTrue()
+        public async void RegisterAthlete_WhenCalledWithUniqueEmail_ReturnsUserRegistrationResponseDTOWithisSuccessfulRegistrationTrue()
         {
             // Arrange
             UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO()
@@ -150,7 +150,7 @@ namespace API.Tests.Data.Managers
             mock_UserManager.CreateAsync(Arg.Any<ApplicationUser>(), Arg.Any<string>()).Returns(IdentityResult.Success);
 
             // Act
-            var result = await _sut.Register(userRegistrationDTO);
+            var result = await _sut.RegisterAthlete(userRegistrationDTO);
 
             // Assert
             Assert.True(result.isSuccessfulRegistration);
