@@ -19,7 +19,7 @@ namespace API.Controllers
         {
             var result = await _accountManager.RegisterAthlete(userRegistrationDTO);
 
-            if (!result.isSuccessfulRegistration)
+            if (!result.Success)
             {
                 return BadRequest(result);
             }
@@ -32,7 +32,7 @@ namespace API.Controllers
         {
             var result = await _accountManager.RegisterCoach(userRegistrationDTO);
 
-            if (!result.isSuccessfulRegistration)
+            if (!result.Success)
             {
                 return BadRequest(result);
             }
