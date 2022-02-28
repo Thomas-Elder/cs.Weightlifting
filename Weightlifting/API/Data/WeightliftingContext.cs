@@ -5,6 +5,9 @@ namespace API.Data
 {
     public class WeightliftingContext : DbContext
     {
+        public DbSet<Athlete>? Athletes { get; set; }
+        public DbSet<Coach>? Coaches { get; set; }
+
         public WeightliftingContext(DbContextOptions<WeightliftingContext> options) : base(options)
         {
         }
@@ -12,6 +15,10 @@ namespace API.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Athlete>()
+                .HasOne(a => a.Coach)
+                .WithMany(c => c.Athletes);
         }
     }
 }
