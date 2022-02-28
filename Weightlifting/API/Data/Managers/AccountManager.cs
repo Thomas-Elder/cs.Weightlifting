@@ -36,7 +36,7 @@ namespace API.Data.Managers
             {
                 return new UserRegistrationResponseDTO()
                 {
-                    isSuccessfulRegistration = false,
+                    Success = false,
                     Errors = new Dictionary<string, string> {
                         {
                         "Registration", "Error registering user"
@@ -58,7 +58,7 @@ namespace API.Data.Managers
 
             return new UserRegistrationResponseDTO
             {
-                isSuccessfulRegistration = true
+                Success = true
             };
         }
 
@@ -77,7 +77,7 @@ namespace API.Data.Managers
             {
                 return new UserRegistrationResponseDTO()
                 {
-                    isSuccessfulRegistration = false,
+                    Success = false,
                     Errors = new Dictionary<string, string> {
                         {
                         "Registration", "Error registering user"
@@ -99,7 +99,7 @@ namespace API.Data.Managers
 
             return new UserRegistrationResponseDTO
             {
-                isSuccessfulRegistration = true
+                Success = true
             };
         }
 
@@ -112,7 +112,7 @@ namespace API.Data.Managers
             {
                 return new UserAuthenticationResponseDTO()
                 {
-                    IsSuccess = false,
+                    Success = false,
                     Errors = new Dictionary<string, string>
                     {
                         {
@@ -129,7 +129,7 @@ namespace API.Data.Managers
             {
                 return new UserAuthenticationResponseDTO()
                 {
-                    IsSuccess = false,
+                    Success = false,
                     Errors = new Dictionary<string, string>
                     {
                         {
@@ -144,7 +144,7 @@ namespace API.Data.Managers
 
             return new UserAuthenticationResponseDTO()
             {
-                IsSuccess = true,
+                Success = true,
                 Token = token
             };
         }
