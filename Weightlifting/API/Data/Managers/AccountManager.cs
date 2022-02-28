@@ -108,7 +108,7 @@ namespace API.Data.Managers
             // Check user exists
             var user = await _userManager.FindByEmailAsync(userAuthenticationDTO.UserName);
 
-            if (user == null)
+            if (user is null)
             {
                 return new UserAuthenticationResponseDTO()
                 {
