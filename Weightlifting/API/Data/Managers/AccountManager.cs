@@ -13,15 +13,17 @@ namespace API.Data.Managers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IJWTHandler _jwtHandler;
         private readonly UserContext _context;
+        private readonly WeightliftingContext _weightliftingContext;
 
-        public AccountManager(UserManager<ApplicationUser> userManager, IJWTHandler jwtHandler, UserContext context)
+        public AccountManager(UserManager<ApplicationUser> userManager, IJWTHandler jwtHandler, UserContext context, WeightliftingContext weightliftingContext)
         {
             _userManager = userManager;
             _jwtHandler = jwtHandler;
             _context = context;
+            _weightliftingContext = weightliftingContext;
         }
 
-        public async Task<UserRegistrationResponseDTO> Register(UserRegistrationDTO userRegistrationDTO)
+        public async Task<UserRegistrationResponseDTO> RegisterAthlete(UserRegistrationDTO userRegistrationDTO)
         {
             ApplicationUser user = new ApplicationUser()
             {
@@ -44,6 +46,58 @@ namespace API.Data.Managers
                     }
                 };
             }
+
+            // add Athlete role
+            await _userManager.AddToRoleAsync(user, UserRoles.Athlete);
+
+            // add new Athlete object to db
+            await _weightliftingContext.Athletes.AddAsync(new Athlete()
+            {
+                FirstName = userRegistrationDTO.FirstName,
+                ApplicationUserId = user.Id
+            });
+            _weightliftingContext.SaveChanges();
+
+            return new UserRegistrationResponseDTO
+            {
+                isSuccessfulRegistration = true
+            };
+        }
+
+        public async Task<UserRegistrationResponseDTO> RegisterCoach(UserRegistrationDTO userRegistrationDTO)
+        {
+            ApplicationUser user = new ApplicationUser()
+            {
+                UserName = userRegistrationDTO.Email,
+                FirstName = userRegistrationDTO.FirstName,
+                Email = userRegistrationDTO.Email
+            };
+
+            var result = await _userManager.CreateAsync(user, userRegistrationDTO.Password);
+
+            if (!result.Succeeded)
+            {
+                return new UserRegistrationResponseDTO()
+                {
+                    isSuccessfulRegistration = false,
+                    Errors = new Dictionary<string, string> {
+                        {
+                        "Registration", "Error registering user"
+                        }
+                    }
+                };
+            }
+
+            // add Coach role
+            await _userManager.AddToRoleAsync(user, UserRoles.Coach);
+
+            // add new Coach object to db
+            await _weightliftingContext.Coaches.AddAsync(new Coach()
+            {
+                FirstName = userRegistrationDTO.FirstName,
+                ApplicationUserId = user.Id
+            });
+            _weightliftingContext.SaveChanges();
 
             return new UserRegistrationResponseDTO
             {
