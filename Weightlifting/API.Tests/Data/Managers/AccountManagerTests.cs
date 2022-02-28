@@ -67,7 +67,7 @@ namespace API.Tests.Data.Managers
             var result = await _sut.Login(userAuthenticationDTO);
 
             // Assert
-            Assert.False(result.IsSuccess);
+            Assert.False(result.Success);
         }
         
         [Fact]
@@ -88,7 +88,7 @@ namespace API.Tests.Data.Managers
             var result = await _sut.Login(userAuthenticationDTO);
 
             // Assert
-            Assert.False(result.IsSuccess);
+            Assert.False(result.Success);
         }
 
         [Fact]
@@ -109,7 +109,7 @@ namespace API.Tests.Data.Managers
             var result = await _sut.Login(userAuthenticationDTO);
 
             // Assert
-            Assert.True(result.IsSuccess);
+            Assert.True(result.Success);
         }
         #endregion
 
@@ -132,7 +132,7 @@ namespace API.Tests.Data.Managers
             var result = await _sut.RegisterAthlete(userRegistrationDTO);
 
             // Assert
-            Assert.False(result.isSuccessfulRegistration);
+            Assert.False(result.Success);
         }
 
         [Fact]
@@ -153,7 +153,7 @@ namespace API.Tests.Data.Managers
             var result = await _sut.RegisterAthlete(userRegistrationDTO);
 
             // Assert
-            Assert.True(result.isSuccessfulRegistration);
+            Assert.True(result.Success);
         }
         #endregion
 
@@ -176,7 +176,7 @@ namespace API.Tests.Data.Managers
             var result = await _sut.RegisterCoach(userRegistrationDTO);
 
             // Assert
-            Assert.False(result.isSuccessfulRegistration);
+            Assert.False(result.Success);
         }
 
         [Fact]
@@ -197,7 +197,7 @@ namespace API.Tests.Data.Managers
             var result = await _sut.RegisterCoach(userRegistrationDTO);
 
             // Assert
-            Assert.True(result.isSuccessfulRegistration);
+            Assert.True(result.Success);
         }
         #endregion
     }
