@@ -17,11 +17,11 @@ namespace API.Tests.Data.Managers
         public CoachesManagerTests()
         {
             var weightliftingOptions = new DbContextOptionsBuilder<WeightliftingContext>()
-                .UseInMemoryDatabase(databaseName: "WeightliftinTest")
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
 
             mock_WeightliftingContext = new WeightliftingContext(weightliftingOptions);
- 
+
             mock_WeightliftingContext.Coaches.Add(new Coach()
             {
                 Id = 1,

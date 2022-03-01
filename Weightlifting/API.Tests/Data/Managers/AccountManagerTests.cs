@@ -18,10 +18,10 @@ namespace API.Tests.Data.Managers
 {
     public class AccountManagerTests: IDisposable
     {
-        private AccountManager _sut;
-        private UserManager<ApplicationUser> mock_UserManager;
-        private WeightliftingContext mock_WeightliftingContext;
-        private IJWTHandler mock_JWTHandler;
+        UserManager<ApplicationUser> mock_UserManager;
+        IJWTHandler mock_JWTHandler;
+        WeightliftingContext mock_WeightliftingContext;
+        AccountManager _sut;
 
         public AccountManagerTests()
         {
@@ -33,7 +33,7 @@ namespace API.Tests.Data.Managers
             mock_JWTHandler = Substitute.For<IJWTHandler>();
 
             var weightliftingOptions = new DbContextOptionsBuilder<WeightliftingContext>()
-                .UseInMemoryDatabase(databaseName: "WeightliftinTest")
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
 
             mock_WeightliftingContext = new WeightliftingContext(weightliftingOptions);
