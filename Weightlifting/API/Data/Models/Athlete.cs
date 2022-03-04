@@ -7,7 +7,11 @@
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
 
+        #region Navigation Properties
+        public IEnumerable<Session>? Sessions { get; set; }
+
         public int? CoachId { get; set; }
         public Coach? Coach { get; set; }
+        #endregion
     }
 }
