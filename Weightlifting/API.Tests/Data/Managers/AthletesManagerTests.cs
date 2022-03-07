@@ -53,36 +53,36 @@ namespace API.Tests.Data.Managers
 
         #region AddAthleteToCoach
         [Fact]
-        public async void AddAthleteToCoach_WhenCalledWithNonExistentUserID_ReturnsAddAthleteToCoachResponseDTOWithSuccessFalse()
+        public async void AddCoach_WhenCalledWithNonExistentUserID_ReturnsAddAthleteToCoachResponseDTOWithSuccessFalse()
         {
             // Arrange
 
             // Act
-            var result = await _sut.AddAthleteToCoach("1", 1);
+            var result = await _sut.AddCoach("1", 1);
 
             // Assert
             Assert.False(result.Success);
         }
 
         [Fact]
-        public async void AddAthleteToCoach_WhenCalledWithNonExistentCoachID_ReturnsAddAthleteToCoachResponseDTOWithSuccessFalse()
+        public async void AddCoach_WhenCalledWithNonExistentCoachID_ReturnsAddAthleteToCoachResponseDTOWithSuccessFalse()
         {
             // Arrange
 
             // Act
-            var result = await _sut.AddAthleteToCoach("1", 2);
+            var result = await _sut.AddCoach("1", 2);
 
             // Assert
             Assert.False(result.Success);
         }
 
         [Fact]
-        public async void AddAthleteToCoach_WhenCalledWithExistingIDs_ReturnsAddAthleteToCoachResponseDTOWithSuccessTrue()
+        public async void AddCoach_WhenCalledWithExistingIDs_ReturnsAddAthleteToCoachResponseDTOWithSuccessTrue()
         {
             // Arrange
 
             // Act
-            var result = await _sut.AddAthleteToCoach("2", 1);
+            var result = await _sut.AddCoach("2", 1);
 
             // Assert
             Assert.True(result.Success);
