@@ -14,13 +14,13 @@ namespace API.Data.Managers
             _weightliftingContext = weightliftingContext;
         }
 
-        public async Task<AddAthleteToCoachResponseDTO> AddAthleteToCoach(string athleteUserId, int coachId)
+        public async Task<AddCoachResponseDTO> AddCoach(string athleteUserId, int coachId)
         {
             var athlete = await _weightliftingContext.Athletes.FirstOrDefaultAsync(a => a.ApplicationUserId == athleteUserId);
 
             if (athlete is null)
             {
-                return new AddAthleteToCoachResponseDTO()
+                return new AddCoachResponseDTO()
                 {
                     Success = false,
                     Errors = new Dictionary<string, string>()
@@ -34,7 +34,7 @@ namespace API.Data.Managers
 
             if (coach is null)
             {
-                return new AddAthleteToCoachResponseDTO()
+                return new AddCoachResponseDTO()
                 {
                     Success = false,
                     Errors = new Dictionary<string, string>()

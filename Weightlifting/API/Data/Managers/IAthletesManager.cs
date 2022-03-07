@@ -4,6 +4,6 @@ namespace API.Data.Managers
 {
     public interface IAthletesManager
     {
-        public Task<AddAthleteToCoachResponseDTO> AddAthleteToCoach(string athleteUserId, int coachId);
+        public Task<AddCoachResponseDTO> AddCoach(string athleteUserId, int coachId);
     }
 }
