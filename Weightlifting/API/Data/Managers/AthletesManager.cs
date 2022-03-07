@@ -85,7 +85,7 @@ namespace API.Data.Managers
             };
         }
 
-        public async Task<AthleteDetailsDTO> AthleteDetails(string athleteUserId)
+        public async Task<AthleteDetailsDTO> Details(string athleteUserId)
         {
             var athlete = await _weightliftingContext.Athletes.FirstOrDefaultAsync(a => a.ApplicationUserId == athleteUserId);
 
@@ -132,6 +132,33 @@ namespace API.Data.Managers
                 LastName = athlete.LastName,
                 Sessions = sessionDTOs,
                 Coach = coachDetailsDTO
+            };
+        }
+
+        public async Task<EditDetailsResponseDTO> EditDetails(string athleteUserId, EditDetailsDTO editDetailsDTO)
+        {
+            var athlete = await _weightliftingContext.Athletes.FirstOrDefaultAsync(a => a.ApplicationUserId == athleteUserId);
+
+            if (athlete is null)
+            {
+                return new EditDetailsResponseDTO()
+                {
+                    Success = false,
+                    Errors = new Dictionary<string, string>()
+                    {
+                        { "Athlete ID", "Athlete id doesn't exist" }
+                    }
+                };
+            }
+
+            athlete.FirstName = editDetailsDTO is not null ? editDetailsDTO.FirstName : athlete.FirstName;
+            athlete.LastName = editDetailsDTO is not null ? editDetailsDTO.LastName : athlete.LastName;
+
+            _weightliftingContext.SaveChanges();
+
+            return new EditDetailsResponseDTO()
+            {
+                Success = true
             };
         }
     }

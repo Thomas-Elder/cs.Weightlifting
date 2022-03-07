@@ -77,7 +77,28 @@ namespace API.Controllers
                 return BadRequest("Error accessing identity");
             }
 
-            var result = await _athletesManager.AthleteDetails(id);
+            var result = await _athletesManager.Details(id);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet("details/edit")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
+        public async Task<IActionResult> EditDetails(EditDetailsDTO editDetailsDTO)
+        {
+            var id = User.Identity.Name;
+
+            if (id is null)
+            {
+                return BadRequest("Error accessing identity");
+            }
+
+            var result = await _athletesManager.EditDetails(id, editDetailsDTO);
 
             if (!result.Success)
             {
