@@ -38,7 +38,14 @@ namespace API.Tests.Data.Managers
                 FirstName = "Test",
                 LastName = "Athlete",
                 ApplicationUserId = "2",
+                CoachId = 1
+            });
 
+            mock_WeightliftingContext.Sessions.Add(new Session()
+            {
+                Id = 1,
+                Date = new DateTime(2022, 1, 1),
+                AthleteId = 1
             });
 
             mock_WeightliftingContext.SaveChanges();
@@ -148,6 +155,12 @@ namespace API.Tests.Data.Managers
             Assert.True(result.Success);
             Assert.Equal("Test", result.FirstName);
             Assert.Equal("Athlete", result.LastName);
+
+            Assert.Equal(1, result.Coach.CoachId);
+            Assert.Equal("Test", result.Coach.FirstName);
+            Assert.Equal("Coach", result.Coach.LastName);
+
+            Assert.Single(result.Sessions);
         }
         #endregion
     }
