@@ -49,7 +49,7 @@ namespace API.Data.Managers
 
             _weightliftingContext.SaveChanges();
 
-            return new AddAthleteToCoachResponseDTO()
+            return new AddCoachResponseDTO()
             {
                 Success = true
             };
