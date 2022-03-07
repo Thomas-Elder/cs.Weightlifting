@@ -5,6 +5,7 @@ using Xunit;
 using API.Data;
 using API.Data.Models;
 using API.Data.Managers;
+using API.DTOs.Athletes;
 
 namespace API.Tests.Data.Managers
 {
@@ -82,6 +83,40 @@ namespace API.Tests.Data.Managers
 
             // Act
             var result = await _sut.AddAthleteToCoach("2", 1);
+
+            // Assert
+            Assert.True(result.Success);
+        }
+        #endregion
+
+        #region AddSession
+        [Fact]
+        public async void AddSession_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAddSessionResponseDTOWithSuccessFalse()
+        {
+            // Arrange
+            var addSessionDTO = new AddSessionDTO()
+            {
+                Date = new DateTime(2022, 1, 1)
+            };
+
+            // Act
+            var result = await _sut.AddSession("1", addSessionDTO);
+
+            // Assert
+            Assert.False(result.Success);
+        }
+
+        [Fact]
+        public async void AddSession_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAddSessionResponseDTOWithSuccessTrue()
+        {
+            // Arrange
+            var addSessionDTO = new AddSessionDTO()
+            {
+                Date = new DateTime(2022, 1, 1)
+            };
+
+            // Act
+            var result = await _sut.AddSession("2", addSessionDTO);
 
             // Assert
             Assert.True(result.Success);
