@@ -10,9 +10,9 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class AthletesController : Controller
     {
-        private readonly AthletesManager _athletesManager;
+        private readonly IAthletesManager _athletesManager;
 
-        public AthletesController(AthletesManager athletesManager)
+        public AthletesController(IAthletesManager athletesManager)
         {
             _athletesManager = athletesManager;
         }
