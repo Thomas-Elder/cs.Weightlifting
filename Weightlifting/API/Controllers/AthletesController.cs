@@ -24,6 +24,27 @@ namespace API.Controllers
             return Ok("You're an athlete!");
         }
 
+        [HttpPost("coach/add")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
+        public async Task<IActionResult> AddCoach(int coachId)
+        {
+            var id = User.Identity.Name;
+
+            if (id is null)
+            {
+                return BadRequest("Error accessing identity");
+            }
+
+            var result = await _athletesManager.AddCoach(id, coachId);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
         [HttpPost("session/add")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
         public async Task<IActionResult> AddSession(AddSessionDTO addSessionDTO)
