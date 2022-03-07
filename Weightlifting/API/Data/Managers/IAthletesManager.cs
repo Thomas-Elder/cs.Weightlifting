@@ -1,5 +1,4 @@
 ﻿using API.DTOs.Athletes;
-;
 
 namespace API.Data.Managers
 {
