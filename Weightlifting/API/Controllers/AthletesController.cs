@@ -65,5 +65,26 @@ namespace API.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("details")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
+        public async Task<IActionResult> Details()
+        {
+            var id = User.Identity.Name;
+
+            if (id is null)
+            {
+                return BadRequest("Error accessing identity");
+            }
+
+            var result = await _athletesManager.AthleteDetails(id);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
     }
 }
