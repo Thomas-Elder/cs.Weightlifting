@@ -122,5 +122,33 @@ namespace API.Tests.Data.Managers
             Assert.True(result.Success);
         }
         #endregion
+
+        #region AthleteDetails
+        [Fact]
+        public async void AthleteDetails_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
+        {
+            // Arrange
+
+            // Act
+            var result = await _sut.AthleteDetails("1");
+
+            // Assert
+            Assert.False(result.Success);
+        }
+
+        [Fact]
+        public async void AthleteDetails_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessTrue()
+        {
+            // Arrange
+
+            // Act
+            var result = await _sut.AthleteDetails("2");
+
+            // Assert
+            Assert.True(result.Success);
+            Assert.Equal("Test", result.FirstName);
+            Assert.Equal("Athlete", result.LastName);
+        }
+        #endregion
     }
 }

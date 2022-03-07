@@ -6,5 +6,6 @@ namespace API.Data.Managers
     {
         public Task<AddCoachResponseDTO> AddCoach(string athleteUserId, int coachId);
         public Task<AddSessionResponseDTO> AddSession(string athleteUserId, AddSessionDTO addSessionDTO);
+        public Task<AthleteDetailsDTO> AthleteDetails(string athleteUserId);
     }
 }
