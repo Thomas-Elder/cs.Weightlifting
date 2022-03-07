@@ -3,12 +3,20 @@ using Microsoft.AspNetCore.Authorization;
 
 using API.Data.Models;
 using API.DTOs.Athletes;
+using API.Data.Managers;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     public class AthletesController : Controller
     {
+        private readonly AthletesManager _athletesManager;
+
+        public AthletesController(AthletesManager athletesManager)
+        {
+            _athletesManager = athletesManager;
+        }
+
         [HttpGet("check")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
         public IActionResult Check()
@@ -18,7 +26,7 @@ namespace API.Controllers
 
         [HttpPost("session/add")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
-        public IActionResult AddSession(AddSessionDTO addSessionDTO)
+        public async Task<IActionResult> AddSession(AddSessionDTO addSessionDTO)
         {
             var id = User.Identity.Name;
 
@@ -27,14 +35,14 @@ namespace API.Controllers
                 return BadRequest("Error accessing identity");
             }
 
+            var result = await _athletesManager.AddSession(id, addSessionDTO);
 
-            
-            var session = new Session()
+            if (!result.Success)
             {
-                Date = addSessionDTO.Date
-            };
+                return BadRequest(result);
+            }
 
-            return Ok();
+            return Ok(result);
         }
     }
 }
