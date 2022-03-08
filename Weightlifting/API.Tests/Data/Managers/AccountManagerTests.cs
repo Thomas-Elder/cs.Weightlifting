@@ -57,7 +57,7 @@ namespace API.Tests.Data.Managers
             // Arrange
             UserAuthenticationDTO userAuthenticationDTO = new UserAuthenticationDTO()
             {
-                UserName = "Non existent user",
+                Email = "Non existent user",
                 Password = "Any"
             };
 
@@ -76,7 +76,7 @@ namespace API.Tests.Data.Managers
             // Arrange
             UserAuthenticationDTO userAuthenticationDTO = new UserAuthenticationDTO()
             {
-                UserName = "Existing user",
+                Email = "Existing user",
                 Password = "Wrong"
             };
 
@@ -97,7 +97,7 @@ namespace API.Tests.Data.Managers
             // Arrange
             UserAuthenticationDTO userAuthenticationDTO = new UserAuthenticationDTO()
             {
-                UserName = "Existing user",
+                Email = "Existing user",
                 Password = "Correct"
             };
 

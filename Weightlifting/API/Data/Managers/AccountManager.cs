@@ -106,7 +106,7 @@ namespace API.Data.Managers
         public async Task<UserAuthenticationResponseDTO> Login(UserAuthenticationDTO userAuthenticationDTO)
         {
             // Check user exists
-            var user = await _userManager.FindByEmailAsync(userAuthenticationDTO.UserName);
+            var user = await _userManager.FindByEmailAsync(userAuthenticationDTO.Email);
 
             if (user is null)
             {
