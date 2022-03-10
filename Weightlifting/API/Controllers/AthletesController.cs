@@ -77,7 +77,7 @@ namespace API.Controllers
                 return BadRequest("Error accessing identity");
             }
 
-            var result = await _athletesManager.Details(id);
+            var result = await _athletesManager.DetailsByApplicationUserId(id);
 
             if (!result.Success)
             {
@@ -98,7 +98,7 @@ namespace API.Controllers
                 return BadRequest("Error accessing identity");
             }
 
-            var result = await _athletesManager.EditDetails(id, editDetailsDTO);
+            var result = await _athletesManager.EditDetailsByApplicationUserId(id, editDetailsDTO);
 
             if (!result.Success)
             {

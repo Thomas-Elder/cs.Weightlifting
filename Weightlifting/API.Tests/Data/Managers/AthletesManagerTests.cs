@@ -130,26 +130,26 @@ namespace API.Tests.Data.Managers
         }
         #endregion
 
-        #region Details
+        #region DetailsByApplicationUserId
         [Fact]
-        public async void Details_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
+        public async void DetailsByApplicationUserId_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
         {
             // Arrange
 
             // Act
-            var result = await _sut.Details("1");
+            var result = await _sut.DetailsByApplicationUserId("1");
 
             // Assert
             Assert.False(result.Success);
         }
 
         [Fact]
-        public async void Details_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessTrue()
+        public async void DetailsByApplicationUserId_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessTrue()
         {
             // Arrange
 
             // Act
-            var result = await _sut.Details("2");
+            var result = await _sut.DetailsByApplicationUserId("2");
 
             // Assert
             Assert.True(result.Success);
@@ -164,25 +164,43 @@ namespace API.Tests.Data.Managers
         }
         #endregion
 
-        #region EditDetails
+        #region DetailsByAthleteId
         [Fact]
-        public async void EditDetails_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
+        public async void DetailsByAthleteId_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
         {
             // Arrange
-            EditDetailsDTO editDetailsDTO = new EditDetailsDTO()
-            {
-                LastName = "Updated last name"
-            };
 
             // Act
-            var result = await _sut.EditDetails("1", editDetailsDTO);
+            var result = await _sut.DetailsByAthleteId(2);
 
             // Assert
             Assert.False(result.Success);
         }
 
         [Fact]
-        public async void EditDetails_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessTrue()
+        public async void DetailsByAthleteId_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessTrue()
+        {
+            // Arrange
+
+            // Act
+            var result = await _sut.DetailsByAthleteId(1);
+
+            // Assert
+            Assert.True(result.Success);
+            Assert.Equal("Test", result.FirstName);
+            Assert.Equal("Athlete", result.LastName);
+
+            Assert.Equal(1, result.Coach.CoachId);
+            Assert.Equal("Test", result.Coach.FirstName);
+            Assert.Equal("Coach", result.Coach.LastName);
+
+            Assert.Single(result.Sessions);
+        }
+        #endregion
+
+        #region EditDetailsByApplicationUserId
+        [Fact]
+        public async void EditDetailsByApplicationUserId_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
         {
             // Arrange
             EditDetailsDTO editDetailsDTO = new EditDetailsDTO()
@@ -191,7 +209,59 @@ namespace API.Tests.Data.Managers
             };
 
             // Act
-            var result = await _sut.EditDetails("2", editDetailsDTO);
+            var result = await _sut.EditDetailsByApplicationUserId("1", editDetailsDTO);
+
+            // Assert
+            Assert.False(result.Success);
+        }
+
+        [Fact]
+        public async void EditDetailsByApplicationUserId_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessTrue()
+        {
+            // Arrange
+            EditDetailsDTO editDetailsDTO = new EditDetailsDTO()
+            {
+                LastName = "Updated last name"
+            };
+
+            // Act
+            var result = await _sut.EditDetailsByApplicationUserId("2", editDetailsDTO);
+            var updatedAthlete = await mock_WeightliftingContext.Athletes.FirstOrDefaultAsync(a => a.Id == 1);
+
+            // Assert
+            Assert.True(result.Success);
+            Assert.Equal("Updated last name", updatedAthlete.LastName);
+        }
+        #endregion
+
+        #region EditDetailsByAthleteId
+        [Fact]
+        public async void EditDetailsByAthleteId_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
+        {
+            // Arrange
+            EditDetailsDTO editDetailsDTO = new EditDetailsDTO()
+            {
+                LastName = "Updated last name"
+            };
+
+            // Act
+            var result = await _sut.EditDetailsByAthleteId(2, editDetailsDTO);
+
+            // Assert
+            Assert.False(result.Success);
+        }
+
+        [Fact]
+        public async void EditDetailsByAthleteId_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessTrue()
+        {
+            // Arrange
+            EditDetailsDTO editDetailsDTO = new EditDetailsDTO()
+            {
+                LastName = "Updated last name"
+            };
+
+            // Act
+            var result = await _sut.EditDetailsByAthleteId(1, editDetailsDTO);
             var updatedAthlete = await mock_WeightliftingContext.Athletes.FirstOrDefaultAsync(a => a.Id == 1);
 
             // Assert
