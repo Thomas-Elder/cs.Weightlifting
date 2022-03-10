@@ -53,45 +53,6 @@ namespace API.Data.Managers
             };
         }
 
-        public async Task<GetAthletesResponseDTO> GetAthletes(string id)
-        {
-             var coach = await _weightliftingContext.Coaches.FirstOrDefaultAsync(c => c.ApplicationUserId == id);
-
-            if (coach is null)
-            {
-                return new GetAthletesResponseDTO()
-                {
-                    Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Coach", "Coach id doesn't exist" }
-                    }
-                };
-            }
-
-            var result = await _weightliftingContext.Athletes
-                .Where(a => a.CoachId == coach.Id)
-                .ToDictionaryAsync(a => a.Id, a => a.FirstName);
-
-            if (result is null)
-            {
-                return new GetAthletesResponseDTO()
-                {
-                    Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Coach", "Coach id has no athletes" }
-                    }
-                };
-            }
-
-            return new GetAthletesResponseDTO()
-            {
-                Success = true,
-                Result = result!
-            };
-        }
-
         public async Task<CoachDetailsDTO> DetailsByApplicationUserId(string coachUserId)
         {
             var coach = await _weightliftingContext.Coaches.FirstOrDefaultAsync(c => c.ApplicationUserId == coachUserId);

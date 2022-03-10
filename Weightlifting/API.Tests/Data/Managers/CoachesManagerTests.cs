@@ -88,9 +88,6 @@ namespace API.Tests.Data.Managers
         }
         #endregion
 
-        #region GetAthletes
-        #endregion
-
         #region DetailsByApplicationUserId
         [Fact]
         public async void DetailsByApplicationUserId_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
