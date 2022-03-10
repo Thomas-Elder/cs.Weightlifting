@@ -5,6 +5,7 @@ using Xunit;
 using API.Data;
 using API.Data.Models;
 using API.Data.Managers;
+using API.DTOs.Coaches;
 
 namespace API.Tests.Data.Managers
 {
@@ -36,7 +37,7 @@ namespace API.Tests.Data.Managers
                 FirstName = "Test",
                 LastName = "Athlete",
                 ApplicationUserId = "2",
-
+                CoachId = 1
             });
 
             mock_WeightliftingContext.SaveChanges();
@@ -88,6 +89,142 @@ namespace API.Tests.Data.Managers
         #endregion
 
         #region GetAthletes
+        #endregion
+
+        #region DetailsByApplicationUserId
+        [Fact]
+        public async void DetailsByApplicationUserId_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
+        {
+            // Arrange
+
+            // Act
+            var result = await _sut.DetailsByApplicationUserId("2");
+
+            // Assert
+            Assert.False(result.Success);
+        }
+
+        [Fact]
+        public async void DetailsByApplicationUserId_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessTrue()
+        {
+            // Arrange
+
+            // Act
+            var result = await _sut.DetailsByApplicationUserId("1");
+
+            // Assert
+            Assert.True(result.Success);
+            Assert.Equal("Test", result.FirstName);
+            Assert.Equal("Coach", result.LastName);
+
+            Assert.Single(result.Athletes);
+        }
+        #endregion
+
+        #region DetailsByCoachId
+        [Fact]
+        public async void DetailsByCoachId_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
+        {
+            // Arrange
+
+            // Act
+            var result = await _sut.DetailsByCoachId(2);
+
+            // Assert
+            Assert.False(result.Success);
+        }
+
+        [Fact]
+        public async void DetailsByCoachId_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessTrue()
+        {
+            // Arrange
+
+            // Act
+            var result = await _sut.DetailsByCoachId(1);
+
+            // Assert
+            Assert.True(result.Success);
+            Assert.Equal("Test", result.FirstName);
+            Assert.Equal("Coach", result.LastName);
+
+            Assert.Single(result.Athletes);
+        }
+        #endregion
+
+        #region EditDetailsByApplicationUserId
+        [Fact]
+        public async void EditDetailsByApplicationUserId_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
+        {
+            // Arrange
+            var editDetailsDTO = new EditDetailsDTO()
+            {
+                FirstName = "New first name"
+            };
+
+            // Act
+            var result = await _sut.EditDetailsByApplicationUserId("2", editDetailsDTO);
+
+            // Assert
+            Assert.False(result.Success);
+        }
+
+        [Fact]
+        public async void EditDetailsByApplicationUserId_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessTrue()
+        {
+            // Arrange
+            var editDetailsDTO = new EditDetailsDTO()
+            {
+                FirstName = "New first name"
+            };
+
+            // Act
+            var result = await _sut.EditDetailsByApplicationUserId("1", editDetailsDTO);
+
+            // Assert
+            Assert.True(result.Success);
+            Assert.Equal("New first name", result.FirstName);
+            Assert.Equal("Coach", result.LastName);
+
+            Assert.Single(result.Athletes);
+        }
+        #endregion
+
+        #region EditDetailsByCoachId
+        [Fact]
+        public async void EditDetailsByCoachId_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
+        {
+            // Arrange
+            var editDetailsDTO = new EditDetailsDTO()
+            {
+                FirstName = "New first name"
+            };
+
+            // Act
+            var result = await _sut.EditDetailsByCoachId(2, editDetailsDTO);
+
+            // Assert
+            Assert.False(result.Success);
+        }
+
+        [Fact]
+        public async void EditDetailsByCoachId_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessTrue()
+        {
+            // Arrange
+            var editDetailsDTO = new EditDetailsDTO()
+            {
+                FirstName = "New first name"
+            };
+
+            // Act
+            var result = await _sut.EditDetailsByCoachId(1, editDetailsDTO);
+
+            // Assert
+            Assert.True(result.Success);
+            Assert.Equal("New first name", result.FirstName);
+            Assert.Equal("Coach", result.LastName);
+
+            Assert.Single(result.Athletes);
+        }
         #endregion
     }
 }

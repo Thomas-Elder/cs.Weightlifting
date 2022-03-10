@@ -7,5 +7,9 @@ namespace API.Data.Managers
     {
         public Task<AddAthleteToCoachResponseDTO> AddAthleteToCoach(string coachUserId, int athleteId);
         public Task<GetAthletesResponseDTO> GetAthletes(string id);
+        public Task<CoachDetailsDTO> DetailsByApplicationUserId(string coachUserId);
+        public Task<CoachDetailsDTO> DetailsByCoachId(int coachId);
+        public Task<CoachDetailsDTO> EditDetailsByApplicationUserId(string coachUserId, EditDetailsDTO editDetailsDTO);
+        public Task<CoachDetailsDTO> EditDetailsByCoachId(int coachId, EditDetailsDTO editDetailsDTO);
     }
 }
