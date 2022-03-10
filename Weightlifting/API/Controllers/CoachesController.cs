@@ -45,26 +45,5 @@ namespace API.Controllers
 
             return Ok(result);
         }
-
-        [HttpGet("athletes/get")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Coach)]
-        public async Task<IActionResult> GetAthletes()
-        {
-            var id = User.Identity.Name;
-
-            if (id is null) 
-            {
-                return BadRequest("Error accessing identity");
-            }
-
-            var result = await _coachesManager.GetAthletes(id);
-
-            if (!result.Success)
-            {
-                return BadRequest(result);
-            }
-
-            return Ok(result);
-        }
     }
 }
