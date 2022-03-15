@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 
 using API.Data.Models;
-using API.DTOs.Coaches;
 using API.Data.Managers;
-using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -37,6 +35,41 @@ namespace API.Controllers
             }
 
             var result = await _coachesManager.AddAthleteToCoach(coachId, athleteId);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet("details/applicationId")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Coach)]
+        public async Task<IActionResult> DetailsByApplicationId()
+        {
+            var coachId = User.Identity.Name;
+
+            if (coachId is null)
+            {
+                return BadRequest("Error accessing identity");
+            }
+
+            var result = await _coachesManager.DetailsByApplicationUserId(coachId);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet("details/coachId")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> DetailsByCoachId(int coachId)
+        { 
+            var result = await _coachesManager.DetailsByCoachId(coachId);
 
             if (!result.Success)
             {
