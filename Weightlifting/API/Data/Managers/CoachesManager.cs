@@ -151,8 +151,8 @@ namespace API.Data.Managers
                 };
             }
 
-            coach.FirstName = editDetailsDTO.FirstName is not null ? editDetailsDTO.FirstName : coach.FirstName;
-            coach.LastName = editDetailsDTO.LastName is not null ? editDetailsDTO.LastName : coach.LastName;
+            coach.FirstName = editDetailsDTO.FirstName ??= coach.FirstName;
+            coach.LastName = editDetailsDTO.LastName ??= coach.LastName;
 
             _weightliftingContext.SaveChanges();
 
@@ -197,8 +197,8 @@ namespace API.Data.Managers
                 };
             }
 
-            coach.FirstName = editDetailsDTO.FirstName is not null ? editDetailsDTO.FirstName : coach.FirstName;
-            coach.LastName = editDetailsDTO.LastName is not null ? editDetailsDTO.LastName : coach.LastName;
+            coach.FirstName = editDetailsDTO.FirstName ??= coach.FirstName;
+            coach.LastName = editDetailsDTO.LastName ??= coach.LastName;
 
             _weightliftingContext.SaveChanges();
 
