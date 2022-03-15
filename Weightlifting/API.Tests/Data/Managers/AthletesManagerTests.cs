@@ -231,6 +231,7 @@ namespace API.Tests.Data.Managers
             // Assert
             Assert.True(result.Success);
             Assert.Equal("Updated last name", updatedAthlete.LastName);
+            Assert.Equal("Test", updatedAthlete.FirstName);
         }
         #endregion
 
@@ -267,6 +268,7 @@ namespace API.Tests.Data.Managers
             // Assert
             Assert.True(result.Success);
             Assert.Equal("Updated last name", updatedAthlete.LastName);
+            Assert.Equal("Test", updatedAthlete.FirstName);
         }
         #endregion
     }
