@@ -66,9 +66,9 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("details")]
+        [HttpGet("details/applicationId")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
-        public async Task<IActionResult> Details()
+        public async Task<IActionResult> DetailsByApplidationUserId()
         {
             var id = User.Identity.Name;
 
@@ -86,6 +86,21 @@ namespace API.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("details/athleteId")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> DetailsByAthleteId(int athleteId)
+        {
+            var result = await _athletesManager.DetailsByAthleteId(athleteId);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
 
         [HttpGet("details/edit")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
