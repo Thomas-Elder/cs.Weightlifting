@@ -102,9 +102,9 @@ namespace API.Controllers
         }
 
 
-        [HttpGet("details/edit")]
+        [HttpGet("details/edit/applicationId")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
-        public async Task<IActionResult> EditDetails(EditDetailsDTO editDetailsDTO)
+        public async Task<IActionResult> EditDetailsByApplicationUserId(EditDetailsDTO editDetailsDTO)
         {
             var id = User.Identity.Name;
 
@@ -114,6 +114,20 @@ namespace API.Controllers
             }
 
             var result = await _athletesManager.EditDetailsByApplicationUserId(id, editDetailsDTO);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet("details/edit/athleteId")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> EditDetailsByAthleteId(int athleteId, EditDetailsDTO editDetailsDTO)
+        {
+            var result = await _athletesManager.EditDetailsByAthleteId(athleteId, editDetailsDTO);
 
             if (!result.Success)
             {
