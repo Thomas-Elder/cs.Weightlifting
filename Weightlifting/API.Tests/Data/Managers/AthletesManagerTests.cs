@@ -158,60 +158,26 @@ namespace API.Tests.Data.Managers
         }
         #endregion
 
-        #region DetailsByApplicationUserId
+        #region Details
         [Fact]
-        public async void DetailsByApplicationUserId_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
+        public async void Details_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
         {
             // Arrange
 
             // Act
-            var result = await _sut.DetailsByApplicationUserId("1");
+            var result = await _sut.Details(2);
 
             // Assert
             Assert.False(result.Success);
         }
 
         [Fact]
-        public async void DetailsByApplicationUserId_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessTrue()
+        public async void Details_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessTrue()
         {
             // Arrange
 
             // Act
-            var result = await _sut.DetailsByApplicationUserId("2");
-
-            // Assert
-            Assert.True(result.Success);
-            Assert.Equal("Test", result.FirstName);
-            Assert.Equal("Athlete", result.LastName);
-
-            Assert.Equal(1, result.Coach.CoachId);
-            Assert.Equal("Test", result.Coach.FirstName);
-            Assert.Equal("Coach", result.Coach.LastName);
-
-            Assert.Single(result.Sessions);
-        }
-        #endregion
-
-        #region DetailsByAthleteId
-        [Fact]
-        public async void DetailsByAthleteId_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
-        {
-            // Arrange
-
-            // Act
-            var result = await _sut.DetailsByAthleteId(2);
-
-            // Assert
-            Assert.False(result.Success);
-        }
-
-        [Fact]
-        public async void DetailsByAthleteId_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessTrue()
-        {
-            // Arrange
-
-            // Act
-            var result = await _sut.DetailsByAthleteId(1);
+            var result = await _sut.Details(1);
 
             // Assert
             Assert.True(result.Success);
