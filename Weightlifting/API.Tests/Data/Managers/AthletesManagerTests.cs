@@ -11,7 +11,7 @@ namespace API.Tests.Data.Managers
 {
     public class AthletesManagerTests : IDisposable
     {
-        AthletesManager _sut;
+        IAthletesManager _sut;
 
         WeightliftingContext mock_WeightliftingContext;
 
@@ -57,6 +57,34 @@ namespace API.Tests.Data.Managers
         {
             mock_WeightliftingContext.Database.EnsureDeleted();
         }
+
+        #region GetAthleteId
+        [Fact]
+        public void GetAthleteId_WhenCalledWithNonExistentUserID_ReturnsFalse()
+        {
+            // Arrange
+
+            // Act
+            var result = _sut.GetAthleteId("1", out int athleteId);
+
+            // Assert
+            Assert.False(result);
+            Assert.Equal(0, athleteId);
+        }
+
+        [Fact]
+        public void GetAthleteId_WhenCalledWithExistentUserID_ReturnsTrueAndSetsAthleteIdParameter()
+        {
+            // Arrange
+
+            // Act
+            var result = _sut.GetAthleteId("2", out int athleteId);
+
+            // Assert
+            Assert.True(result);
+            Assert.Equal(1, athleteId);
+        }
+        #endregion
 
         #region AddAthleteToCoach
         [Fact]

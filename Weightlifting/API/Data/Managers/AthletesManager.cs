@@ -13,6 +13,31 @@ namespace API.Data.Managers
             _weightliftingContext = weightliftingContext;
         }
 
+        /// <summary>
+        /// Gets the athlete id for the Application User Id passed in.
+        /// If there is an Athlete with that Application User Id it sets athleteId to  
+        /// the value of Athlete.Id, and returns true.
+        /// 
+        /// If there is not an Athlete with that Application User Id, athleteId is 0,
+        /// and the method returns false.
+        /// </summary>
+        /// <param name="applicationUserId"></param>
+        /// <param name="athleteId"></param>
+        /// <returns></returns>
+        public bool GetAthleteId(string applicationUserId, out int athleteId)
+        {
+            var athlete = _weightliftingContext.Athletes.FirstOrDefault(a => a.ApplicationUserId == applicationUserId);
+
+            if (athlete is null)
+            {
+                athleteId = 0;
+                return false;
+            }
+
+            athleteId = athlete.Id;
+            return true;
+        }
+
         public async Task<AddCoachResponseDTO> AddCoach(string athleteUserId, int coachId)
         {
             var athlete = await _weightliftingContext.Athletes.FirstOrDefaultAsync(a => a.ApplicationUserId == athleteUserId);
