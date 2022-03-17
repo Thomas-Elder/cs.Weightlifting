@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
+        public IEnumerable<Exercise>? Exercises { get; set; }
 
         #region Navigation Properties
         public Athlete? Athlete { get; set; }
