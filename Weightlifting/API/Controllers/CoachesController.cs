@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 
 using API.Data.Models;
 using API.Data.Managers;
+using API.DTOs.Coaches;
 
 namespace API.Controllers
 {
@@ -70,6 +71,41 @@ namespace API.Controllers
         public async Task<IActionResult> DetailsByCoachId(int coachId)
         { 
             var result = await _coachesManager.DetailsByCoachId(coachId);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet("details/edit/applicationId")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Coach)]
+        public async Task<IActionResult> EditDetailsByApplicationUserId(EditDetailsDTO editDetailsDTO)
+        {
+            var id = User.Identity.Name;
+
+            if (id is null)
+            {
+                return BadRequest("Error accessing identity");
+            }
+
+            var result = await _coachesManager.EditDetailsByApplicationUserId(id, editDetailsDTO);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet("details/edit/coachId")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> EditDetailsByAthleteId(int athleteId, EditDetailsDTO editDetailsDTO)
+        {
+            var result = await _coachesManager.EditDetailsByCoachId(athleteId, editDetailsDTO);
 
             if (!result.Success)
             {
