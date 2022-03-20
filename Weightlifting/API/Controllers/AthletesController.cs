@@ -119,25 +119,24 @@ namespace API.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> EditDetails(EditDetailsDTO editDetailsDTO, int athleteId = 0)
         {
-            // If athleteId is still default value
+            var userId = User.Identity.Name;
+
+            if (userId is null)
+            {
+                return BadRequest(new AthleteDetailsDTO()
+                {
+                    Success = false,
+                    Errors = new Dictionary<string, string>()
+                    {
+                        { "Identity Error", "Error accessing user identity" }
+                    }
+                });
+            }
+
+            // If athleteId is the default value, then we want to access the User's Athlete
             if (athleteId == 0)
             {
-                // Then we'll check the logged in user's identity
-                var userId = User.Identity.Name;
-
-                if (userId is null)
-                {
-                    return BadRequest(new AthleteDetailsDTO()
-                    {
-                        Success = false,
-                        Errors = new Dictionary<string, string>()
-                        {
-                            { "Identity Error", "Error accessing user identity" }
-                        }
-                    });
-                }
-
-                // And they're not an athlete return bad request
+                // And if they're not an Athlete, bad request
                 if (!_athletesManager.GetAthleteId(userId, out athleteId))
                 {
                     return BadRequest(new AthleteDetailsDTO()
@@ -149,6 +148,21 @@ namespace API.Controllers
                         }
                     });
                 }
+            }
+
+            // And last check, if they've provided an athleteId, AND they are a logged in athlete, 
+            // but the athleteId passed in isn't the athleteId of the logged in user, we need 
+            // to return a badrequest.
+            if (!_athletesManager.UserIsAthlete(userId, athleteId))
+            {
+                return BadRequest(new AthleteDetailsDTO()
+                {
+                    Success = false,
+                    Errors = new Dictionary<string, string>()
+                        {
+                            { "Athlete ID", "The athleteId passed is not the logged in user's athleteId" }
+                        }
+                });
             }
 
             // Otherwise now we've either got an athleteId from the parameter, or we've gotten the 
