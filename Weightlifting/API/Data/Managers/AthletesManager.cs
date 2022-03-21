@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using API.DTOs.Athletes;
+using API.Data.Managers.Interfaces;
 using API.Data.Models;
 
 namespace API.Data.Managers

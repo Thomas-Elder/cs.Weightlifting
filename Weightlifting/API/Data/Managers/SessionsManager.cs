@@ -2,6 +2,7 @@
 
 using API.Data.Models;
 using API.DTOs.Sessions;
+using API.Data.Managers.Interfaces;
 
 namespace API.Data.Managers
 {

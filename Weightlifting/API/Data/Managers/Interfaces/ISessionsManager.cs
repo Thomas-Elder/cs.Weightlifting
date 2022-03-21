@@ -1,6 +1,6 @@
 ﻿using API.DTOs.Sessions;
 
-namespace API.Data.Managers
+namespace API.Data.Managers.Interfaces
 {
     public interface ISessionsManager
     {

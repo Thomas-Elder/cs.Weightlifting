@@ -1,7 +1,7 @@
 ﻿using API.Data.Models;
 using API.DTOs.Account;
 
-namespace API.Data.Managers
+namespace API.Data.Managers.Interfaces
 {
     public interface IAccountManager
     {

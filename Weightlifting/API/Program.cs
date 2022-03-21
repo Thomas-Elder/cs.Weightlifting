@@ -7,6 +7,7 @@ using System.Text;
 
 using API.Data;
 using API.Data.Managers;
+using API.Data.Managers.Interfaces;
 using API.JWT;
 using API.Data.Models;
 using Microsoft.OpenApi.Models;

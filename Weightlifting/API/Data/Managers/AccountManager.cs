@@ -3,7 +3,7 @@
 using API.Data.Models;
 using API.DTOs.Account;
 using API.JWT;
-using Microsoft.EntityFrameworkCore;
+using API.Data.Managers.Interfaces;
 
 namespace API.Data.Managers
 {

@@ -1,6 +1,6 @@
 ﻿using API.DTOs.Coaches;
 
-namespace API.Data.Managers
+namespace API.Data.Managers.Interfaces
 {
     public interface ICoachesManager
     {

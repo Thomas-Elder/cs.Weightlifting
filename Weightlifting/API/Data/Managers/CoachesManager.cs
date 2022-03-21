@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using API.DTOs.Coaches;
+using API.Data.Managers.Interfaces;
 
 namespace API.Data.Managers
 {
