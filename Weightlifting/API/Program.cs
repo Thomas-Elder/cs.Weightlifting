@@ -93,6 +93,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 builder.Services.AddScoped<IAccountManager, AccountManager>();
 builder.Services.AddScoped<ICoachesManager, CoachesManager>();
 builder.Services.AddScoped<IAthletesManager, AthletesManager>();
+builder.Services.AddScoped<ISessionsManager, SessionsManager>();
 
 var app = builder.Build();
 
