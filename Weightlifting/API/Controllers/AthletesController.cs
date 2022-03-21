@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 
 using API.Data.Models;
 using API.DTOs.Athletes;
-using API.Data.Managers;
+using API.Data.Managers.Interfaces;
 
 namespace API.Controllers
 {

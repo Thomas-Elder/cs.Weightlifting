@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 
 using API.Data.Managers;
+using API.Data.Managers.Interfaces;
 using API.Data.Models;
 using API.DTOs.Account;
 using API.Data;

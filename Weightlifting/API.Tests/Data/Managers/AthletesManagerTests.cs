@@ -5,6 +5,7 @@ using Xunit;
 using API.Data;
 using API.Data.Models;
 using API.Data.Managers;
+using API.Data.Managers.Interfaces;
 using API.DTOs.Athletes;
 
 namespace API.Tests.Data.Managers

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 
 using API.Data.Models;
-using API.Data.Managers;
+using API.Data.Managers.Interfaces;
 using API.DTOs.Coaches;
 
 namespace API.Controllers
