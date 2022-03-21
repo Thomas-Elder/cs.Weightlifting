@@ -150,40 +150,6 @@ namespace API.Tests.Data.Managers
         }
         #endregion
 
-        #region AddSession
-        [Fact]
-        public async void AddSession_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAddSessionResponseDTOWithSuccessFalse()
-        {
-            // Arrange
-            var addSessionDTO = new AddSessionDTO()
-            {
-                Date = new DateTime(2022, 1, 1)
-            };
-
-            // Act
-            var result = await _sut.AddSession("1", addSessionDTO);
-
-            // Assert
-            Assert.False(result.Success);
-        }
-
-        [Fact]
-        public async void AddSession_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAddSessionResponseDTOWithSuccessTrue()
-        {
-            // Arrange
-            var addSessionDTO = new AddSessionDTO()
-            {
-                Date = new DateTime(2022, 1, 1)
-            };
-
-            // Act
-            var result = await _sut.AddSession("2", addSessionDTO);
-
-            // Assert
-            Assert.True(result.Success);
-        }
-        #endregion
-
         #region Details
         [Fact]
         public async void Details_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()

@@ -11,9 +11,5 @@ namespace API.Data.Managers
 
         public Task<AthleteDetailsDTO> Details(int athleteId);
         public Task<AthleteDetailsDTO> EditDetails(int athleteId, EditDetailsDTO editDetailsDTO);
-
-
-        //public Task<SessionDetailsDTO> GetSessionDetails(int athleteId);
-        public Task<AddSessionResponseDTO> AddSession(string athleteUserId, AddSessionDTO addSessionDTO);
     }
 }

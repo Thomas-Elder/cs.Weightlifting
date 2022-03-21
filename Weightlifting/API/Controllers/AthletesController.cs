@@ -45,27 +45,6 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("session/add")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
-        public async Task<IActionResult> AddSession(AddSessionDTO addSessionDTO)
-        {
-            var id = User.Identity.Name;
-
-            if (id is null)
-            {
-                return BadRequest("Error accessing identity");
-            }
-
-            var result = await _athletesManager.AddSession(id, addSessionDTO);
-
-            if (!result.Success)
-            {
-                return BadRequest(result);
-            }
-
-            return Ok(result);
-        }
-
         [HttpGet("details")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> Details(int athleteId = 0)

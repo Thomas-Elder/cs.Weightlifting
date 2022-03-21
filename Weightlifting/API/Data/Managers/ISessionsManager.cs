@@ -6,6 +6,6 @@ namespace API.Data.Managers
     {
         public Task<AddSessionResponseDTO> AddSession(AddSessionDTO addSessionDTO);
         public Task<SessionDetailsDTO> Details(int sessionId);
-        public Task<EditSessionDetailsResponseDTO> EditSessionDetails(EditSessionDetailsDTO editSessionDetailsDTO);
+        public Task<EditSessionDetailsResponseDTO> EditDetails(EditSessionDetailsDTO editSessionDetailsDTO);
     }
 }

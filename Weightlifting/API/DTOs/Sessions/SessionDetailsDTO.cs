@@ -1,11 +1,8 @@
 ﻿namespace API.DTOs.Sessions
 {
-    public class SessionDetailsDTO
+    public class SessionDetailsDTO : ResponseDTO
     {
+        public int SessionId { get; set; }
         public DateTime Date { get; set; }
-    }
-
-    public class EditSessionDetailsResponseDTO: ResponseDTO
-    {
     }
 }
