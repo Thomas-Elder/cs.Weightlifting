@@ -1,10 +1,7 @@
 ﻿namespace API.DTOs.Coaches
 {
-    public class CoachDetailsResponseDTO
+    public class CoachDetailsResponseDTO : ResponseDTO
     {
-        public bool Success { get; set; }
-        public Dictionary<string, string>? Errors { get; set; }
-
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
 

@@ -7,4 +7,8 @@ namespace API.DTOs.Sessions
         [Required]
         public DateTime Date { get; set; }
     }
+
+    public class AddSessionResponseDTO : ResponseDTO
+    {
+    }
 }

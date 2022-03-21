@@ -1,9 +1,8 @@
-﻿namespace API.DTOs.Account
+﻿namespace API.DTOs
 {
-    public class UserAuthenticationResponseDTO
+    public class ResponseDTO
     {
         public bool Success { get; set; }
         public Dictionary<string, string>? Errors { get; set; }
-        public string? Token { get; set; }
     }
 }

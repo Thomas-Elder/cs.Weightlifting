@@ -1,8 +1,6 @@
 ﻿namespace API.DTOs.Coaches
 {
-    public class AddAthleteToCoachResponseDTO
+    public class AddAthleteToCoachResponseDTO : ResponseDTO
     {
-        public bool Success { get; set; }
-        public Dictionary<string, string>? Errors { get; set; }
     }
 }

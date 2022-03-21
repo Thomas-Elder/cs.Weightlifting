@@ -9,6 +9,10 @@ namespace API.DTOs.Account
 
         [Required]
         public string? Password { get; set; }
+    }
 
+    public class UserAuthenticationResponseDTO : ResponseDTO
+    {
+        public string? Token { get; set; }
     }
 }
