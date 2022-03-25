@@ -28,5 +28,33 @@ namespace API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("details")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Details(int sessionId)
+        {
+            var result = await _sessionsManager.Details(sessionId);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost("details/edit")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> EditDetails(EditSessionDetailsDTO editSessionDetailsDTO)
+        {
+            var result = await _sessionsManager.EditDetails(editSessionDetailsDTO);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
     }
 }
