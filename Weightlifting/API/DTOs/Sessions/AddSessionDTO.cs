@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using API.DTOs.Exercises;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.DTOs.Sessions
 {
@@ -9,6 +10,8 @@ namespace API.DTOs.Sessions
 
         [Required]
         public DateTime Date { get; set; }
+
+        public IEnumerable<ExerciseDTO>? Exercises { get; set; }
     }
 
     public class AddSessionResponseDTO : ResponseDTO
