@@ -2,11 +2,16 @@
 using System;
 using Xunit;
 
+using System.Linq;
+
 using API.Data;
 using API.Data.Models;
 using API.Data.Managers;
 using API.Data.Managers.Interfaces;
 using API.DTOs.Sessions;
+using API.DTOs.Exercises;
+using System.Collections.Generic;
+using API.DTOs.Sets;
 
 namespace API.Tests.Data.Managers
 {
@@ -86,6 +91,57 @@ namespace API.Tests.Data.Managers
 
             // Assert
             Assert.True(result.Success);
+        }
+
+        [Fact]
+        public async void AddSession_WhenCalledWithExistingAthleteIdAndExerciseData_ReturnsAddSessionResponseDTOWithSuccessTrueAndSessionDetailsSaved()
+        {
+            // Arrange
+            var addSessionDTO = new AddSessionDTO()
+            {
+                AthleteId = 1,
+                Date = new DateTime(2022, 1, 2),
+                Exercises = new List<ExerciseDTO>()
+                {
+                    new ExerciseDTO()
+                    {
+                        Name = "Snatch",
+                        Sets = new List<SetDTO>()
+                        {
+                            new SetDTO()
+                            {
+                                Weight = 80,
+                                SuccessfulRepetitions = 2,
+                                FailedRepetitions = 0
+                            },
+
+                            new SetDTO()
+                            {
+                                Weight = 85,
+                                SuccessfulRepetitions = 1,
+                                FailedRepetitions = 1
+                            },
+
+                            new SetDTO()
+                            {
+                                Weight = 88,
+                                SuccessfulRepetitions = 0,
+                                FailedRepetitions = 2
+                            }
+                        }
+                    }
+                },
+            };
+
+            // Act
+            var result = await _sut.AddSession(addSessionDTO);
+
+            // Assert
+            Assert.True(result.Success);
+
+            var session = await _sut.Details(2);
+
+            Assert.Single(session.Exercises);
         }
         #endregion
 
