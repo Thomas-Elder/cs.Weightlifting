@@ -3,6 +3,8 @@
 using API.Data.Models;
 using API.DTOs.Sessions;
 using API.Data.Managers.Interfaces;
+using API.DTOs.Exercises;
+using API.DTOs.Sets;
 
 namespace API.Data.Managers
 {
@@ -30,12 +32,38 @@ namespace API.Data.Managers
                 };
             }
 
-            await _weightliftingContext.Sessions.AddAsync(new Session()
+            var session = new Session()
             {
                 Date = addSessionDTO.Date,
                 AthleteId = athlete.Id,
                 Athlete = athlete
-            });
+            };
+
+            foreach (ExerciseDTO exerciseDTO in addSessionDTO.Exercises ?? Enumerable.Empty<ExerciseDTO>())
+            {
+                var exercise = new Exercise()
+                {
+                    Name = exerciseDTO.Name,
+                    Session = session
+                };
+
+                foreach (SetDTO setDTO in exerciseDTO.Sets ?? Enumerable.Empty<SetDTO>())
+                {
+                    var set = new Set()
+                    {
+                        Weight = setDTO.Weight,
+                        SuccessfulRepetitions = setDTO.SuccessfulRepetitions,
+                        FailedRepetitions = setDTO.FailedRepetitions,
+                        Exercise = exercise
+                    };
+
+                    await _weightliftingContext.Sets.AddAsync(set);
+                }
+
+                await _weightliftingContext.Exercises.AddAsync(exercise);
+            }
+
+            await _weightliftingContext.Sessions.AddAsync(session);
 
             _weightliftingContext.SaveChanges();
 
@@ -61,11 +89,39 @@ namespace API.Data.Managers
                 };
             }
 
+            var exercises = await _weightliftingContext.Exercises.Where(e => e.SessionId == session.Id).ToListAsync();
+
+            var exerciseDTOs = new List<ExerciseDTO>();
+
+            foreach(Exercise exercise in exercises)
+            {
+                var sets = await _weightliftingContext.Sets.Where(s => s.ExerciseId == exercise.Id).ToListAsync();
+
+                var setDTOs = new List<SetDTO>();
+
+                foreach(Set set in sets)
+                {
+                    setDTOs.Add(new SetDTO()
+                    {
+                        Weight = set.Weight,
+                        SuccessfulRepetitions = set.SuccessfulRepetitions,
+                        FailedRepetitions = set.FailedRepetitions
+                    });
+                }
+
+                exerciseDTOs.Add(new ExerciseDTO()
+                {
+                    Name = exercise.Name,
+                    Sets = setDTOs
+                });
+            }
+
             return new SessionDetailsDTO()
             {
                 Success = true,
                 SessionId = session.Id,
-                Date = session.Date
+                Date = session.Date,
+                Exercises = exerciseDTOs
             };
         }
 
