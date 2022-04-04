@@ -46,7 +46,7 @@ namespace API.Data.Migrations.Weightlifting
 
                     b.HasIndex("CoachId");
 
-                    b.ToTable("Athletes");
+                    b.ToTable("Athletes", (string)null);
                 });
 
             modelBuilder.Entity("API.Data.Models.Coach", b =>
@@ -68,7 +68,7 @@ namespace API.Data.Migrations.Weightlifting
 
                     b.HasKey("Id");
 
-                    b.ToTable("Coaches");
+                    b.ToTable("Coaches", (string)null);
                 });
 
             modelBuilder.Entity("API.Data.Models.Exercise", b =>
@@ -89,7 +89,7 @@ namespace API.Data.Migrations.Weightlifting
 
                     b.HasIndex("SessionId");
 
-                    b.ToTable("Exercises");
+                    b.ToTable("Exercises", (string)null);
                 });
 
             modelBuilder.Entity("API.Data.Models.Session", b =>
@@ -110,7 +110,7 @@ namespace API.Data.Migrations.Weightlifting
 
                     b.HasIndex("AthleteId");
 
-                    b.ToTable("Sessions");
+                    b.ToTable("Sessions", (string)null);
                 });
 
             modelBuilder.Entity("API.Data.Models.Set", b =>
@@ -137,7 +137,7 @@ namespace API.Data.Migrations.Weightlifting
 
                     b.HasIndex("ExerciseId");
 
-                    b.ToTable("Sets");
+                    b.ToTable("Sets", (string)null);
                 });
 
             modelBuilder.Entity("API.Data.Models.Athlete", b =>
