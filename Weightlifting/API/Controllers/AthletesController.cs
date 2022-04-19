@@ -132,7 +132,9 @@ namespace API.Controllers
             // And last check, if they've provided an athleteId, AND they are a logged in athlete, 
             // but the athleteId passed in isn't the athleteId of the logged in user, we need 
             // to return a badrequest.
-            if (!_athletesManager.UserIsAthlete(userId, athleteId))
+            _athletesManager.GetAthleteId(userId, out int usersAthleteId);
+
+            if (usersAthleteId != athleteId)
             {
                 return BadRequest(new AthleteDetailsDTO()
                 {
