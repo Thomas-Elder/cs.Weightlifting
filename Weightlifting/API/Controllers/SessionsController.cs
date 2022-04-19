@@ -1,4 +1,5 @@
 ﻿using API.Data.Managers.Interfaces;
+using API.Data.Models;
 using API.DTOs.Sessions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ namespace API.Controllers
         }
 
         [HttpPost("add")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
         public async Task<IActionResult> Add(AddSessionDTO addSessionDTO)
         {
             var result = await _sessionsManager.AddSession(addSessionDTO);
@@ -44,7 +45,7 @@ namespace API.Controllers
         }
 
         [HttpPost("details/edit")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
         public async Task<IActionResult> EditDetails(EditSessionDetailsDTO editSessionDetailsDTO)
         {
             var result = await _sessionsManager.EditDetails(editSessionDetailsDTO);
