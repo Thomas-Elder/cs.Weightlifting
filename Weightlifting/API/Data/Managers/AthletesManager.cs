@@ -39,24 +39,6 @@ namespace API.Data.Managers
             return true;
         }
 
-        public bool UserIsAthlete(string applicationUserId, int athleteId)
-        {
-            var athlete = _weightliftingContext.Athletes.FirstOrDefault(a => a.ApplicationUserId == applicationUserId);
-
-            if (athlete is null)
-            {
-                athleteId = 0; 
-                return false;
-            }
-
-            if (athlete.Id != athleteId)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         public async Task<AddCoachResponseDTO> AddCoach(string athleteUserId, int coachId)
         {
             var athlete = await _weightliftingContext.Athletes.FirstOrDefaultAsync(a => a.ApplicationUserId == athleteUserId);

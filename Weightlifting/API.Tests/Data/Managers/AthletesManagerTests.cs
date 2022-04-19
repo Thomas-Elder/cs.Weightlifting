@@ -87,32 +87,6 @@ namespace API.Tests.Data.Managers
         }
         #endregion
 
-        #region UserIsAthlete
-        [Fact]
-        public void UserIsAthlete_WhenCalledWithUserIDNotAnAthlete_ReturnsFalse()
-        {
-            // Arrange
-
-            // Act
-            var result = _sut.UserIsAthlete("1", 1);
-
-            // Assert
-            Assert.False(result);
-        }
-
-        [Fact]
-        public void UserIsAthlete_WhenCalledWithUserIDIsAnAthlete_ReturnsTrue()
-        {
-            // Arrange
-
-            // Act
-            var result = _sut.UserIsAthlete("2", 1);
-
-            // Assert
-            Assert.True(result);
-        }
-        #endregion
-
         #region AddAthleteToCoach
         [Fact]
         public async void AddCoach_WhenCalledWithNonExistentUserID_ReturnsAddAthleteToCoachResponseDTOWithSuccessFalse()
