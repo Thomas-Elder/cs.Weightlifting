@@ -112,13 +112,15 @@ namespace API.Data.Managers
             }
 
             var coach = await _weightliftingContext.Coaches.FirstOrDefaultAsync(c => c.Id == athlete.CoachId);
+            CoachDetailsDTO coachDetailsDTO = null;
 
-            var coachDetailsDTO = new CoachDetailsDTO()
+            if (coach is not null)
             {
-                CoachId = coach.Id,
-                FirstName = coach.FirstName,
-                LastName = coach.LastName,
-            };
+                coachDetailsDTO = new CoachDetailsDTO();
+                coachDetailsDTO.CoachId = coach.Id;
+                coachDetailsDTO.FirstName = coach.FirstName;
+                coachDetailsDTO.LastName = coach.LastName;
+            }
 
             return new AthleteDetailsDTO()
             {
