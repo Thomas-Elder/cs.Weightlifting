@@ -42,6 +42,14 @@ namespace API.Tests.Data.Managers
                 CoachId = 1
             });
 
+            mock_WeightliftingContext.Athletes.Add(new Athlete()
+            {
+                Id = 2,
+                FirstName = "Test",
+                LastName = "Athlete",
+                ApplicationUserId = "2"
+            });
+
             mock_WeightliftingContext.Sessions.Add(new Session()
             {
                 Id = 1,
@@ -89,12 +97,12 @@ namespace API.Tests.Data.Managers
 
         #region AddAthleteToCoach
         [Fact]
-        public async void AddCoach_WhenCalledWithNonExistentUserID_ReturnsAddAthleteToCoachResponseDTOWithSuccessFalse()
+        public async void AddCoach_WhenCalledWithNonExistentAthleteID_ReturnsAddAthleteToCoachResponseDTOWithSuccessFalse()
         {
             // Arrange
 
             // Act
-            var result = await _sut.AddCoach("1", 1);
+            var result = await _sut.AddCoach(3, 1);
 
             // Assert
             Assert.False(result.Success);
@@ -106,7 +114,7 @@ namespace API.Tests.Data.Managers
             // Arrange
 
             // Act
-            var result = await _sut.AddCoach("1", 2);
+            var result = await _sut.AddCoach(1, 2);
 
             // Assert
             Assert.False(result.Success);
@@ -118,7 +126,7 @@ namespace API.Tests.Data.Managers
             // Arrange
 
             // Act
-            var result = await _sut.AddCoach("2", 1);
+            var result = await _sut.AddCoach(2, 1);
 
             // Assert
             Assert.True(result.Success);
@@ -132,7 +140,7 @@ namespace API.Tests.Data.Managers
             // Arrange
 
             // Act
-            var result = await _sut.Details(2);
+            var result = await _sut.Details(3);
 
             // Assert
             Assert.False(result.Success);
@@ -157,11 +165,27 @@ namespace API.Tests.Data.Managers
 
             Assert.Single(result.Sessions);
         }
+
+        [Fact]
+        public async void Details_WhenCalledWithExistentAthleteApplicationUserIdWithNoCoach_ReturnsAthleteDetailsDTOWithSuccessTrue()
+        {
+            // Arrange
+
+            // Act
+            var result = await _sut.Details(2);
+
+            // Assert
+            Assert.True(result.Success);
+            Assert.Equal("Test", result.FirstName);
+            Assert.Equal("Athlete", result.LastName);
+
+            Assert.Null(result.Coach);
+        }
         #endregion
 
         #region EditDetails
         [Fact]
-        public async void EditDetails_WhenCalledWithNonExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
+        public async void EditDetails_WhenCalledWithNonExistentUserId_ReturnsAthleteDetailsDTOWithSuccessFalse()
         {
             // Arrange
             EditDetailsDTO editDetailsDTO = new EditDetailsDTO()
@@ -170,14 +194,14 @@ namespace API.Tests.Data.Managers
             };
 
             // Act
-            var result = await _sut.EditDetails(2, editDetailsDTO);
+            var result = await _sut.EditDetails(3, editDetailsDTO);
 
             // Assert
             Assert.False(result.Success);
         }
 
         [Fact]
-        public async void EditDetails_WhenCalledWithExistentAthleteApplicationUserId_ReturnsAthleteDetailsDTOWithSuccessTrue()
+        public async void EditDetails_WhenCalledWithExistentAthleteId_ReturnsAthleteDetailsDTOWithSuccessTrue()
         {
             // Arrange
             EditDetailsDTO editDetailsDTO = new EditDetailsDTO()
