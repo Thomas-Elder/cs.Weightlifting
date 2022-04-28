@@ -24,7 +24,7 @@ namespace API.Data.Managers
         /// </summary>
         /// <param name="applicationUserId"></param>
         /// <param name="athleteId"></param>
-        /// <returns></returns>
+        /// <returns>bool</returns>
         public bool GetAthleteId(string applicationUserId, out int athleteId)
         {
             var athlete = _weightliftingContext.Athletes.FirstOrDefault(a => a.ApplicationUserId == applicationUserId);
@@ -39,6 +39,17 @@ namespace API.Data.Managers
             return true;
         }
 
+        /// <summary>
+        /// Adds a Coach to an Athlete
+        /// </summary>
+        /// Returns an AddCoachResponseDTO
+        /// This will have Success set to false if either athleteId or coachId are not found in the database. 
+        /// 
+        /// Otherwise it will have Success set to true.
+        /// 
+        /// <param name="athleteId"></param>
+        /// <param name="coachId"></param>
+        /// <returns>AddCoachResponseDTO</returns>
         public async Task<AddCoachResponseDTO> AddCoach(int athleteId, int coachId)
         {
             var athlete = await _weightliftingContext.Athletes.FirstOrDefaultAsync(a => a.Id == athleteId);
@@ -79,7 +90,17 @@ namespace API.Data.Managers
                 Success = true
             };
         }
-        
+
+        /// <summary>
+        /// Returns the details of the Athlete.
+        /// </summary>
+        /// Returns an AthleteDetailsDTO.
+        /// This will have Success set to false if the athleteId is not found in the database. 
+        /// 
+        /// Otherwise it will have Success set to true, and the athlete's details.
+        /// 
+        /// <param name="athleteId"></param>
+        /// <returns>AthleteDetailsDTO</returns>
         public async Task<AthleteDetailsDTO> Details(int athleteId)
         {
             var athlete = await _weightliftingContext.Athletes.FirstOrDefaultAsync(a => a.Id == athleteId);
@@ -134,6 +155,17 @@ namespace API.Data.Managers
             return athleteDetailsDTO;
         }
 
+        /// <summary>
+        /// Updates the Athlete's details and returns the updated details.
+        /// </summary>
+        /// Returns an AthleteDetailsDTO.
+        /// This will have Success set to false if the athleteId is not found in the database. 
+        /// 
+        /// Otherwise it will have Success set to true, and the athlete's new details.
+        /// 
+        /// <param name="athleteId"></param>
+        /// <param name="editDetailsDTO"></param>
+        /// <returns>AthleteDetailsDTO</returns>
         public async Task<AthleteDetailsDTO> EditDetails(int athleteId, EditDetailsDTO editDetailsDTO)
         {
             var athlete = await _weightliftingContext.Athletes.FirstOrDefaultAsync(a => a.Id == athleteId);
