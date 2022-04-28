@@ -28,14 +28,35 @@ namespace API.Controllers
         [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
         public async Task<IActionResult> AddCoach(int coachId)
         {
-            var id = User.Identity.Name;
+            var applicationUserId = User.Identity.Name;
 
-            if (id is null)
+            if (applicationUserId is null)
             {
-                return BadRequest("Error accessing identity");
+                return BadRequest(new AddCoachResponseDTO()
+                {
+                    Success = false,
+                    Errors = new Dictionary<string, string>()
+                    {
+                        { "Identity Error", "Error accessing user identity" }
+                    }
+                });
             }
 
-            var result = await _athletesManager.AddCoach(id, coachId);
+            int athleteId = 0;
+
+            if (!_athletesManager.GetAthleteId(applicationUserId, out athleteId))
+            {
+                return BadRequest(new AddCoachResponseDTO()
+                {
+                    Success = false,
+                    Errors = new Dictionary<string, string>()
+                    {
+                        { "Identity Error", "No athlete exists with that ApplicationUserId" }
+                    }
+                });
+            }
+
+            var result = await _athletesManager.AddCoach(athleteId, coachId);
 
             if (!result.Success)
             {
