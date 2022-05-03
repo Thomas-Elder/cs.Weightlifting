@@ -117,56 +117,82 @@ namespace API.Data.Managers
         /// <returns>AthleteDetailsDTO</returns>
         public async Task<AthleteDetailsDTO> Details(int athleteId)
         {
-            var athlete = await _weightliftingContext.Athletes.FirstOrDefaultAsync(a => a.Id == athleteId);
+            var athlete = await _weightliftingContext.Athletes
+                .Include(a => a.Sessions)
+                .Include(a => a.Coach)
+                .Where(a => a.Id == athleteId)
+                .SingleOrDefaultAsync();
 
-            if (athlete is null)
-            {
-                return new AthleteDetailsDTO()
+            /*var athlete = await _weightliftingContext.Athletes
+                .Where(a => a.Id == athleteId)
+                .Select(a => new AthleteDetailsDTO()
                 {
-                    Success = false,
-                    Errors = new Dictionary<string, string>()
+                    FirstName = a.FirstName,
+                    LastName = a.LastName,
+
+                    Coach = a.Coach != null ? new CoachDetailsDTO()
                     {
-                        { "Athlete ID", "Athlete id doesn't exist" }
-                    }
-                };
-            }
+                        CoachId = a.Coach.Id,
+                        FirstName = a.Coach.FirstName,
+                        LastName = a.Coach.LastName
+                    } : null,
 
-            var athleteDetailsDTO = new AthleteDetailsDTO();
+                    Sessions = a.Sessions.Select(s => new SessionDetailsDTO()
+                    {
+                        SessionId = s.Id,
+                        Date = s.Date
+                    })
+                })
+                .SingleAsync();
 
-            athleteDetailsDTO.Success = true;
-            athleteDetailsDTO.FirstName = athlete.FirstName;
-            athleteDetailsDTO.LastName = athlete.LastName;
+            return athlete;*/
 
-            var sessions = await _weightliftingContext.Sessions
-                .Where(s => s.AthleteId == athlete.Id)
-                .ToListAsync();
+          if (athlete is null)
+          {
+              return new AthleteDetailsDTO()
+              {
+                  Success = false,
+                  Errors = new Dictionary<string, string>()
+                  {
+                      { "Athlete ID", "Athlete id doesn't exist" }
+                  }
+              };
+          }
 
-            var sessionDTOs = new List<SessionDetailsDTO>();
+          var athleteDetailsDTO = new AthleteDetailsDTO();
 
-            foreach (var session in sessions)
-            {
-                sessionDTOs.Add(new SessionDetailsDTO()
-                {
-                    SessionId = session.Id,
-                    Date = session.Date
-                });
-            }
+          athleteDetailsDTO.Success = true;
+          athleteDetailsDTO.FirstName = athlete.FirstName;
+          athleteDetailsDTO.LastName = athlete.LastName;
 
-            athleteDetailsDTO.Sessions = sessionDTOs;
+          var sessions = athlete.Sessions;
 
-            var coach = await _weightliftingContext.Coaches.FirstOrDefaultAsync(c => c.Id == athlete.CoachId);
+          var sessionDTOs = new List<SessionDetailsDTO>();
 
-            if (coach is not null)
-            {
-                athleteDetailsDTO.Coach = new CoachDetailsDTO()
-                {
-                    CoachId = coach.Id,
-                    FirstName = coach.FirstName,
-                    LastName = coach.LastName
-                };
-            }
+          foreach (var session in sessions)
+          {
+              sessionDTOs.Add(new SessionDetailsDTO()
+              {
+                  SessionId = session.Id,
+                  Date = session.Date
+              });
+          }
 
-            return athleteDetailsDTO;
+          athleteDetailsDTO.Sessions = sessionDTOs;
+
+          var coach = athlete.Coach;
+
+          if (coach is not null)
+          {
+              athleteDetailsDTO.Coach = new CoachDetailsDTO()
+              {
+                  CoachId = coach.Id,
+                  FirstName = coach.FirstName,
+                  LastName = coach.LastName
+              };
+          }
+
+          return athleteDetailsDTO;
         }
 
         /// <summary>
@@ -196,8 +222,8 @@ namespace API.Data.Managers
                 };
             }
 
-            athlete.FirstName = editDetailsDTO.FirstName ??= athlete.FirstName;
-            athlete.LastName = editDetailsDTO.LastName ??= athlete.LastName;
+            athlete.FirstName = editDetailsDTO.FirstName ?? athlete.FirstName;
+            athlete.LastName = editDetailsDTO.LastName ?? athlete.LastName;
 
             _weightliftingContext.SaveChanges();
 
