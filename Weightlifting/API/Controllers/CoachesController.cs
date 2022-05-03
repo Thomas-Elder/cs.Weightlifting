@@ -28,11 +28,25 @@ namespace API.Controllers
         [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Coach)]
         public async Task<IActionResult> AddAthlete(int athleteId)
         {
-            var coachId = User.Identity.Name;
+            var applicationUserId = User.Identity.Name;
 
-            if (coachId is null)
+            if (applicationUserId is null)
             {
                 return BadRequest("Error accessing identity");
+            }
+
+            int coachId;
+
+            if (!_coachesManager.GetCoachId(applicationUserId, out coachId))
+            {
+                return BadRequest(new AddAthleteToCoachResponseDTO()
+                {
+                    Success = false,
+                    Errors = new Dictionary<string, string>()
+                    {
+                        { "Coach Id Error", "No Coach exists with that application user id" }
+                    }
+                });
             }
 
             var result = await _coachesManager.AddAthleteToCoach(coachId, athleteId);
@@ -47,8 +61,42 @@ namespace API.Controllers
 
         [HttpGet("details/coachId")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Details(int coachId)
-        { 
+        public async Task<IActionResult> Details(int coachId = 0)
+        {
+            // If coachId is still default value
+            if (coachId == 0)
+            {
+                // Then we'll check the logged in user's identity
+                var applicationUserId = User.Identity.Name;
+
+                if (applicationUserId is null)
+                {
+                    return BadRequest(new CoachDetailsResponseDTO()
+                    {
+                        Success = false,
+                        Errors = new Dictionary<string, string>()
+                        {
+                            { "Identity Error", "Error accessing user identity" }
+                        }
+                    });
+                }
+
+                // And they're not an coach return bad request
+                if (!_coachesManager.GetCoachId(applicationUserId, out coachId))
+                {
+                    return BadRequest(new CoachDetailsResponseDTO()
+                    {
+                        Success = false,
+                        Errors = new Dictionary<string, string>()
+                        {
+                            { "Coach ID Error", "No coachId given, and user is not an Coach" }
+                        }
+                    });
+                }
+            }
+
+            // Otherwise now we've either got an coachId from the parameter, or we've gotten the 
+            // coachId associated with the logged in user.
             var result = await _coachesManager.Details(coachId);
 
             if (!result.Success)
