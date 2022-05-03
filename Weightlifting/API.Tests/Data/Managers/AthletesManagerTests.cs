@@ -127,6 +127,20 @@ namespace API.Tests.Data.Managers
         }
 
         [Fact]
+        public async void AddCoach_WhenCalledWithExistingIDsButAthleteAlreadyHasCoach_ReturnsAddAthleteToCoachResponseDTOWithSuccessTrue()
+        {
+            // Arrange
+            int existentAthleteId = 1;
+            int existingCoachId = 1;
+
+            // Act
+            var result = await _sut.AddCoach(existentAthleteId, existingCoachId);
+
+            // Assert
+            Assert.False(result.Success);
+        }
+
+        [Fact]
         public async void AddCoach_WhenCalledWithExistingIDs_ReturnsAddAthleteToCoachResponseDTOWithSuccessTrue()
         {
             // Arrange

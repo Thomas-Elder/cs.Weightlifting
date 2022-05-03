@@ -41,6 +41,14 @@ namespace API.Tests.Data.Managers
                 CoachId = 1
             });
 
+            mock_WeightliftingContext.Athletes.Add(new Athlete()
+            {
+                Id = 2,
+                FirstName = "Test",
+                LastName = "Athlete",
+                ApplicationUserId = "2",
+            });
+
             mock_WeightliftingContext.SaveChanges();
 
             _sut = new CoachesManager(mock_WeightliftingContext);
@@ -113,11 +121,25 @@ namespace API.Tests.Data.Managers
         }
 
         [Fact]
-        public async void AddAthleteToCoach_WhenCalledWithExistingIDs_ReturnsAddAthleteToCoachResponseDTOWithSuccessTrue()
+        public async void AddAthleteToCoach_WhenCalledWithExistingIDsButAthleteAlreadyHasCoach_ReturnsAddAthleteToCoachResponseDTOWithSuccessFalse()
         {
             // Arrange
             int existentCoachId = 1;
             int existentAthleteId = 1;
+
+            // Act
+            var result = await _sut.AddAthleteToCoach(existentCoachId, existentAthleteId);
+
+            // Assert
+            Assert.False(result.Success);
+        }
+
+        [Fact]
+        public async void AddAthleteToCoach_WhenCalledWithExistingIDs_ReturnsAddAthleteToCoachResponseDTOWithSuccessTrue()
+        {
+            // Arrange
+            int existentCoachId = 1;
+            int existentAthleteId = 2;
 
             // Act
             var result = await _sut.AddAthleteToCoach(existentCoachId, existentAthleteId);

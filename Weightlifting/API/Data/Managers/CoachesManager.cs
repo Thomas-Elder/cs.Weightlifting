@@ -41,6 +41,12 @@ namespace API.Data.Managers
         /// <summary>
         /// Adds the Athlete with the given athleteId to the Coach with the given coachId. 
         /// </summary>
+        /// If the coachId does not exist, returns a AddAthleteToCoachResponseDTO with Success false.
+        /// If the athleteId does not exist, returns a AddAthleteToCoachResponseDTO with Success false.
+        /// If both ids exist, but the athlete is already assigned a coach, believe it or not, 
+        /// returns a AddAthleteToCoachResponseDTO with Success false.
+        /// If both ids exist, and the athlete is not already associated with coach, returns a 
+        /// AddAthleteToCoachResponseDTO with Success true.
         /// <param name="coachId"></param>
         /// <param name="athleteId"></param>
         /// <returns></returns>
@@ -55,7 +61,7 @@ namespace API.Data.Managers
                     Success = false,
                     Errors = new Dictionary<string, string>()
                     {
-                        { "Coach", "Coach id doesn't exist" }
+                        { "Coach Id Error", "Coach id doesn't exist" }
                     }
                 };
             }
@@ -69,7 +75,19 @@ namespace API.Data.Managers
                     Success = false,
                     Errors = new Dictionary<string, string>()
                     {
-                        { "Coach", "Athlete id doesn't exist" }
+                        { "Athlete Id Error", "Athlete id doesn't exist" }
+                    }
+                };
+            }
+
+            if (athlete.Coach is not null)
+            {
+                return new AddAthleteToCoachResponseDTO()
+                {
+                    Success = false,
+                    Errors = new Dictionary<string, string>()
+                    {
+                        { "Athlete Error", "Athlete already has a coach" }
                     }
                 };
             }
