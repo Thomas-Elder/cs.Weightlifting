@@ -81,12 +81,12 @@ namespace API.Tests.Data.Managers
 
         #region AddAthleteToCoach
         [Fact]
-        public async void AddAthleteToCoach_WhenCalledWithNonExistentUserID_ReturnsAddAthleteToCoachResponseDTOWithSuccessFalse()
+        public async void AddAthleteToCoach_WhenCalledWithNonExistentCoachID_ReturnsAddAthleteToCoachResponseDTOWithSuccessFalse()
         {
             // Arrange
 
             // Act
-            var result = await _sut.AddAthleteToCoach("2", 1);
+            var result = await _sut.AddAthleteToCoach(5, 1);
 
             // Assert
             Assert.False(result.Success);
@@ -98,7 +98,7 @@ namespace API.Tests.Data.Managers
             // Arrange
 
             // Act
-            var result = await _sut.AddAthleteToCoach("1", 2);
+            var result = await _sut.AddAthleteToCoach(1, 2);
 
             // Assert
             Assert.False(result.Success);
@@ -110,7 +110,7 @@ namespace API.Tests.Data.Managers
             // Arrange
 
             // Act
-            var result = await _sut.AddAthleteToCoach("1", 1);
+            var result = await _sut.AddAthleteToCoach(1, 1);
 
             // Assert
             Assert.True(result.Success);
