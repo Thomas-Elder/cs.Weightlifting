@@ -102,9 +102,11 @@ namespace API.Tests.Data.Managers
         public async void AddCoach_WhenCalledWithNonExistentAthleteID_ReturnsAddAthleteToCoachResponseDTOWithSuccessFalse()
         {
             // Arrange
+            int nonExistentAthleteId = 5;
+            int existingCoachId = 1;
 
             // Act
-            var result = await _sut.AddCoach(3, 1);
+            var result = await _sut.AddCoach(nonExistentAthleteId, existingCoachId);
 
             // Assert
             Assert.False(result.Success);
@@ -114,9 +116,11 @@ namespace API.Tests.Data.Managers
         public async void AddCoach_WhenCalledWithNonExistentCoachID_ReturnsAddAthleteToCoachResponseDTOWithSuccessFalse()
         {
             // Arrange
+            int existentAthleteId = 2;
+            int nonExistingCoachId = 2;
 
             // Act
-            var result = await _sut.AddCoach(1, 2);
+            var result = await _sut.AddCoach(existentAthleteId, nonExistingCoachId);
 
             // Assert
             Assert.False(result.Success);
@@ -126,9 +130,11 @@ namespace API.Tests.Data.Managers
         public async void AddCoach_WhenCalledWithExistingIDs_ReturnsAddAthleteToCoachResponseDTOWithSuccessTrue()
         {
             // Arrange
+            int existentAthleteId = 2;
+            int existingCoachId = 1;
 
             // Act
-            var result = await _sut.AddCoach(2, 1);
+            var result = await _sut.AddCoach(existentAthleteId, existingCoachId);
 
             // Assert
             Assert.True(result.Success);
