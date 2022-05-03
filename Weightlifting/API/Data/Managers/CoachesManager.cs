@@ -38,9 +38,15 @@ namespace API.Data.Managers
             return true;
         }
 
-        public async Task<AddAthleteToCoachResponseDTO> AddAthleteToCoach(string coachUserId, int athleteId)
+        /// <summary>
+        /// Adds the Athlete with the given athleteId to the Coach with the given coachId. 
+        /// </summary>
+        /// <param name="coachId"></param>
+        /// <param name="athleteId"></param>
+        /// <returns></returns>
+        public async Task<AddAthleteToCoachResponseDTO> AddAthleteToCoach(int coachId, int athleteId)
         {
-            var coach = await _weightliftingContext.Coaches.FirstOrDefaultAsync(c => c.ApplicationUserId == coachUserId);
+            var coach = await _weightliftingContext.Coaches.FirstOrDefaultAsync(c => c.Id == coachId);
 
             if (coach is null)
             {
