@@ -24,6 +24,18 @@ namespace API.Controllers
             return Ok("You're a coach!");
         }
 
+        /// <summary>
+        /// Adds the given athleteId to the logged in user.
+        /// </summary>
+        /// Takes an int athleteId and attempts to add this athleteId to the Coach's athletes.
+        /// If there is an error accessing the User.Identity, this will return a BadRequest with 
+        /// an AddAthleteToCoachResponseDTO with Success false.
+        /// If the logged in users' applicationUserId is not associated with a Coach entity, 
+        /// this will return a BadRequest with an AddAthleteToCoachResponseDTO with Success false.
+        /// If the logged in user is a Coach, and the Athlete is successfully added to the Coach, 
+        /// this will return an Ok with an AddAthleteToCoachResponseDTO with Success true.
+        /// <param name="athleteId"></param>
+        /// <returns></returns>
         [HttpPost("athletes/add")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Coach)]
         public async Task<IActionResult> AddAthlete(int athleteId)
@@ -32,7 +44,14 @@ namespace API.Controllers
 
             if (applicationUserId is null)
             {
-                return BadRequest("Error accessing identity");
+                return BadRequest(new AddAthleteToCoachResponseDTO()
+                {
+                    Success = false,
+                    Errors = new Dictionary<string, string>()
+                    {
+                        { "Identity Error", "Error accessing user identity" }
+                    }
+                });
             }
 
             int coachId;
@@ -59,6 +78,18 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Returns the details of a Coach, for the given coachId. 
+        /// </summary>
+        /// Takes an int coachId, which has a default value of 0. 
+        /// If the logged in user is not a Coach, they can specify the coachId to retrieve the details in the 
+        /// returned CoachDetailsResponseDTO.
+        /// If the logged in user is not a Coach, and they leave coachId as default, the returned CoachDetailsResponseDTO
+        /// will have Success set false.
+        /// If the logged in user is a Coach, they can leave this default value, and this function will use their 
+        /// applicationUserId to get the Coach details, in the form of a CoachDetailsResponseDTO.
+        /// <param name="coachId"></param>
+        /// <returns></returns>
         [HttpGet("details/coachId")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> Details(int coachId = 0)
@@ -107,6 +138,13 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Updates the details of the coach.
+        /// </summary>
+        /// If the given coachId is
+        /// <param name="coachId"></param>
+        /// <param name="editDetailsDTO"></param>
+        /// <returns></returns>
         [HttpGet("details/edit/coachId")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Coach)]
         public async Task<IActionResult> EditDetails(int coachId, EditDetailsDTO editDetailsDTO)
