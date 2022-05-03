@@ -45,53 +45,11 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("details/applicationId")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Coach)]
-        public async Task<IActionResult> DetailsByApplicationId()
-        {
-            var coachId = User.Identity.Name;
-
-            if (coachId is null)
-            {
-                return BadRequest("Error accessing identity");
-            }
-
-            var result = await _coachesManager.DetailsByApplicationUserId(coachId);
-
-            if (!result.Success)
-            {
-                return BadRequest(result);
-            }
-
-            return Ok(result);
-        }
-
         [HttpGet("details/coachId")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> DetailsByCoachId(int coachId)
+        public async Task<IActionResult> Details(int coachId)
         { 
-            var result = await _coachesManager.DetailsByCoachId(coachId);
-
-            if (!result.Success)
-            {
-                return BadRequest(result);
-            }
-
-            return Ok(result);
-        }
-
-        [HttpGet("details/edit/applicationId")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Coach)]
-        public async Task<IActionResult> EditDetailsByApplicationUserId(EditDetailsDTO editDetailsDTO)
-        {
-            var id = User.Identity.Name;
-
-            if (id is null)
-            {
-                return BadRequest("Error accessing identity");
-            }
-
-            var result = await _coachesManager.EditDetailsByApplicationUserId(id, editDetailsDTO);
+            var result = await _coachesManager.Details(coachId);
 
             if (!result.Success)
             {
@@ -103,9 +61,9 @@ namespace API.Controllers
 
         [HttpGet("details/edit/coachId")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> EditDetailsByAthleteId(int athleteId, EditDetailsDTO editDetailsDTO)
+        public async Task<IActionResult> EditDetails(int coachId, EditDetailsDTO editDetailsDTO)
         {
-            var result = await _coachesManager.EditDetailsByCoachId(athleteId, editDetailsDTO);
+            var result = await _coachesManager.EditDetails(coachId, editDetailsDTO);
 
             if (!result.Success)
             {
