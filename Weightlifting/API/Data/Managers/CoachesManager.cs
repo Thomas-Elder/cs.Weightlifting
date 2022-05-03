@@ -160,8 +160,8 @@ namespace API.Data.Managers
                 };
             }
 
-            coach.FirstName = editDetailsDTO.FirstName ??= coach.FirstName;
-            coach.LastName = editDetailsDTO.LastName ??= coach.LastName;
+            coach.FirstName = editDetailsDTO.FirstName ?? coach.FirstName;
+            coach.LastName = editDetailsDTO.LastName ?? coach.LastName;
 
             _weightliftingContext.SaveChanges();
 
