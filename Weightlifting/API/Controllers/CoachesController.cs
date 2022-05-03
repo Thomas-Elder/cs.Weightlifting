@@ -108,7 +108,7 @@ namespace API.Controllers
         }
 
         [HttpGet("details/edit/coachId")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Coach)]
         public async Task<IActionResult> EditDetails(int coachId, EditDetailsDTO editDetailsDTO)
         {
             var result = await _coachesManager.EditDetails(coachId, editDetailsDTO);
