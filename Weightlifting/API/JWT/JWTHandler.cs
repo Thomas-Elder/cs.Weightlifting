@@ -46,7 +46,9 @@ namespace API.JWT
         /// <summary>
         /// Generates the SigningCredentials, using the secret key stored in appsettings.json
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// Returns a new SigningCredentials
+        /// </returns>
         public SigningCredentials GetSigningCredentials()
         {
             var key = Encoding.UTF8.GetBytes(_jwtSettings.GetSection("Key").Value);
@@ -55,10 +57,12 @@ namespace API.JWT
         }
 
         /// <summary>
-        /// Gets a list of Claims for this user from the UserManager.
+        /// Asynchronously gets a list of Claims for this user from the UserManager.
         /// </summary>
         /// <param name="user"></param>
-        /// <returns></returns>
+        /// <returns>
+        /// Returns a task, which resolves to a list of Claims.
+        /// </returns>
         public async Task<List<Claim>> GetClaims(ApplicationUser user)
         {
             var claims = new List<Claim>
