@@ -7,6 +7,18 @@ using API.Data.Managers.Interfaces;
 
 namespace API.Data.Managers
 {
+    /// <summary>
+    /// Manages the creation and updating of user accounts.
+    /// </summary>
+    /// The application uses two data contexts to maintain user information. A UserContext which extends IdentityDbContext and uses
+    /// that to manage the user functionality (like managing roles, checking emails/passwords etc). And a WeightliftingContext which
+    /// handles all the weightlifting specific data, like if they're a coach/athlete, their sessions, their exercises etc. 
+    /// 
+    /// The AccountManager brings these together. So when a new User is created, an associated Athlete or Coach is created and they're 
+    /// tied together using the ApplicationUserId.
+    /// 
+    /// The AccountManger also sends a JWToken back to a logged in User so they can access authorized routes.
+    /// 
     public class AccountManager : IAccountManager
     {
 
@@ -21,6 +33,17 @@ namespace API.Data.Managers
             _weightliftingContext = weightliftingContext;
         }
 
+        /// <summary>
+        /// Registers a new Athlete. 
+        /// </summary>
+        /// Creates a new ApplicationUser, and a new Athlete. The new ApplicationUser is assigned the Athlete role.
+        /// The new Athlete has ApplicationUserId set to the ApplicationUser id.
+        /// If the creation of a new ApplicationUser fails, a UserRegistrationResponseDTO is returned with Success
+        /// set to false, and an error message in the Errors dictionary.
+        /// <param name="userRegistrationDTO"></param>
+        /// <returns>
+        /// UserRegistrationResponseDTO
+        /// </returns>
         public async Task<UserRegistrationResponseDTO> RegisterAthlete(UserRegistrationDTO userRegistrationDTO)
         {
             ApplicationUser user = new ApplicationUser()
@@ -62,6 +85,17 @@ namespace API.Data.Managers
             };
         }
 
+        /// <summary>
+        /// Registers a new Athlete. 
+        /// </summary>
+        /// Creates a new ApplicationUser, and a new Coach. The new ApplicationUser is assigned the Coach role.
+        /// The new Coach has ApplicationUserId set to the ApplicationUser id.
+        /// If the creation of a new ApplicationUser fails, a UserRegistrationResponseDTO is returned with Success
+        /// set to false, and an error message in the Errors dictionary.
+        /// <param name="userRegistrationDTO"></param>
+        /// <returns>
+        /// UserRegistrationResponseDTO
+        /// </returns>
         public async Task<UserRegistrationResponseDTO> RegisterCoach(UserRegistrationDTO userRegistrationDTO)
         {
             ApplicationUser user = new ApplicationUser()
@@ -103,6 +137,20 @@ namespace API.Data.Managers
             };
         }
 
+        /// <summary>
+        /// Logs the user in.
+        /// </summary>
+        /// Attempts to log a user in to the application.
+        /// If the user's email is not found, returns a UserAuthenticationResponseDTO with Success set to false, 
+        /// and an error message in the Errors dictionary.
+        /// If the user's password is incorrect, returns a UserAuthenticationResponseDTO with Success set to false, 
+        /// and an error message in the Errors dictionary.
+        /// If the user is successfully logged in, a JWToken is created to represent the user's permissions and it
+        /// is added to the UserAuthenticationResponseDTO.
+        /// <param name="userAuthenticationDTO"></param>
+        /// <returns>
+        /// UserAuthenticationResponseDTO
+        /// </returns>
         public async Task<UserAuthenticationResponseDTO> Login(UserAuthenticationDTO userAuthenticationDTO)
         {
             // Check user exists
