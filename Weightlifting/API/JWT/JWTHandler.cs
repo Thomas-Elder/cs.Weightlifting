@@ -85,7 +85,9 @@ namespace API.JWT
         /// </summary>
         /// <param name="signingCredentials"></param>
         /// <param name="claims"></param>
-        /// <returns></returns>
+        /// <returns>
+        /// Returns a JwtSecurityToken.
+        /// </returns>
         public JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
         {
             var tokenOptions = new JwtSecurityToken(
