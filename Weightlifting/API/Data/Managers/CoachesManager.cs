@@ -5,6 +5,9 @@ using API.Data.Managers.Interfaces;
 
 namespace API.Data.Managers
 {
+    /// <summary>
+    /// Manages the updating and reading of Coach records
+    /// </summary>
     public class CoachesManager : ICoachesManager
     {
         private readonly WeightliftingContext _weightliftingContext;
@@ -14,16 +17,18 @@ namespace API.Data.Managers
         }
 
         /// <summary>
-        /// Gets the coach id for the Application User Id passed in.
+        /// Gets the coach id for the Application User Id passed in
+        /// </summary>
         /// If there is an Coach with that Application User Id it sets coachId to  
         /// the value of Coach.Id, and returns true.
         /// 
         /// If there is not an Coach with that Application User Id, coachId is 0,
         /// and the method returns false.
-        /// </summary>
         /// <param name="applicationUserId"></param>
         /// <param name="coachId"></param>
-        /// <returns>bool</returns>
+        /// <returns>
+        /// True if the given coachId exists in the context, and coachId is set accordingly
+        /// </returns>
         public bool GetCoachId(string applicationUserId, out int coachId)
         {
             var coach = _weightliftingContext.Coaches.FirstOrDefault(c => c.ApplicationUserId == applicationUserId);
@@ -49,7 +54,9 @@ namespace API.Data.Managers
         /// AddAthleteToCoachResponseDTO with Success true.
         /// <param name="coachId"></param>
         /// <param name="athleteId"></param>
-        /// <returns></returns>
+        /// <returns>
+        /// An AddAthleteToCoachResponseDTO with the result of the action.
+        /// </returns>
         public async Task<AddAthleteToCoachResponseDTO> AddAthleteToCoach(int coachId, int athleteId)
         {
             var coach = await _weightliftingContext.Coaches.FirstOrDefaultAsync(c => c.Id == coachId);
@@ -103,6 +110,18 @@ namespace API.Data.Managers
             };
         }
 
+        /// <summary>
+        /// Gets the Coach details associated with the given coachId.
+        /// </summary>
+        /// If the coachId is not associated with a Coach record, a CoachDetailsResponseDTO is returned
+        /// with Success set to false, and an error message in the Error dictionary. 
+        /// 
+        /// If the coachId is associated with a Coach record, a CoachDetailsResponseDTO is returned with 
+        /// details of the Coach record, and Success is set to true.
+        /// <param name="coachId"></param>
+        /// <returns>
+        /// A CoachDetailsResponseDTO with the result of the action.
+        /// </returns>
         public async Task<CoachDetailsResponseDTO> Details(int coachId)
         {
             var coach = await _weightliftingContext.Coaches.FirstOrDefaultAsync(c => c.Id == coachId);
@@ -144,6 +163,19 @@ namespace API.Data.Managers
             };
         }
 
+        /// <summary>
+        /// Updates the details of a Coach record.
+        /// </summary>
+        /// If the coachId is not associated with a Coach record, a CoachDetailsResponseDTO is returned
+        /// with Success set to false, and an error message in the Error dictionary.
+        /// 
+        /// If the coachId is associated with a Coach record, the record is updated with the details given
+        /// and a CoachDetailsResponseDTO is returned with details of the Coach record, and Success is set to true.
+        /// <param name="coachId"></param>
+        /// <param name="editDetailsDTO"></param>
+        /// <returns>
+        /// A CoachDetailsResponseDTO with the result of the action.
+        /// </returns>
         public async Task<CoachDetailsResponseDTO> EditDetails(int coachId, EditDetailsDTO editDetailsDTO)
         {
             var coach = await _weightliftingContext.Coaches.FirstOrDefaultAsync(c => c.Id == coachId);
