@@ -21,7 +21,6 @@ namespace API.Data.Managers
         /// </summary>
         /// If there is an Coach with that Application User Id it sets coachId to  
         /// the value of Coach.Id, and returns true.
-        /// 
         /// If there is not an Coach with that Application User Id, coachId is 0,
         /// and the method returns false.
         /// <param name="applicationUserId"></param>
