@@ -158,7 +158,7 @@ namespace API.Data.Managers
         /// editSessionDetailsDTO, with Success set to true.
         /// <param name="editSessionDetailsDTO"></param>
         /// <returns>
-        /// A editSessionDetailsDTO with the result of the action. 
+        /// A EditSessionDetailsDTO with the result of the action. 
         /// </returns>
         public async Task<EditSessionDetailsResponseDTO> EditDetails(EditSessionDetailsDTO editSessionDetailsDTO)
         {
