@@ -42,7 +42,7 @@ namespace API.Data.Managers
         /// set to false, and an error message in the Errors dictionary.
         /// <param name="userRegistrationDTO"></param>
         /// <returns>
-        /// UserRegistrationResponseDTO
+        /// A UserRegistrationResponseDTO with the result of the action.
         /// </returns>
         public async Task<UserRegistrationResponseDTO> RegisterAthlete(UserRegistrationDTO userRegistrationDTO)
         {
@@ -94,7 +94,7 @@ namespace API.Data.Managers
         /// set to false, and an error message in the Errors dictionary.
         /// <param name="userRegistrationDTO"></param>
         /// <returns>
-        /// UserRegistrationResponseDTO
+        /// A UserRegistrationResponseDTO with the result of the action.
         /// </returns>
         public async Task<UserRegistrationResponseDTO> RegisterCoach(UserRegistrationDTO userRegistrationDTO)
         {
@@ -149,7 +149,7 @@ namespace API.Data.Managers
         /// is added to the UserAuthenticationResponseDTO.
         /// <param name="userAuthenticationDTO"></param>
         /// <returns>
-        /// UserAuthenticationResponseDTO
+        /// A UserAuthenticationResponseDTO with the result of the action.
         /// </returns>
         public async Task<UserAuthenticationResponseDTO> Login(UserAuthenticationDTO userAuthenticationDTO)
         {
