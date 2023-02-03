@@ -125,30 +125,6 @@ namespace API.Data.Managers
                 .Where(a => a.Id == athleteId)
                 .SingleOrDefaultAsync();
 
-            /*var athlete = await _weightliftingContext.Athletes
-                .Where(a => a.Id == athleteId)
-                .Select(a => new AthleteDetailsDTO()
-                {
-                    FirstName = a.FirstName,
-                    LastName = a.LastName,
-
-                    Coach = a.Coach != null ? new CoachDetailsDTO()
-                    {
-                        CoachId = a.Coach.Id,
-                        FirstName = a.Coach.FirstName,
-                        LastName = a.Coach.LastName
-                    } : null,
-
-                    Sessions = a.Sessions.Select(s => new SessionDetailsDTO()
-                    {
-                        SessionId = s.Id,
-                        Date = s.Date
-                    })
-                })
-                .SingleAsync();
-
-            return athlete;*/
-
           if (athlete is null)
           {
               return new AthleteDetailsDTO()
