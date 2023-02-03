@@ -16,15 +16,16 @@ namespace API.Data.Managers
 
         /// <summary>
         /// Gets the athlete id for the Application User Id passed in.
+        /// </summary>
         /// If there is an Athlete with that Application User Id it sets athleteId to  
         /// the value of Athlete.Id, and returns true.
-        /// 
         /// If there is not an Athlete with that Application User Id, athleteId is 0,
         /// and the method returns false.
-        /// </summary>
         /// <param name="applicationUserId"></param>
         /// <param name="athleteId"></param>
-        /// <returns>bool</returns>
+        /// <returns>
+        /// True if the given ApplicationUserId is associated with an existing Athlete in the context, and athleteId is set accordingly
+        /// </returns>
         public bool GetAthleteId(string applicationUserId, out int athleteId)
         {
             var athlete = _weightliftingContext.Athletes.FirstOrDefault(a => a.ApplicationUserId == applicationUserId);
@@ -48,10 +49,11 @@ namespace API.Data.Managers
         /// returns a AddCoachResponseDTO with Success false.
         /// If both ids exist, and the athlete is not already associated with coach, returns a 
         /// AddCoachResponseDTO with Success true.
-        /// 
         /// <param name="athleteId"></param>
         /// <param name="coachId"></param>
-        /// <returns>AddCoachResponseDTO</returns>
+        /// <returns>
+        /// An AddCoachResponseDTO with the result of the action.
+        /// </returns>
         public async Task<AddCoachResponseDTO> AddCoach(int athleteId, int coachId)
         {
             var athlete = await _weightliftingContext.Athletes.FirstOrDefaultAsync(a => a.Id == athleteId);
@@ -110,11 +112,11 @@ namespace API.Data.Managers
         /// </summary>
         /// Returns an AthleteDetailsDTO.
         /// This will have Success set to false if the athleteId is not found in the database. 
-        /// 
         /// Otherwise it will have Success set to true, and the athlete's details.
-        /// 
         /// <param name="athleteId"></param>
-        /// <returns>AthleteDetailsDTO</returns>
+        /// <returns>
+        /// An AthleteDetailsDTO with the result of the action.
+        /// </returns>
         public async Task<AthleteDetailsDTO> Details(int athleteId)
         {
             var athlete = await _weightliftingContext.Athletes
@@ -122,30 +124,6 @@ namespace API.Data.Managers
                 .Include(a => a.Coach)
                 .Where(a => a.Id == athleteId)
                 .SingleOrDefaultAsync();
-
-            /*var athlete = await _weightliftingContext.Athletes
-                .Where(a => a.Id == athleteId)
-                .Select(a => new AthleteDetailsDTO()
-                {
-                    FirstName = a.FirstName,
-                    LastName = a.LastName,
-
-                    Coach = a.Coach != null ? new CoachDetailsDTO()
-                    {
-                        CoachId = a.Coach.Id,
-                        FirstName = a.Coach.FirstName,
-                        LastName = a.Coach.LastName
-                    } : null,
-
-                    Sessions = a.Sessions.Select(s => new SessionDetailsDTO()
-                    {
-                        SessionId = s.Id,
-                        Date = s.Date
-                    })
-                })
-                .SingleAsync();
-
-            return athlete;*/
 
           if (athlete is null)
           {
@@ -200,12 +178,12 @@ namespace API.Data.Managers
         /// </summary>
         /// Returns an AthleteDetailsDTO.
         /// This will have Success set to false if the athleteId is not found in the database. 
-        /// 
         /// Otherwise it will have Success set to true, and the athlete's new details.
-        /// 
         /// <param name="athleteId"></param>
         /// <param name="editDetailsDTO"></param>
-        /// <returns>AthleteDetailsDTO</returns>
+        /// <returns>
+        /// An AthleteDetailsDTO with the result of the action.
+        /// </returns>
         public async Task<AthleteDetailsDTO> EditDetails(int athleteId, EditDetailsDTO editDetailsDTO)
         {
             var athlete = await _weightliftingContext.Athletes.FirstOrDefaultAsync(a => a.Id == athleteId);
