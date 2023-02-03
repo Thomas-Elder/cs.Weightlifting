@@ -7,6 +7,10 @@ namespace API.Data.Managers.Interfaces
         /// <summary>
         /// Gets the athlete id for the Application User Id passed in.
         /// </summary>
+        /// If there is an Athlete with that Application User Id it sets athleteId to  
+        /// the value of Athlete.Id, and returns true.
+        /// If there is not an Athlete with that Application User Id, athleteId is 0,
+        /// and the method returns false.
         /// <param name="applicationUserId"></param>
         /// <param name="athleteId"></param>
         /// <returns>
@@ -17,6 +21,12 @@ namespace API.Data.Managers.Interfaces
         /// <summary>
         /// Adds a Coach to an Athlete
         /// </summary>
+        /// If the coachId does not exist, returns a AddCoachResponseDTO with Success false.
+        /// If the athleteId does not exist, returns a AddCoachResponseDTO with Success false.
+        /// If both ids exist, but the athlete is already assigned a coach, believe it or not, 
+        /// returns a AddCoachResponseDTO with Success false.
+        /// If both ids exist, and the athlete is not already associated with coach, returns a 
+        /// AddCoachResponseDTO with Success true.
         /// <param name="athleteId"></param>
         /// <param name="coachId"></param>
         /// <returns>
@@ -27,6 +37,9 @@ namespace API.Data.Managers.Interfaces
         /// <summary>
         /// Returns the details of the Athlete.
         /// </summary>
+        /// Returns an AthleteDetailsDTO.
+        /// This will have Success set to false if the athleteId is not found in the database. 
+        /// Otherwise it will have Success set to true, and the athlete's details.
         /// <param name="athleteId"></param>
         /// <returns>
         /// An AthleteDetailsDTO with the result of the action.
@@ -36,6 +49,9 @@ namespace API.Data.Managers.Interfaces
         /// <summary>
         /// Updates the Athlete's details and returns the updated details.
         /// </summary>
+        /// Returns an AthleteDetailsDTO.
+        /// This will have Success set to false if the athleteId is not found in the database. 
+        /// Otherwise it will have Success set to true, and the athlete's new details.
         /// <param name="athleteId"></param>
         /// <param name="editDetailsDTO"></param>
         /// <returns>
