@@ -58,5 +58,17 @@ namespace API.Data.Managers.Interfaces
         /// An AthleteDetailsDTO with the result of the action.
         /// </returns>
         public Task<AthleteDetailsDTO> EditDetails(int athleteId, EditDetailsDTO editDetailsDTO);
+
+        /// <summary>
+        /// Deletes an Athlete from the database.
+        /// </summary>
+        /// Returns a DeleteAthleteDTO with Success flag set to false if the given athleteId is not
+        /// associated with an Athlete in the db.
+        /// Otherwise it will have Success set to true.
+        /// <param name="athleteId"></param>
+        /// <returns>
+        /// A DeleteAthleteDTO with the result of the action.
+        /// </returns>
+        public Task<DeleteAthleteDTO> Delete(int athleteId);
     }
 }

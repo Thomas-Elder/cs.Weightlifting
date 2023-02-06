@@ -242,5 +242,41 @@ namespace API.Data.Managers
 
             return athleteDetailsDTO;
         }
+
+        /// <summary>
+        /// Deletes an Athlete from the database.
+        /// </summary>
+        /// Returns a DeleteAthleteDTO with Success flag set to false if the given athleteId is not
+        /// associated with an Athlete in the db.
+        /// Otherwise it will have Success set to true.
+        /// <param name="athleteId"></param>
+        /// <returns>
+        /// A DeleteAthleteDTO with the result of the action.
+        /// </returns>
+        public async Task<DeleteAthleteDTO> Delete(int athleteId)
+        {
+            var athlete = await _weightliftingContext.Athletes.FirstOrDefaultAsync(a => a.Id == athleteId);
+
+            if (athlete is null)
+            {
+                return new DeleteAthleteDTO()
+                {
+                    Success = false,
+                    Errors = new Dictionary<string, string>()
+                    {
+                        { "User ID", "No athlete with that user id exists" }
+                    }
+                };
+            }
+
+            // else delete and return
+            _weightliftingContext.Athletes.Remove(athlete);
+            _weightliftingContext.SaveChanges();
+
+            return new DeleteAthleteDTO()
+            {
+                Success = true
+            };
+        }
     }
 }

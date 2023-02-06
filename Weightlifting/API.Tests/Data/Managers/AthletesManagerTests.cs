@@ -267,5 +267,50 @@ namespace API.Tests.Data.Managers
             Assert.Equal(expectedAthlete.LastName, result.LastName);
         }
         #endregion
+
+        #region Delete
+        [Fact]
+        public async void Delete_WhenCalledWithNonExistentAthleteId_ReturnsDeleteAthleteDTOWithSuccessFalseAndError()
+        {
+            // Arrange
+            int nonExistentAthleteId = 5;
+
+            // Act
+            var result = await _sut.Delete(nonExistentAthleteId);
+
+            // Assert
+            Assert.False(result.Success);
+        }
+
+        [Fact]
+        public async void Delete_WhenCalledWithExistentAthleteId_ReturnsDeleteAthleteDTOWithSuccessTrue()
+        {
+            // Arrange
+            int existentAthleteId = 1;
+
+            // Act
+            var result = await _sut.Delete(existentAthleteId);
+
+            // Assert
+            Assert.True(result.Success);
+        }
+
+        [Fact]
+        public async void Delete_WhenCalledWithExistentAthleteId_DeletesAthleteAndSubsequentCallsForAthleteFail()
+        {
+            // Arrange
+            int existentAthleteId = 1;
+
+            // Act
+            // delete athlete
+            await _sut.Delete(existentAthleteId);
+
+            // try to get that same athlete
+            var result = await _sut.Details(existentAthleteId);
+
+            // Assert
+            Assert.False(result.Success);
+        }
+        #endregion
     }
 }
