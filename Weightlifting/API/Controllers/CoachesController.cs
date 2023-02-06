@@ -158,5 +158,53 @@ namespace API.Controllers
 
             return Ok(result);
         }
+
+        [HttpDelete("delete/coachId")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Delete(int coachId = 0)
+        {
+            // If coachId is still default value
+            if (coachId == 0)
+            {
+                // Then we'll check the logged in user's identity
+                var applicationUserId = User.Identity.Name;
+
+                if (applicationUserId is null)
+                {
+                    return BadRequest(new DeleteCoachDTO()
+                    {
+                        Success = false,
+                        Errors = new Dictionary<string, string>()
+                        {
+                            { "Identity Error", "Error accessing user identity" }
+                        }
+                    });
+                }
+
+                // And they're not an coach return bad request
+                if (!_coachesManager.GetCoachId(applicationUserId, out coachId))
+                {
+                    return BadRequest(new DeleteCoachDTO()
+                    {
+                        Success = false,
+                        Errors = new Dictionary<string, string>()
+                        {
+                            { "Coach ID Error", "No coachId given, and user is not an Coach" }
+                        }
+                    });
+                }
+            }
+
+            // Otherwise now we've either got an coachId from the parameter, or we've gotten the 
+            // coachId associated with the logged in user.
+            var result = await _coachesManager.Delete(coachId);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
     }
 }
