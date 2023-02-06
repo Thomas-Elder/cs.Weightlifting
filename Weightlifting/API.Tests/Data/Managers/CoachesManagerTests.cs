@@ -220,5 +220,50 @@ namespace API.Tests.Data.Managers
             Assert.Single(result.Athletes);
         }
         #endregion
+
+        #region Delete
+        [Fact]
+        public async void Delete_WhenCalledWithNonExistentCoachId_ReturnsDeleteCoachDTOWithSuccessFalseAndError()
+        {
+            // Arrange
+            int nonExistentCoachId = 5;
+
+            // Act
+            var result = await _sut.Delete(nonExistentCoachId);
+
+            // Assert
+            Assert.False(result.Success);
+        }
+
+        [Fact]
+        public async void Delete_WhenCalledWithExistentCoachId_ReturnsDeleteCoachDTOWithSuccessTrue()
+        {
+            // Arrange
+            int existentCoachId = 1;
+
+            // Act
+            var result = await _sut.Delete(existentCoachId);
+
+            // Assert
+            Assert.True(result.Success);
+        }
+
+        [Fact]
+        public async void Delete_WhenCalledWithExistentCoachId_DeletesCoachAndSubsequentCallsForCoachFail()
+        {
+            // Arrange
+            int existentCoachId = 1;
+
+            // Act
+            // delete athlete
+            await _sut.Delete(existentCoachId);
+
+            // try to get that same athlete
+            var result = await _sut.Details(existentCoachId);
+
+            // Assert
+            Assert.False(result.Success);
+        }
+        #endregion
     }
 }

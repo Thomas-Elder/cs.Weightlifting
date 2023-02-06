@@ -62,5 +62,17 @@ namespace API.Data.Managers.Interfaces
         /// A CoachDetailsResponseDTO with the result of the action.
         /// </returns>
         public Task<CoachDetailsResponseDTO> EditDetails(int coachId, EditDetailsDTO editDetailsDTO);
+
+        /// <summary>
+        /// Deletes an Coach from the database.
+        /// </summary>
+        /// Returns a DeleteCoachDTO with Success flag set to false if the given coachId is not
+        /// associated with an Coach in the db.
+        /// Otherwise it will have Success set to true.
+        /// <param name="coachId"></param>
+        /// <returns>
+        /// A DeleteCoachDTO with the result of the action.
+        /// </returns>
+        public Task<DeleteCoachDTO> Delete(int coachId);
     }
 }
