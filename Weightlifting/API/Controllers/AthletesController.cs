@@ -192,7 +192,7 @@ namespace API.Controllers
 
                 if (userId is null)
                 {
-                    return BadRequest(new AthleteDetailsDTO()
+                    return BadRequest(new DeleteAthleteDTO()
                     {
                         Success = false,
                         Errors = new Dictionary<string, string>()
@@ -205,7 +205,7 @@ namespace API.Controllers
                 // And they're not an athlete return bad request
                 if (!_athletesManager.GetAthleteId(userId, out athleteId))
                 {
-                    return BadRequest(new AthleteDetailsDTO()
+                    return BadRequest(new DeleteAthleteDTO()
                     {
                         Success = false,
                         Errors = new Dictionary<string, string>()
