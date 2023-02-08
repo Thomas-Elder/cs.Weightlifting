@@ -185,5 +185,40 @@ namespace API.Data.Managers
                 Date = session.Date
             };
         }
+
+        /// <summary>
+        /// Deletes a Session.
+        /// </summary>
+        /// Checks if the sessionId matches an existing Session in the database, if not, returns a DeleteSessionDTO
+        /// with Success set to false, and Error message in the Errors dict.
+        /// If the session exists, it is deleted from the database.
+        /// <param name="sessionId"></param>
+        /// <returns>
+        /// A DeleteSessionDTO with the result of the action. 
+        /// </returns>
+        public async Task<DeleteSessionDTO> Delete(int sessionId)
+        {
+            var session = await _weightliftingContext.Sessions.FirstOrDefaultAsync(s => s.Id == sessionId);
+
+            if (session is null)
+            {
+                return new DeleteSessionDTO()
+                {
+                    Success = false,
+                    Errors = new Dictionary<string, string>()
+                    {
+                        { "Session Id", "Session id does not exist" }
+                    }
+                };
+            }
+
+            _weightliftingContext.Sessions.Remove(session);
+            _weightliftingContext.SaveChanges();
+
+            return new DeleteSessionDTO()
+            {
+                Success = true
+            };
+        }
     }
 }

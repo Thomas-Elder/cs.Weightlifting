@@ -208,5 +208,50 @@ namespace API.Tests.Data.Managers
             Assert.Equal(editSessionDetailsDTO.Date, result.Date);
         }
         #endregion
+
+        #region Delete
+        [Fact]
+        public async void Delete_WhenCalledWithNonExistentSessionId_ReturnsDeleteSessionDTOWithSuccessFalseAndError()
+        {
+            // Arrange
+            int nonExistentSessionId = 5;
+
+            // Act
+            var result = await _sut.Delete(nonExistentSessionId);
+
+            // Assert
+            Assert.False(result.Success);
+        }
+
+        [Fact]
+        public async void Delete_WhenCalledWithExistentSessioneId_ReturnsDeleteSessionDTOWithSuccessTrue()
+        {
+            // Arrange
+            int existentSessionId = 1;
+
+            // Act
+            var result = await _sut.Delete(existentSessionId);
+
+            // Assert
+            Assert.True(result.Success);
+        }
+
+        [Fact]
+        public async void Delete_WhenCalledWithExistentSessionId_DeletesSessionAndSubsequentCallsForSessionFail()
+        {
+            // Arrange
+            int existentSessionId = 1;
+
+            // Act
+            // delete athlete
+            await _sut.Delete(existentSessionId);
+
+            // try to get that same session
+            var result = await _sut.Details(existentSessionId);
+
+            // Assert
+            Assert.False(result.Success);
+        }
+        #endregion
     }
 }

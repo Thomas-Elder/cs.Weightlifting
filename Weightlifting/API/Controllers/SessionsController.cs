@@ -57,5 +57,19 @@ namespace API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("delete")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
+        public async Task<IActionResult> Delete(int sessionId)
+        {
+            var result = await _sessionsManager.Delete(sessionId);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
     }
 }

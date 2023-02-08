@@ -41,5 +41,17 @@ namespace API.Data.Managers.Interfaces
         /// A editSessionDetailsDTO with the result of the action. 
         /// </returns>
         public Task<EditSessionDetailsResponseDTO> EditDetails(EditSessionDetailsDTO editSessionDetailsDTO);
+
+        /// <summary>
+        /// Deletes a Session.
+        /// </summary>
+        /// Checks if the sessionId matches an existing Session in the database, if not, returns a DeleteSessionDTO
+        /// with Success set to false, and Error message in the Errors dict.
+        /// If the session exists, it is deleted from the database.
+        /// <param name="sessionId"></param>
+        /// <returns>
+        /// A DeleteSessionDTO with the result of the action. 
+        /// </returns>
+        public Task<DeleteSessionDTO> Delete(int sessionId);
     }
 }
