@@ -14,6 +14,13 @@ namespace API.Controllers
             _accountManager = accountManager;
         }
 
+        [HttpGet("check")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public IActionResult Check()
+        {
+            return Ok("Authorized");
+        }
+
         [HttpPost("register/athlete")]
         public async Task<IActionResult> RegisterAthlete(UserRegistrationDTO userRegistrationDTO)
         {
@@ -43,21 +50,28 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserAuthenticationDTO userAuthenticationDTO)
         {
-            var response = await _accountManager.Login(userAuthenticationDTO);
+            var result = await _accountManager.Login(userAuthenticationDTO);
 
-            if (response == null)
+            if (!result.Success)
             {
                 return BadRequest("Authentication failed");
             }
 
-            return Ok(response);
+            return Ok(result);
         }
 
+        [HttpDelete("delete")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpGet("check")]
-        public IActionResult Check()
+        public async Task<IActionResult> Delete(string email)
         {
-            return Ok("Authorized");
+            var result = await _accountManager.Delete(email);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
     }
 }
