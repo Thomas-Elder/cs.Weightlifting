@@ -201,5 +201,68 @@ namespace API.Tests.Data.Managers
             Assert.True(result.Success);
         }
         #endregion
+
+        #region Delete
+        [Fact]
+        public async void Delete_WhenCalledWithNonExistentUserDetails_ReturnsDeleteAccountDTOWithIsSuccessFalse()
+        {
+            // Arrange
+            string email = "Non existing user";
+
+            mock_UserManager.FindByEmailAsync(Arg.Any<string>()).ReturnsNull();
+
+            // Act
+            var result = await _sut.Delete(email);
+
+            // Assert
+            Assert.False(result.Success);
+        }
+
+        [Fact]
+        public async void Delete_WhenCalledWithExistentUserDetailsAndDeletionFails_ReturnsDeleteAccountDTOWithIsSuccessFalse()
+        {
+            // Arrange
+            string email = "Non existing user";
+
+            mock_UserManager.FindByEmailAsync(Arg.Any<string>())
+                .Returns(Task.FromResult(Substitute.For<ApplicationUser>()));
+
+            mock_UserManager.DeleteAsync(Arg.Any<ApplicationUser>())
+                .Returns(Task.FromResult(IdentityResult.Failed(
+                    new IdentityError() { Code= "Removal error", Description = "Error in UserManager deleting user." })));
+
+            // Act
+            var result = await _sut.Delete(email);
+
+            // Assert
+            Assert.False(result.Success);
+        }
+
+        [Fact]
+        public async void Delete_WhenCalledWithExistentUserDetailsAndDeletionIsSuccessful_ReturnsDeleteAccountDTOWithIsSuccessTrue()
+        {
+            // Arrange
+            string email = "Non existing user";
+
+            mock_UserManager.FindByEmailAsync(Arg.Any<string>())
+                .Returns(Task.FromResult(Substitute.For<ApplicationUser>()));
+
+            mock_UserManager.DeleteAsync(Arg.Any<ApplicationUser>())
+                .Returns(Task.FromResult(IdentityResult.Success));
+
+            // Act
+            var result = await _sut.Delete(email);
+
+            // Assert
+            Assert.True(result.Success);
+        }
+
+        // Check account deleted 
+
+        // Check athlete removed
+
+        // Check coach removed
+
+        #endregion
     }
 }
