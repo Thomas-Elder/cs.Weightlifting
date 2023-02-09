@@ -196,5 +196,78 @@ namespace API.Data.Managers
                 Token = token
             };
         }
+
+        /// <summary>
+        /// Deletes the Account, including related Coach or Athlete objects.
+        /// </summary>
+        /// Attempts to delete the user associated with the given userEmail.
+        /// If the user's email is not found, returns a UserAuthenticationResponseDTO with Success set to false, 
+        /// and an error message in the Errors dictionary.
+        /// If the user is successfully deleted, associated Coach or Athlete instances are found and removed. 
+        /// It then returns a DeleteAccountDTO with Success set to true.
+        /// <param name="userEmail"></param>
+        /// <returns>
+        /// A DeleteAccountDTO with the result of the action.
+        /// </returns>
+        public async Task<DeleteAccountDTO> Delete(string userEmail)
+        {
+            // Check user exists
+            var user = await _userManager.FindByEmailAsync(userEmail);
+
+            if (user is null)
+            {
+                return new DeleteAccountDTO()
+                {
+                    Success = false,
+                    Errors = new Dictionary<string, string>
+                    {
+                        {
+                            "Email",  "Email not found."
+                        }
+                    }
+                };
+            }
+
+            // delete user
+            var result = await _userManager.DeleteAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return new DeleteAccountDTO()
+                {
+                    Success = false,
+                    Errors = new Dictionary<string, string>
+                    {
+                        {
+                            "Removal error",  "Error in UserManager deleting user."
+                        }
+                    }
+                };
+            }
+
+            // delete coach/athlete if they exist
+            var coach = _weightliftingContext.Coaches.FirstOrDefault(coach => coach.ApplicationUserId == user.Id);
+
+            if (coach is not null)
+            {
+                _weightliftingContext.Coaches.Remove(coach);
+            }
+
+            var athlete = _weightliftingContext.Athletes.FirstOrDefault(athlete => athlete.ApplicationUserId == user.Id);
+
+            if (athlete is not null)
+            {
+                _weightliftingContext.Athletes.Remove(athlete);
+            }
+
+            // save changes
+            _weightliftingContext.SaveChanges();
+
+            // return 
+            return new DeleteAccountDTO()
+            {
+                Success = true
+            };
+        }
     }
 }

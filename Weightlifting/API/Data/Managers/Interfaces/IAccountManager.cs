@@ -46,5 +46,18 @@ namespace API.Data.Managers.Interfaces
         /// A UserAuthenticationResponseDTO with the result of the action.
         /// </returns>
         public Task<UserAuthenticationResponseDTO> Login(UserAuthenticationDTO userAuthenticationDTO);
+
+        /// <summary>
+        /// Deletes the Account, including related Coach or Athlete objects.
+        /// </summary>
+        /// Attempts to delete the user associated with the given userEmail.
+        /// If the user's email is not found, returns a UserAuthenticationResponseDTO with Success set to false, 
+        /// and an error message in the Errors dictionary.
+        /// If the user is successfully deleted, returns a DeleteAccountDTO with Success set to true.
+        /// <param name="userEmail"></param>
+        /// <returns>
+        /// A DeleteAccountDTO with the result of the action.
+        /// </returns>
+        public Task<DeleteAccountDTO> Delete(string userEmail);
     }
 }
