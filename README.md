@@ -1,5 +1,5 @@
 # cs.Weightlifting
-A solution for managing weightlifting training data.
+A solution for managing weightlifting training data. Further information on any of the below can be found in this repos wiki.
 
 This has several aims:
 
@@ -13,8 +13,10 @@ The project will be split into two main parts
 * An API to provide authenticated access to the database
 * A web application for the user interface 
 
-### API
-The API is a .NET 6 Core API, using Entity Framework to interact with a MSSQL database.
+## API
+The API is a .NET 6 Core API, using Entity Framework to interact with a MSSQL database. 
+
+The project makes use of Swagger, a suite of tools which describes an API. 
 
 ## Testing
 Unit tests are written using XUnit and NSubstitute, and are run on commit to the main branch by Github's Actions. 
