@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.Tests", "API.Tests\API.Tests.csproj", "{81D5E595-12E4-4662-AE8E-4A554F4E5CCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEB", "WEB\WEB.csproj", "{3BAB6EA9-FC53-4E8C-9E3A-A3E7C21858B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WEB", "WEB\WEB.csproj", "{3BAB6EA9-FC53-4E8C-9E3A-A3E7C21858B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
