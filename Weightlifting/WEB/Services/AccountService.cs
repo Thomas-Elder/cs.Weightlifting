@@ -16,7 +16,7 @@ namespace WEB.Services
         {
             var result = await _httpClient.GetFromJsonAsync<HttpResponse>("api/account/check");
 
-            if (result.StatusCode == 401)
+            if (result is not null && result.StatusCode == 401)
             {
                 return "failed to access";
             }
