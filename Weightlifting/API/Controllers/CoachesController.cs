@@ -78,56 +78,55 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        /// <summary>
-        /// Returns the details of a Coach, for the given coachId. 
-        /// </summary>
-        /// Takes an int coachId, which has a default value of 0. 
-        /// If the logged in user is not a Coach, they can specify the coachId to retrieve the details in the 
-        /// returned CoachDetailsResponseDTO.
-        /// If the logged in user is not a Coach, and they leave coachId as default, the returned CoachDetailsResponseDTO
-        /// will have Success set false.
-        /// If the logged in user is a Coach, they can leave this default value, and this function will use their 
-        /// applicationUserId to get the Coach details, in the form of a CoachDetailsResponseDTO.
-        /// <param name="coachId"></param>
-        /// <returns></returns>
         [HttpGet("details/coachId")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Details(int coachId = 0)
+        public async Task<IActionResult> Details(int coachId)
         {
-            // If coachId is still default value
-            if (coachId == 0)
+            var result = await _coachesManager.Details(coachId);
+
+            if (!result.Success)
             {
-                // Then we'll check the logged in user's identity
-                var applicationUserId = User.Identity.Name;
-
-                if (applicationUserId is null)
-                {
-                    return BadRequest(new CoachDetailsResponseDTO()
-                    {
-                        Success = false,
-                        Errors = new Dictionary<string, string>()
-                        {
-                            { "Identity Error", "Error accessing user identity" }
-                        }
-                    });
-                }
-
-                // And they're not an coach return bad request
-                if (!_coachesManager.GetCoachId(applicationUserId, out coachId))
-                {
-                    return BadRequest(new CoachDetailsResponseDTO()
-                    {
-                        Success = false,
-                        Errors = new Dictionary<string, string>()
-                        {
-                            { "Coach ID Error", "No coachId given, and user is not an Coach" }
-                        }
-                    });
-                }
+                return BadRequest(result);
             }
 
-            // Otherwise now we've either got an coachId from the parameter, or we've gotten the 
-            // coachId associated with the logged in user.
+            return Ok(result);
+        }
+
+        [HttpGet("details/coachId")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> MyDetails()
+        {
+            // Check the logged in user's identity
+            var applicationUserId = User.Identity.Name;
+
+            if (applicationUserId is null)
+            {
+                return BadRequest(new CoachDetailsResponseDTO()
+                {
+                    Success = false,
+                    Errors = new Dictionary<string, string>()
+                    {
+                        { "Identity Error", "Error accessing user identity" }
+                    }
+                });
+            }
+
+            int coachId;
+
+            // Check they're a coach
+            if (!_coachesManager.GetCoachId(applicationUserId, out coachId))
+            {
+                return BadRequest(new CoachDetailsResponseDTO()
+                {
+                    Success = false,
+                    Errors = new Dictionary<string, string>()
+                    {
+                        { "Coach ID Error", "No coachId given, and user is not an Coach" }
+                    }
+                });
+            }
+
+            // Otherwise we've gotten the coachId associated with the logged in user.
             var result = await _coachesManager.Details(coachId);
 
             if (!result.Success)
