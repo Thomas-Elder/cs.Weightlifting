@@ -1,4 +1,5 @@
-﻿using WEB.ViewModels.Athletes;
+﻿
+using WEB.ViewModels.Account;
 
 namespace WEB.Services
 {
@@ -6,5 +7,6 @@ namespace WEB.Services
     {
         Task<string> CheckAccount();
         Task<string> RegisterAthlete(RegisterAthlete register);
+        Task<string> Login(Login login);
     }
 }

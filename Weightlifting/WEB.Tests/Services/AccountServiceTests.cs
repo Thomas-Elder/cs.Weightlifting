@@ -17,14 +17,6 @@ namespace WEB.Tests.Services
 { 
     public class AccountServiceTests
     {
-        private HttpClient _httpClient;
-        private AccountService _sut;
-
-        public AccountServiceTests()
-        {
-            
-        }
-
         [Fact]
         public async void RegisterAthlete_WhenPassedInvalidRegistrationDetails_ReturnsFailureMessage()
         {
@@ -39,7 +31,7 @@ namespace WEB.Tests.Services
             mockHttpMessageHandler.MockSend(Arg.Any<HttpRequestMessage>(), Arg.Any<CancellationToken>())
                .Returns(mockResponse);
 
-            _sut = new AccountService(httpClient);
+            AccountService _sut = new AccountService(httpClient);
 
             // Act
             var actual = await _sut.RegisterAthlete(Substitute.For<RegisterAthlete>());
@@ -62,7 +54,7 @@ namespace WEB.Tests.Services
             mockHttpMessageHandler.MockSend(Arg.Any<HttpRequestMessage>(), Arg.Any<CancellationToken>())
                .Returns(mockResponse);
 
-            _sut = new AccountService(httpClient);
+            AccountService _sut = new AccountService(httpClient);
 
             // Act
             var actual = await _sut.RegisterAthlete(Substitute.For<RegisterAthlete>());

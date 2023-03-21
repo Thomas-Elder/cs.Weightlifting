@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace WEB.ViewModels.Athletes
+namespace WEB.ViewModels.Account
 {
     public class RegisterAthlete
     {

@@ -1,4 +1,4 @@
-﻿using WEB.ViewModels.Athletes;
+﻿using WEB.ViewModels.Account;
 
 namespace WEB.Services
 {
@@ -34,6 +34,18 @@ namespace WEB.Services
             }
 
             return "Registration success!";
+        }
+
+        public async Task<string> Login(Login login)
+        {
+            var result = await _httpClient.PostAsJsonAsync("api/account/login", login);
+
+            if (!result.IsSuccessStatusCode)
+            {
+                return "Login failed";
+            }
+
+            return await result.Content.ReadAsStringAsync();
         }
     }
 }

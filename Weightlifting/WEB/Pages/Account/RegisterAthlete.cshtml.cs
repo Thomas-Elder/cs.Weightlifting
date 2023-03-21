@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using WEB.ViewModels.Athletes;
 using WEB.Services;
+using WEB.ViewModels.Account;
 
-namespace WEB.Pages.Athletes
+namespace WEB.Pages.Account
 {
-    public class RegisterModel : PageModel
+    public class RegisterAthleteModel : PageModel
     {
         [BindProperty]
         public RegisterAthlete Register { get; set; } = default!;
@@ -14,7 +14,7 @@ namespace WEB.Pages.Athletes
 
         public string Result = default!;
 
-        public RegisterModel(IAccountService accountService)
+        public RegisterAthleteModel(IAccountService accountService)
         {
             _accountService = accountService;
         }
