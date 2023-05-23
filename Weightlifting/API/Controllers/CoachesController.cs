@@ -92,7 +92,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("details/coachId")]
+        [HttpGet("details/coach")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> MyDetails()
         {
