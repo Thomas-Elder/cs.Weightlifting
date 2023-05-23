@@ -1,16 +1,22 @@
 ﻿using WEB.Services.Interfaces;
 using WEB.ViewModels.Account;
+using DTO.Account;
+using Microsoft.Extensions.Logging;
 
 namespace WEB.Services
 {
     public class AccountService : IAccountService
     {
+        private readonly ILogger<AccountService> _logger;
         private readonly HttpClient _httpClient;
         private readonly ITokenService _tokenService;
 
-        public AccountService(HttpClient httpClient,
+        public AccountService(
+            ILogger<AccountService> logger,
+            HttpClient httpClient,
             ITokenService tokenService)
         {
+            _logger = logger;
             _httpClient = httpClient;
             _tokenService = tokenService;
 
@@ -28,30 +34,56 @@ namespace WEB.Services
             return "success";
         }
 
-        public async Task<string> RegisterAthlete(RegisterAthlete register)
+        public async Task<UserRegistrationResponseDTO> RegisterAthlete(UserRegistrationDTO register)
         {
-            var result = await _httpClient.PostAsJsonAsync("api/account/register/athlete", register);
 
-            if (!result.IsSuccessStatusCode)
+            try
             {
-                return "Registration failed";
-            }
+                var response = await _httpClient.PostAsJsonAsync("api/account/register/athlete", register);
+                var result = await response.Content.ReadFromJsonAsync<UserRegistrationResponseDTO>();
 
-            return "Registration success!";
+                return result;
+
+            } catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                return new UserRegistrationResponseDTO()
+                {
+                    Success = false,
+                    Errors = new List<string>()
+                    {
+                        "There was an error registering your account, please try again shortly."
+                    }
+                };
+            }
         }
 
-        public async Task<string> Login(Login login)
+        public async Task<UserAuthenticationResponseDTO> Login(UserAuthenticationDTO login)
         {
-            var result = await _httpClient.PostAsJsonAsync<UserAuthenticationResponseDTO>("api/account/login", login);
 
-            if (!result.IsSuccessStatusCode)
+            try
             {
-                return "Login failed";
-            }
+                var response = await _httpClient.PostAsJsonAsync("api/account/login", login);
+                var result = await response.Content.ReadFromJsonAsync<UserAuthenticationResponseDTO>();
 
-            await _tokenService.SetToken(result.Token);
+                await _tokenService.SetToken(result.Token);
 
-            return await result.Content.ReadAsStringAsync();
+                return result;
+
+            } catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                return new UserAuthenticationResponseDTO()
+                {
+                    Success = false,
+                    Errors = new List<string>()
+                    {
+                        "There was an error logging you in, please try again shortly."
+                    }
+                };
+            }            
         }
     }
 }
