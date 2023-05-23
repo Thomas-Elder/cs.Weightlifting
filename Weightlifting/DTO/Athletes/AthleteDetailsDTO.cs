@@ -1,10 +1,7 @@
 ﻿namespace DTO.Athletes
 {
-    public class AthleteDetailsDTO
+    public class AthleteDetailsDTO : ResponseDTO
     {
-        public bool Success { get; set; }
-        public Dictionary<string, string>? Errors { get; set; }
-
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
 
