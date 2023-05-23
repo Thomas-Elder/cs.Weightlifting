@@ -4,6 +4,6 @@
     {
         Task<string> GetToken();
         Task RemoveToken();
-        Task SetToken(string token);
+        Task SetToken(string? token);
     }
 }

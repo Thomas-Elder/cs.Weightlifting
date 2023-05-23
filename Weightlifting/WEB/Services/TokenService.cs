@@ -12,7 +12,7 @@ namespace WEB.Services
             this.localStorageService = localStorageService;
         }
 
-        public async Task SetToken(string token)
+        public async Task SetToken(string? token)
         {
             await localStorageService.SetItemAsync("token", token);
         }

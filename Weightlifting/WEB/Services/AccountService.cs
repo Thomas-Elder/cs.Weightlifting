@@ -40,7 +40,7 @@ namespace WEB.Services
             try
             {
                 var response = await _httpClient.PostAsJsonAsync("api/account/register/athlete", register);
-                var result = await response.Content.ReadFromJsonAsync<UserRegistrationResponseDTO>();
+                var result = await response.Content.ReadFromJsonAsync<UserRegistrationResponseDTO>() ?? throw new Exception("Invalid response from server.");
 
                 return result;
 
@@ -65,7 +65,7 @@ namespace WEB.Services
             try
             {
                 var response = await _httpClient.PostAsJsonAsync("api/account/login", login);
-                var result = await response.Content.ReadFromJsonAsync<UserAuthenticationResponseDTO>();
+                var result = await response.Content.ReadFromJsonAsync<UserAuthenticationResponseDTO>() ?? throw new Exception("Invalid response from server.");
 
                 await _tokenService.SetToken(result.Token);
 
