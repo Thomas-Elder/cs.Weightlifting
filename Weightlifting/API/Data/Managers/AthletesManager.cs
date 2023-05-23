@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using API.DTOs.Athletes;
 using API.Data.Managers.Interfaces;
-using API.Data.Models;
+
+using DTO.Athletes;
 
 namespace API.Data.Managers
 {
@@ -63,10 +63,7 @@ namespace API.Data.Managers
                 return new AddCoachResponseDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Athlete ID", "Athlete id doesn't exist" }
-                    }
+                    Errors = new List<string>() { "Athlete id doesn't exist" }
                 };
             }
 
@@ -75,10 +72,7 @@ namespace API.Data.Managers
                 return new AddCoachResponseDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Athlete", "Athlete already has a coach" }
-                    }
+                    Errors = new List<string>() { "Athlete already has a coach" }
                 };
             }
 
@@ -89,10 +83,7 @@ namespace API.Data.Managers
                 return new AddCoachResponseDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Coach ID", "Coach id doesn't exist" }
-                    }
+                    Errors = new List<string>() { "Coach id doesn't exist" }
                 };
             }
 
@@ -130,10 +121,7 @@ namespace API.Data.Managers
               return new AthleteDetailsDTO()
               {
                   Success = false,
-                  Errors = new Dictionary<string, string>()
-                  {
-                      { "Athlete ID", "Athlete id doesn't exist" }
-                  }
+                  Errors = new List<string>() { "Athlete id doesn't exist" }
               };
           }
 
@@ -193,10 +181,7 @@ namespace API.Data.Managers
                 return new AthleteDetailsDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "User ID", "No athlete with that user id exists" }
-                    }
+                    Errors = new List<string>() { "No athlete with that user id exists" }
                 };
             }
 
@@ -262,10 +247,7 @@ namespace API.Data.Managers
                 return new DeleteAthleteDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "User ID", "No athlete with that user id exists" }
-                    }
+                    Errors = new List<string>() { "No athlete with that user id exists" }
                 };
             }
 

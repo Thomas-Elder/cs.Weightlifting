@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 
 using API.Data.Models;
-using API.DTOs.Athletes;
 using API.Data.Managers.Interfaces;
+
+using DTO.Athletes;
 
 namespace API.Controllers
 {
@@ -35,10 +36,7 @@ namespace API.Controllers
                 return BadRequest(new AddCoachResponseDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Identity Error", "Error accessing user identity" }
-                    }
+                    Errors = new List<string>() { "Error accessing user identity" }
                 });
             }
 
@@ -49,10 +47,7 @@ namespace API.Controllers
                 return BadRequest(new AddCoachResponseDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Identity Error", "No athlete exists with that ApplicationUserId" }
-                    }
+                    Errors = new List<string>() { "No athlete exists with that ApplicationUserId" }
                 });
             }
 
@@ -92,10 +87,7 @@ namespace API.Controllers
                 return BadRequest(new AthleteDetailsDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Identity Error", "Error accessing user identity" }
-                    }
+                    Errors = new List<string>() { "Error accessing user identity" }
                 });
             }
 
@@ -107,10 +99,7 @@ namespace API.Controllers
                 return BadRequest(new AthleteDetailsDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Athlete ID", "No athleteId given, and user is not an Athlete" }
-                    }
+                    Errors = new List<string>() { "No athleteId given, and user is not an Athlete" }
                 });
             }
 
@@ -136,10 +125,7 @@ namespace API.Controllers
                 return BadRequest(new AthleteDetailsDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Identity Error", "Error accessing user identity" }
-                    }
+                    Errors = new List<string>() { "Error accessing user identity" }
                 });
             }
 
@@ -152,10 +138,7 @@ namespace API.Controllers
                     return BadRequest(new AthleteDetailsDTO()
                     {
                         Success = false,
-                        Errors = new Dictionary<string, string>()
-                        {
-                            { "Athlete ID", "No athleteId given, and user is not an Athlete" }
-                        }
+                        Errors = new List<string>() { "No athleteId given, and user is not an Athlete" }
                     });
                 }
             }
@@ -170,10 +153,7 @@ namespace API.Controllers
                 return BadRequest(new AthleteDetailsDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                        {
-                            { "Athlete ID", "The athleteId passed is not the logged in user's athleteId" }
-                        }
+                    Errors = new List<string>() { "The athleteId passed is not the logged in user's athleteId" }
                 });
             }
 
@@ -205,10 +185,7 @@ namespace API.Controllers
                     return BadRequest(new DeleteAthleteDTO()
                     {
                         Success = false,
-                        Errors = new Dictionary<string, string>()
-                        {
-                            { "Identity Error", "Error accessing user identity" }
-                        }
+                        Errors = new List<string>() { "Error accessing user identity" }
                     });
                 }
 
@@ -218,10 +195,7 @@ namespace API.Controllers
                     return BadRequest(new DeleteAthleteDTO()
                     {
                         Success = false,
-                        Errors = new Dictionary<string, string>()
-                        {
-                            { "Athlete ID", "No athleteId given, and user is not an Athlete" }
-                        }
+                        Errors = new List<string>() { "No athleteId given, and user is not an Athlete" }
                     });
                 }
             }

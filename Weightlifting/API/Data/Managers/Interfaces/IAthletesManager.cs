@@ -1,4 +1,4 @@
-﻿using API.DTOs.Athletes;
+﻿using DTO.Athletes;
 
 namespace API.Data.Managers.Interfaces
 {
