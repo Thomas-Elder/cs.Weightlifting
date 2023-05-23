@@ -28,7 +28,7 @@ namespace API.Controllers
         [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
         public async Task<IActionResult> AddCoach(int coachId)
         {
-            var applicationUserId = User.Identity.Name;
+            var applicationUserId = User?.Identity?.Name;
 
             if (applicationUserId is null)
             {
@@ -85,7 +85,7 @@ namespace API.Controllers
         public async Task<IActionResult> MyDetails()
         {
             // Check the logged in user's identity
-            var userId = User.Identity.Name;
+            var userId = User?.Identity?.Name;
 
             if (userId is null)
             {
@@ -129,7 +129,7 @@ namespace API.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> EditDetails(EditDetailsDTO editDetailsDTO, int athleteId = 0)
         {
-            var userId = User.Identity.Name;
+            var userId = User?.Identity?.Name;
 
             if (userId is null)
             {
@@ -198,7 +198,7 @@ namespace API.Controllers
             if (athleteId == 0)
             {
                 // Then we'll check the logged in user's identity
-                var userId = User.Identity.Name;
+                var userId = User?.Identity?.Name;
 
                 if (userId is null)
                 {
