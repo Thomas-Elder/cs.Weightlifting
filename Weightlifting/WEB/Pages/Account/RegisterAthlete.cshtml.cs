@@ -27,21 +27,17 @@ namespace WEB.Pages.Account
         public async Task<IActionResult> OnPostAsync()
         {
 
-            if (ModelState.IsValid)
-            {
-                var result = await _accountService.RegisterAthlete(Register);
-
-                Result = result;
-
-                return Page();
-            } else
-            {
-                var errors = ModelState.Select(x => x.Value.Errors)
-                           .Where(y => y.Count > 0)
-                           .ToList();
-
+            if (!ModelState.IsValid)
+            { 
                 return Page();
             }
+
+            var result = await _accountService.RegisterAthlete(Register);
+
+            Result = result;
+
+            // Probably go to login once that exists.
+            return RedirectToPage("./Index");
         }
     }
 }
