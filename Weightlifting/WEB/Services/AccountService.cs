@@ -1,14 +1,18 @@
-﻿using WEB.ViewModels.Account;
+﻿using WEB.Services.Interfaces;
+using WEB.ViewModels.Account;
 
 namespace WEB.Services
 {
     public class AccountService : IAccountService
     {
         private readonly HttpClient _httpClient;
+        private readonly ITokenService _tokenService;
 
-        public AccountService(HttpClient httpClient)
+        public AccountService(HttpClient httpClient,
+            ITokenService tokenService)
         {
             _httpClient = httpClient;
+            _tokenService = tokenService;
 
         }
 
@@ -38,12 +42,14 @@ namespace WEB.Services
 
         public async Task<string> Login(Login login)
         {
-            var result = await _httpClient.PostAsJsonAsync("api/account/login", login);
+            var result = await _httpClient.PostAsJsonAsync<UserAuthenticationResponseDTO>("api/account/login", login);
 
             if (!result.IsSuccessStatusCode)
             {
                 return "Login failed";
             }
+
+            await _tokenService.SetToken(result.Token);
 
             return await result.Content.ReadAsStringAsync();
         }
