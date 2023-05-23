@@ -1,6 +1,6 @@
-﻿using API.DTOs.Sets;
+﻿using DTO.Sets;
 
-namespace API.DTOs.Exercises
+namespace DTO.Exercises
 {
     public class ExerciseDTO
     {

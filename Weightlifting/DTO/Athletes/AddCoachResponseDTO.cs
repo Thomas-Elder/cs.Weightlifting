@@ -1,4 +1,4 @@
-﻿namespace API.DTOs.Athletes
+﻿namespace DTO.Athletes
 {
     public class AddCoachResponseDTO : ResponseDTO
     {

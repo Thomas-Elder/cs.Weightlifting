@@ -1,4 +1,4 @@
-﻿namespace API.DTOs.Sets
+﻿namespace DTO.Sets
 {
     public class SetDTO
     {

@@ -1,4 +1,4 @@
-﻿namespace API.DTOs.Sessions
+﻿namespace DTO.Sessions
 {
     public class DeleteSessionDTO : ResponseDTO
     {

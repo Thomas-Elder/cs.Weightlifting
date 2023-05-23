@@ -1,4 +1,4 @@
-﻿namespace API.DTOs.Coaches
+﻿namespace DTO.Coaches
 {
     public class DeleteCoachDTO : ResponseDTO
     {

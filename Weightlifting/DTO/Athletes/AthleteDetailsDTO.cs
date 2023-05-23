@@ -1,6 +1,4 @@
-﻿using API.Data.Models;
-
-namespace API.DTOs.Athletes
+﻿namespace DTO.Athletes
 {
     public class AthleteDetailsDTO
     {

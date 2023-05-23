@@ -1,7 +1,7 @@
-﻿using API.DTOs.Exercises;
+﻿using DTO.Exercises;
 using System.ComponentModel.DataAnnotations;
 
-namespace API.DTOs.Sessions
+namespace DTO.Sessions
 {
     public class AddSessionDTO
     {

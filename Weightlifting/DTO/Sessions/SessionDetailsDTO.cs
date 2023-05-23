@@ -1,6 +1,6 @@
-﻿using API.DTOs.Exercises;
+﻿using DTO.Exercises;
 
-namespace API.DTOs.Sessions
+namespace DTO.Sessions
 {
     public class SessionDetailsDTO : ResponseDTO
     {
