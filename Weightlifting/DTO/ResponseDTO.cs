@@ -1,8 +1,8 @@
-﻿namespace API.DTOs
+﻿namespace DTO
 {
     public class ResponseDTO
     {
         public bool Success { get; set; }
-        public Dictionary<string, string>? Errors { get; set; }
+        public IEnumerable<string>? Errors { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace API.DTOs.Account
+﻿namespace DTO.Account
 {
     public class DeleteAccountDTO : ResponseDTO
     {
