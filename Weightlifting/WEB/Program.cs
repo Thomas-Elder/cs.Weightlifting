@@ -1,4 +1,5 @@
 
+using Blazored.LocalStorage;
 using WEB.Services;
 using WEB.Services.Interfaces;
 
@@ -25,6 +26,9 @@ builder.Services.AddHttpClient<IHomeService, HomeService>(client =>
     // config.GetRequiredSection("API_URL").Value
     client.BaseAddress = new Uri("https://localhost:7207/");
 });
+
+builder.Services.AddBlazoredLocalStorage();
+//builder.Services.AddBlazoredSessionStorage();
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 
