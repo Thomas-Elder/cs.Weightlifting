@@ -1,4 +1,5 @@
 ﻿
+using DTO.Account;
 using WEB.ViewModels.Account;
 
 namespace WEB.Services
@@ -6,7 +7,7 @@ namespace WEB.Services
     public interface IAccountService
     {
         Task<string> CheckAccount();
-        Task<string> RegisterAthlete(RegisterAthlete register);
-        Task<string> Login(Login login);
+        Task<UserRegistrationResponseDTO> RegisterAthlete(UserRegistrationDTO register);
+        Task<UserAuthenticationResponseDTO> Login(UserAuthenticationDTO login);
     }
 }
