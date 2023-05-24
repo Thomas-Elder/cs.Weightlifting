@@ -1,4 +1,4 @@
-﻿using API.DTOs.Sessions;
+﻿using DTO.Sessions;
 
 namespace API.Data.Managers.Interfaces
 {

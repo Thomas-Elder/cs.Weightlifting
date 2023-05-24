@@ -1,17 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using Xunit;
 
-using System.Linq;
+using System;
+using System.Collections.Generic;
 
 using API.Data;
 using API.Data.Models;
 using API.Data.Managers;
 using API.Data.Managers.Interfaces;
-using API.DTOs.Sessions;
-using API.DTOs.Exercises;
-using System.Collections.Generic;
-using API.DTOs.Sets;
+
+using DTO.Sets;
+using DTO.Sessions;
+using DTO.Exercises;
 
 namespace API.Tests.Data.Managers
 {

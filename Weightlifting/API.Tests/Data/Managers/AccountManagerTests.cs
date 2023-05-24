@@ -6,14 +6,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using System;
+using System.Threading.Tasks;
 
 using API.Data.Managers;
-using API.Data.Managers.Interfaces;
 using API.Data.Models;
-using API.DTOs.Account;
 using API.Data;
 using API.JWT;
-using System.Threading.Tasks;
+
+using DTO.Account;
+
 
 namespace API.Tests.Data.Managers
 {

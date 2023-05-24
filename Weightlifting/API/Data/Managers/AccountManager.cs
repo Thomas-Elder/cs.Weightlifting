@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
 using API.Data.Models;
-using API.DTOs.Account;
 using API.JWT;
 using API.Data.Managers.Interfaces;
+
+using DTO.Account;
 
 namespace API.Data.Managers
 {
@@ -60,11 +61,7 @@ namespace API.Data.Managers
                 return new UserRegistrationResponseDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string> {
-                        {
-                        "Registration", "Error registering user"
-                        }
-                    }
+                    Errors = new List<string> { "Error registering user" }
                 };
             }
 
@@ -112,11 +109,7 @@ namespace API.Data.Managers
                 return new UserRegistrationResponseDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string> {
-                        {
-                        "Registration", "Error registering user"
-                        }
-                    }
+                    Errors = new List<string> { "Error registering user" }
                 };
             }
 
@@ -161,12 +154,7 @@ namespace API.Data.Managers
                 return new UserAuthenticationResponseDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>
-                    {
-                        {
-                            "Email",  "Email not found."
-                        }
-                    }
+                    Errors = new List<string> { "Email not found." }
                 };
             }
 
@@ -178,12 +166,7 @@ namespace API.Data.Managers
                 return new UserAuthenticationResponseDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>
-                    {
-                        {
-                            "Password",  "Password incorrect."
-                        }
-                    }
+                    Errors = new List<string> { "Password incorrect." }
                 };
             }
 
@@ -219,12 +202,7 @@ namespace API.Data.Managers
                 return new DeleteAccountDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>
-                    {
-                        {
-                            "Email",  "Email not found."
-                        }
-                    }
+                    Errors = new List<string> { "Email not found." }
                 };
             }
 
@@ -236,12 +214,7 @@ namespace API.Data.Managers
                 return new DeleteAccountDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>
-                    {
-                        {
-                            "Removal error",  "Error in UserManager deleting user."
-                        }
-                    }
+                    Errors = new List<string> { "Error in UserManager deleting user." }
                 };
             }
 

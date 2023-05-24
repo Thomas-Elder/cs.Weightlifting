@@ -1,8 +1,10 @@
 ﻿using API.Data.Managers.Interfaces;
 using API.Data.Models;
-using API.DTOs.Sessions;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using DTO.Sessions;
 
 namespace API.Controllers
 {

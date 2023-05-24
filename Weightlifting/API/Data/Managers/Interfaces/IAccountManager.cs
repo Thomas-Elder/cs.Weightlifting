@@ -1,5 +1,6 @@
 ﻿using API.Data.Models;
-using API.DTOs.Account;
+
+using DTO.Account;
 
 namespace API.Data.Managers.Interfaces
 {
