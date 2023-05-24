@@ -1,4 +1,4 @@
-﻿using API.DTOs.Coaches;
+﻿using DTO.Coaches;
 
 namespace API.Data.Managers.Interfaces
 {

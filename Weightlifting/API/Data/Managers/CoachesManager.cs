@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using API.DTOs.Coaches;
 using API.Data.Managers.Interfaces;
+
+using DTO.Coaches;
 
 namespace API.Data.Managers
 {
@@ -65,10 +66,7 @@ namespace API.Data.Managers
                 return new AddAthleteToCoachResponseDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Coach Id Error", "Coach id doesn't exist" }
-                    }
+                    Errors = new List<string>{ "Coach id doesn't exist" }
                 };
             }
 
@@ -79,10 +77,7 @@ namespace API.Data.Managers
                 return new AddAthleteToCoachResponseDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Athlete Id Error", "Athlete id doesn't exist" }
-                    }
+                    Errors = new List<string> { "Athlete id doesn't exist" }
                 };
             }
 
@@ -91,10 +86,7 @@ namespace API.Data.Managers
                 return new AddAthleteToCoachResponseDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Athlete Error", "Athlete already has a coach" }
-                    }
+                    Errors = new List<string> { "Athlete already has a coach" }
                 };
             }
 
@@ -130,10 +122,7 @@ namespace API.Data.Managers
                 return new CoachDetailsResponseDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Coach Id", "No coach with that id exists" }
-                    }
+                    Errors = new List<string> { "No coach with that id exists" }
                 };
             }
 
@@ -184,10 +173,7 @@ namespace API.Data.Managers
                 return new CoachDetailsResponseDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "User ID", "No coach with that user id exists" }
-                    }
+                    Errors = new List<string> { "No coach with that user id exists" }
                 };
             }
 
@@ -240,10 +226,7 @@ namespace API.Data.Managers
                 return new DeleteCoachDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "User ID", "No coach with that user id exists" }
-                    }
+                    Errors = new List<string> { "No coach with that user id exists" }
                 };
             }
 
