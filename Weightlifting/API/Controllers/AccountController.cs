@@ -24,7 +24,7 @@ namespace API.Controllers
         }
 
         [HttpPost("register/athlete")]
-        public async Task<IActionResult> RegisterAthlete(UserRegistrationDTO userRegistrationDTO)
+        public async Task<IActionResult> RegisterAthlete([FromBody] UserRegistrationDTO userRegistrationDTO)
         {
             var result = await _accountManager.RegisterAthlete(userRegistrationDTO);
 
@@ -37,7 +37,7 @@ namespace API.Controllers
         }
 
         [HttpPost("register/coach")]
-        public async Task<IActionResult> RegisterCoach(UserRegistrationDTO userRegistrationDTO)
+        public async Task<IActionResult> RegisterCoach([FromBody] UserRegistrationDTO userRegistrationDTO)
         {
             var result = await _accountManager.RegisterCoach(userRegistrationDTO);
 
@@ -50,7 +50,7 @@ namespace API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserAuthenticationDTO userAuthenticationDTO)
+        public async Task<IActionResult> Login([FromBody] UserAuthenticationDTO userAuthenticationDTO)
         {
             var result = await _accountManager.Login(userAuthenticationDTO);
 
@@ -64,7 +64,7 @@ namespace API.Controllers
 
         [HttpDelete("delete")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Delete(string email)
+        public async Task<IActionResult> Delete([FromBody] string email)
         {
             var result = await _accountManager.Delete(email);
 
