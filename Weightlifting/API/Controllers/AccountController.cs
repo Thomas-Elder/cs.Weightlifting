@@ -1,5 +1,7 @@
 ﻿using API.Data.Managers.Interfaces;
-using API.DTOs.Account;
+
+using DTO.Account;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
