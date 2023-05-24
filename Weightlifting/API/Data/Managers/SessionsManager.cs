@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using API.Data.Models;
-using API.DTOs.Sessions;
 using API.Data.Managers.Interfaces;
-using API.DTOs.Exercises;
-using API.DTOs.Sets;
+
+using DTO.Sessions;
+using DTO.Exercises;
+using DTO.Sets;
 
 namespace API.Data.Managers
 {
@@ -39,10 +40,7 @@ namespace API.Data.Managers
                 return new AddSessionResponseDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Athlete ID", "Athlete id doesn't exist" }
-                    }
+                    Errors = new List<string> { "Athlete id doesn't exist" }
                 };
             }
 
@@ -106,10 +104,7 @@ namespace API.Data.Managers
                 return new SessionDetailsDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Session Id", "Session id does not exist" }
-                    }
+                    Errors = new List<string> { "Session id does not exist" }
                 };
             }
 
@@ -169,10 +164,7 @@ namespace API.Data.Managers
                 return new EditSessionDetailsResponseDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Session Id", "Session id does not exist" }
-                    }
+                    Errors = new List<string> { "Session id does not exist" }
                 };
             }
 
@@ -205,10 +197,7 @@ namespace API.Data.Managers
                 return new DeleteSessionDTO()
                 {
                     Success = false,
-                    Errors = new Dictionary<string, string>()
-                    {
-                        { "Session Id", "Session id does not exist" }
-                    }
+                    Errors = new List<string> { "Session id does not exist" }
                 };
             }
 
