@@ -1,7 +1,6 @@
 ﻿using WEB.Services.Interfaces;
-using WEB.ViewModels.Account;
+
 using DTO.Account;
-using Microsoft.Extensions.Logging;
 
 namespace WEB.Services
 {
@@ -51,10 +50,7 @@ namespace WEB.Services
                 return new UserRegistrationResponseDTO()
                 {
                     Success = false,
-                    Errors = new List<string>()
-                    {
-                        "There was an error registering your account, please try again shortly."
-                    }
+                    Errors = new List<string> { "There was an error registering your account, please try again shortly." }
                 };
             }
         }
@@ -78,10 +74,7 @@ namespace WEB.Services
                 return new UserAuthenticationResponseDTO()
                 {
                     Success = false,
-                    Errors = new List<string>()
-                    {
-                        "There was an error logging you in, please try again shortly."
-                    }
+                    Errors = new List<string> { "There was an error logging you in, please try again shortly." }
                 };
             }            
         }
