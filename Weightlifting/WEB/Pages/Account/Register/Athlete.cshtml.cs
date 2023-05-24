@@ -4,18 +4,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using WEB.Services;
 
-namespace WEB.Pages.Account
+namespace WEB.Pages.Account.Register
 {
-    public class RegisterAthleteModel : PageModel
+    public class AthleteModel : PageModel
     {
         [BindProperty]
         public UserRegistrationDTO Register { get; set; } = default!;
+        public UserRegistrationResponseDTO Result = default!;
 
         private readonly IAccountService _accountService;
 
-        public UserRegistrationResponseDTO Result = default!;
-
-        public RegisterAthleteModel(IAccountService accountService)
+        public AthleteModel(IAccountService accountService)
         {
             _accountService = accountService;
         }
@@ -28,16 +27,13 @@ namespace WEB.Pages.Account
         {
 
             if (!ModelState.IsValid)
-            { 
+            {
                 return Page();
             }
 
-            var result = await _accountService.RegisterAthlete(Register);
+            Result = await _accountService.RegisterAthlete(Register);
 
-            Result = result;
-
-            // Probably go to login once that exists.
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Account/Login");
         }
     }
 }
