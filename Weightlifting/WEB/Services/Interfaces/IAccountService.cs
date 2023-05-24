@@ -1,6 +1,5 @@
 ﻿
 using DTO.Account;
-using WEB.ViewModels.Account;
 
 namespace WEB.Services
 {
