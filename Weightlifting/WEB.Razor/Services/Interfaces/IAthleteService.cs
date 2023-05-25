@@ -4,7 +4,7 @@ namespace WEB.Services.Interfaces
 {
     public interface IAthleteService
     {
-        public Task<string> CheckAthlete();
+        public Task<string> Check();
         public Task<AddCoachResponseDTO> AddCoach();
         public Task<AthleteDetailsDTO> Details();
         public Task<AthleteDetailsDTO> MyDetails();

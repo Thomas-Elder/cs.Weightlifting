@@ -27,6 +27,13 @@ builder.Services.AddHttpClient<IHomeService, HomeService>(client =>
     client.BaseAddress = new Uri("https://localhost:7207/");
 });
 
+builder.Services.AddHttpClient<IAthleteService, AthleteService>(client =>
+{
+    // Should be able to access app.settings here with something like:
+    // config.GetRequiredSection("API_URL").Value
+    client.BaseAddress = new Uri("https://localhost:7207/");
+});
+
 builder.Services.AddBlazoredLocalStorage();
 //builder.Services.AddBlazoredSessionStorage();
 
