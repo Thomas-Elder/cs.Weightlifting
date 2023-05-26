@@ -22,8 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\API\API.csproj" />
-    <ProjectReference Include="..\WEB\WEB.csproj" />
+    <ProjectReference Include="..\WEB.Blazor\WEB.Blazor.csproj" />
   </ItemGroup>
 
 </Project>
