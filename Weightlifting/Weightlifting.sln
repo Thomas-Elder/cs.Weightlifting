@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTO", "DTO\DTO.csproj", "{5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WEB.Razor", "WEB.Razor\WEB.Razor.csproj", "{B3B09AA6-8952-49D7-A833-689E3EE7ED7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEB.Blazor", "WEB.Blazor\WEB.Blazor.csproj", "{690E1C08-EAAB-4C81-ABDC-D9A70611F431}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WEB.Blazor", "WEB.Blazor\WEB.Blazor.csproj", "{690E1C08-EAAB-4C81-ABDC-D9A70611F431}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
