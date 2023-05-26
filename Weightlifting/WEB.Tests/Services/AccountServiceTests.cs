@@ -2,17 +2,19 @@
 
 using NSubstitute;
 
-using System.Net;
-using System.Threading;
-using System;
-using System.Net.Http;
+using Microsoft.Extensions.Logging;
 
-using WEB.Services;
-using WEB.Tests.Utility;
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
 
 using DTO.Account;
-using Microsoft.Extensions.Logging;
-using WEB.Services.Interfaces;
+
+using WEB.Blazor.Services;
+using WEB.Blazor.Services.Interfaces;
+
+using WEB.Tests.Utility;
 
 namespace WEB.Tests.Services
 { 
