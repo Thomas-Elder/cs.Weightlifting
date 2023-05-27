@@ -1,12 +1,12 @@
 ﻿@page "/Account/Register"
-@inject IAccountService AccountService;
+@inject IAccountService _accountService;
 
 <PageTitle>Register</PageTitle>
 
-Please enter your details below.
-
 @if (!succeeded)
 {
+    <p>Please enter your details below.</p>
+
     <EditForm Model="@userRegistrationDTO" OnValidSubmit="@HandleValidSubmit">
         <DataAnnotationsValidator />
         <ValidationSummary />
@@ -52,7 +52,7 @@ else
     {
         registering = true;
 
-        var result = await AccountService.RegisterAthlete(userRegistrationDTO);
+        var result = await _accountService.RegisterAthlete(userRegistrationDTO);
 
         if (result.Success)
         {
