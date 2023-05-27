@@ -1,0 +1,16 @@
+﻿@page "/Account/Check"
+@inject IAccountService AccountService;
+
+<h3>Check</h3>
+
+<strong>@Result</strong>
+
+@code {
+
+    public string? Result { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Result = await AccountService.CheckAccount();
+    }
+}
