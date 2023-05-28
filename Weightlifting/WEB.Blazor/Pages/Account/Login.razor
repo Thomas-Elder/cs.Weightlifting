@@ -1,6 +1,6 @@
 ﻿@page "/Account/Login"
-@inject NavigationManager NavManager
-@inject IAccountService AccountService;
+@inject NavigationManager _navigationManager
+@inject IAccountService _accountService;
 
 <PageTitle>Login</PageTitle>
 
@@ -36,11 +36,11 @@
     {
         registering = true;
 
-        var result = await AccountService.Login(userAuthenticationDTO);
+        var result = await _accountService.Login(userAuthenticationDTO);
 
         if (result.Success)
         {
-            NavManager.NavigateTo("/Account/Check");
+            _navigationManager.NavigateTo("/Account/Check");
         }
 
         registering = false;
