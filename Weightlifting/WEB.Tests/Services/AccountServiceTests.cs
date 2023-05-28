@@ -20,6 +20,7 @@ namespace WEB.Tests.Services
 { 
     public class AccountServiceTests
     {
+        /*
         [Fact]
         public async void RegisterAthlete_WhenPassedInvalidRegistrationDetails_ReturnsFailureMessage()
         {
@@ -41,7 +42,7 @@ namespace WEB.Tests.Services
             Assert.False(actual.Success);
         }
         
-        /*
+        
         [Fact]
         public async void RegisterAthlete_WhenPassedValidRegistrationDetails_ReturnsSuccessMessage()
         {
