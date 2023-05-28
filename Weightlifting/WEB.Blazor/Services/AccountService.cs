@@ -4,6 +4,7 @@ using DTO.Account;
 using System.Net.Http.Json;
 using System.Net;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace WEB.Blazor.Services
 {
@@ -12,16 +13,18 @@ namespace WEB.Blazor.Services
         private readonly ILogger<AccountService> _logger;
         private readonly HttpClient _httpClient;
         private readonly ITokenService _tokenService;
+        private readonly AuthenticationStateService _myAuthenticationStateProvider;
 
         public AccountService(
             ILogger<AccountService> logger,
             HttpClient httpClient,
-            ITokenService tokenService)
+            ITokenService tokenService,
+            AuthenticationStateService myAuthenticationStateProvider)
         {
             _logger = logger;
             _httpClient = httpClient;
             _tokenService = tokenService;
-
+            _myAuthenticationStateProvider = myAuthenticationStateProvider; 
         }
 
         public async Task<string> CheckAccount()
@@ -69,13 +72,14 @@ namespace WEB.Blazor.Services
 
         public async Task<UserAuthenticationResponseDTO> Login(UserAuthenticationDTO login)
         {
-
             try
             {
                 var response = await _httpClient.PostAsJsonAsync("api/account/login", login);
                 var result = await response.Content.ReadFromJsonAsync<UserAuthenticationResponseDTO>() ?? throw new Exception("Invalid response from server.");
-
+                
                 await _tokenService.SetToken(result.Token);
+
+                _myAuthenticationStateProvider.StateChanged();
 
                 return result;
 
@@ -89,6 +93,13 @@ namespace WEB.Blazor.Services
                     Errors = new List<string> { "There was an error logging you in, please try again shortly." }
                 };
             }            
+        }
+
+        public async Task Logout()
+        {
+            await _tokenService.RemoveToken();
+
+            _myAuthenticationStateProvider.StateChanged();
         }
     }
 }
