@@ -1,5 +1,7 @@
 ﻿@page "/Account/Check"
-@inject IAccountService AccountService;
+@inject IAccountService _accountService;
+
+@attribute [Authorize]
 
 <h3>Check</h3>
 
@@ -11,6 +13,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Result = await AccountService.CheckAccount();
+        Result = await _accountService.CheckAccount();
     }
 }
