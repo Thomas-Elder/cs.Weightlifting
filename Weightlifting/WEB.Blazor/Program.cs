@@ -26,7 +26,11 @@ if (string.IsNullOrWhiteSpace(apiBaseAddress))
 builder.Services.AddHttpClient<IAccountService, AccountService>(client =>
 {
     client.BaseAddress = new Uri(apiBaseAddress);
-    //client.BaseAddress = new Uri("https://localhost:7207/");
+});
+
+builder.Services.AddHttpClient<IAthleteService, AthleteService>(client =>
+{
+    client.BaseAddress = new Uri(apiBaseAddress);
 });
 
 builder.Services.AddScoped<ITokenService, TokenService>();
