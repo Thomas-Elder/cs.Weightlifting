@@ -31,6 +31,11 @@
             <InputText class="form-control" id="ConfirmPassword" @bind-Value="userRegistrationDTO.ConfirmPassword" placeholder="Confirm password" />
         </div>
 
+        <InputRadioGroup @bind-Value="@IsCoach">
+            <InputRadio  Value="@true" />Coach<br>
+            <InputRadio Value="@false" />Athlete<br>
+        </InputRadioGroup>
+
         <button class="btn btn-primary" type="submit">Submit</button>
 
     </EditForm>
@@ -38,13 +43,15 @@
 else
 {
     <p>
-        Registration successful! <a href="Login">Click here to login</a>.
+        Registration successful! <a href="/Account/Login">Click here to login</a>.
     </p>
 }
 
 
 @code {
     private UserRegistrationDTO userRegistrationDTO = new();
+    private bool IsCoach = false;
+
     private bool registering;
     private bool succeeded;
 
@@ -52,7 +59,9 @@ else
     {
         registering = true;
 
-        var result = await _accountService.RegisterAthlete(userRegistrationDTO);
+        var result = IsCoach ?
+            await _accountService.RegisterCoach(userRegistrationDTO) :
+            await _accountService.RegisterAthlete(userRegistrationDTO);
 
         if (result.Success)
         {
