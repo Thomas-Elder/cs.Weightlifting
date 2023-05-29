@@ -70,6 +70,29 @@ namespace WEB.Blazor.Services
             }
         }
 
+        public async Task<UserRegistrationResponseDTO> RegisterCoach(UserRegistrationDTO register)
+        {
+
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/account/register/coach", register);
+                var result = await response.Content.ReadFromJsonAsync<UserRegistrationResponseDTO>() ?? throw new Exception("Invalid response from server.");
+
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                return new UserRegistrationResponseDTO()
+                {
+                    Success = false,
+                    Errors = new List<string> { "There was an error registering your account, please try again shortly." }
+                };
+            }
+        }
+
         public async Task<UserAuthenticationResponseDTO> Login(UserAuthenticationDTO login)
         {
             try
