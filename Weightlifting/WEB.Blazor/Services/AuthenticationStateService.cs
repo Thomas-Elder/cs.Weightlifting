@@ -19,6 +19,10 @@ namespace WEB.Blazor.Services
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
 
+        /// <summary>
+        /// Gets a new AuthenticationState based on the existence of a token
+        /// </summary>
+        /// <returns></returns>
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var token = await _tokenService.GetToken();
@@ -29,6 +33,11 @@ namespace WEB.Blazor.Services
             return new AuthenticationState(new ClaimsPrincipal(identity));
         }
 
+        /// <summary>
+        /// Parses the JWT string into an enumerable of claims.
+        /// </summary>
+        /// <param name="jwt"></param>
+        /// <returns></returns>
         private IEnumerable<Claim>? ParseClaimsFromJwt(string jwt)
         {
             var payload = jwt.Split('.')[1];
