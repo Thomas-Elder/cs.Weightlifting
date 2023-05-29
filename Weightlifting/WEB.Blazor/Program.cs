@@ -18,16 +18,15 @@ builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.Get
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-//string apiBaseAddress = builder.Configuration["APIBaseAddress"];
+string apiBaseAddress = builder.Configuration["WeightliftingAPIAddress"];
 
-//if (string.IsNullOrWhiteSpace(apiBaseAddress))
-//    throw new InvalidOperationException("APIBaseAddress missing from appsettings file.");
+if (string.IsNullOrWhiteSpace(apiBaseAddress))
+    throw new InvalidOperationException("WeightliftingAPIAddress missing from appsettings file.");
 
 builder.Services.AddHttpClient<IAccountService, AccountService>(client =>
 {
-    // Should be able to access app.settings here with something like:
-    // config.GetRequiredSection("API_URL").Value
-    client.BaseAddress = new Uri("https://localhost:7207/");
+    client.BaseAddress = new Uri(apiBaseAddress);
+    //client.BaseAddress = new Uri("https://localhost:7207/");
 });
 
 builder.Services.AddScoped<ITokenService, TokenService>();
