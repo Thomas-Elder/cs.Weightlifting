@@ -27,9 +27,17 @@
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="Account/Check">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Check
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Check Account
             </NavLink>
         </div>
+
+        <AuthorizeView Roles="Athlete">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Athlete/Check">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Check Athlete
+                </NavLink>
+            </div>
+        </AuthorizeView>
 
         <AuthorizeView>
              <NotAuthorized>
