@@ -27,14 +27,18 @@
         </div>
 
         <div class="form-group">
-            <label for="ConfirmPassword">ConfirmPassword</label>
+            <label for="ConfirmPassword">Confirm password</label>
             <InputText class="form-control" id="ConfirmPassword" @bind-Value="userRegistrationDTO.ConfirmPassword" placeholder="Confirm password" />
         </div>
 
-        <InputRadioGroup @bind-Value="@IsCoach">
-            <InputRadio  Value="@true" />Coach<br>
-            <InputRadio Value="@false" />Athlete<br>
-        </InputRadioGroup>
+        <div>
+            <label for="AccountType">Account Type</label>
+            <br />
+            <InputRadioGroup class="form-control" id="AccountType" @bind-Value="@IsCoach">
+                <InputRadio Value="@true" />Coach<br>
+                <InputRadio Value="@false" />Athlete<br>
+            </InputRadioGroup>
+        </div>
 
         <button class="btn btn-primary" type="submit">Submit</button>
 
