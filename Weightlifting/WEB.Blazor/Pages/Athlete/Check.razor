@@ -1,0 +1,18 @@
+﻿@page "/Athlete/Check"
+@inject IAthleteService _athleteService;
+
+@attribute [Authorize(Roles = "Athlete")]
+
+<h3>Check</h3>
+
+<strong>@Result</strong>
+
+@code {
+
+    public string? Result { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Result = await _athleteService.Check();
+    }
+}

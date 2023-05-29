@@ -34,7 +34,7 @@ namespace WEB.Blazor.Services
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var result = await _httpClient.GetFromJsonAsync<HttpResponseMessage>("api/athlete/check");
+            var result = await _httpClient.GetAsync("api/athletes/check");
 
             if (result is null)
             {
