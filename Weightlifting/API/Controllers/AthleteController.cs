@@ -9,11 +9,11 @@ using DTO.Athletes;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
-    public class AthletesController : Controller
+    public class AthleteController : Controller
     {
         private readonly IAthletesManager _athletesManager;
 
-        public AthletesController(IAthletesManager athletesManager)
+        public AthleteController(IAthletesManager athletesManager)
         {
             _athletesManager = athletesManager;
         }
