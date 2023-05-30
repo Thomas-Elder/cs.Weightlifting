@@ -33,6 +33,12 @@ builder.Services.AddHttpClient<IAthleteService, AthleteService>(client =>
     client.BaseAddress = new Uri(apiBaseAddress);
 });
 
+builder.Services.AddHttpClient<ICoachService, CoachService>(client =>
+{
+    client.BaseAddress = new Uri(apiBaseAddress);
+});
+
+
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddBlazoredLocalStorage();

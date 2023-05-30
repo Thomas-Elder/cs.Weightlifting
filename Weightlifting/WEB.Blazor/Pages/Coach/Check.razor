@@ -1,0 +1,18 @@
+﻿@page "/Coach/Check"
+@inject ICoachService _coachService;
+
+@attribute [Authorize(Roles = "Coach")]
+
+<h3>Check</h3>
+
+<strong>@Result</strong>
+
+@code {
+
+    public string? Result { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Result = await _coachService.Check();
+    }
+}

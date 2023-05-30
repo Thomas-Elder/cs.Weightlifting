@@ -31,12 +31,6 @@
             </NavLink>
         </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Athlete/Check">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Check Athlete
-            </NavLink>
-        </div>
-
         <AuthorizeView>
              <NotAuthorized>
                 <div class="nav-item px-3">
@@ -52,6 +46,18 @@
                 </div>
             </NotAuthorized>
             <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Athlete/Check">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Check Athlete
+                    </NavLink>
+                </div>
+
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Coach/Check">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Check Coach
+                    </NavLink>
+                </div>
+
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="Account/Logout">
                         <span class="oi oi-list-rich" aria-hidden="true"></span> Logout

@@ -1,18 +1,17 @@
 ﻿using DTO.Athletes;
-using System.Net;
+using DTO.Coaches;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using WEB.Blazor.Services.Interfaces;
 
 namespace WEB.Blazor.Services
 {
-    public class AthleteService : IAthleteService
+    public class CoachService : ICoachService
     {
         private readonly ILogger<AccountService> _logger;
         private readonly HttpClient _httpClient;
         private readonly ITokenService _tokenService;
 
-        public AthleteService(
+        public CoachService(
             ILogger<AccountService> logger,
             HttpClient httpClient,
             ITokenService tokenService)
@@ -23,47 +22,43 @@ namespace WEB.Blazor.Services
 
         }
 
-        public Task<AddCoachResponseDTO> AddCoach()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<string> Check()
         {
             var token = await _tokenService.GetToken();
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var result = await _httpClient.GetAsync("api/athlete/check");
+            var result = await _httpClient.GetAsync("api/coach/check");
 
             if (result is null)
             {
-                return "Failed to access as an athlete. The result of the call to the server was null.";
+                return "Failed to access as an coach. The result of the call to the server was null.";
             }
 
             if (!result.IsSuccessStatusCode)
             {
-                return $"Failed to successfully access as an athlete. The result has the status {result.StatusCode}";
+                return $"Failed to successfully access as an coach. The result has the status {result.StatusCode}";
             }
 
             return await result.Content.ReadAsStringAsync();
         }
 
-        public Task<AthleteDetailsDTO> Details()
-        {
-            // Get token
-            // Attach to request
-            // Send request
-
-            throw new NotImplementedException();
-        }
-
-        public Task<AthleteDetailsDTO> EditDetails()
+        public async Task<AddAthleteToCoachResponseDTO> AddAthlete()
         {
             throw new NotImplementedException();
         }
 
-        public Task<AthleteDetailsDTO> MyDetails()
+        public async Task<CoachDetailsDTO> Details()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<CoachDetailsDTO> EditDetails()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<CoachDetailsDTO> MyDetails()
         {
             throw new NotImplementedException();
         }
