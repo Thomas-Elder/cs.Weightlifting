@@ -114,9 +114,9 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("details/edit")]
+        [HttpPost("details/edit")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> EditDetails(EditDetailsDTO editDetailsDTO, int athleteId = 0)
+        public async Task<IActionResult> EditDetails([FromBody] EditDetailsDTO editDetailsDTO, int athleteId = 0)
         {
             var userId = User?.Identity?.Name;
 
