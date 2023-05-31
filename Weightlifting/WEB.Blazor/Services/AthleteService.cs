@@ -1,4 +1,5 @@
-﻿using DTO.Athletes;
+﻿using DTO.Account;
+using DTO.Athletes;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -20,7 +21,6 @@ namespace WEB.Blazor.Services
             _logger = logger;
             _httpClient = httpClient;
             _tokenService = tokenService;
-
         }
 
         public Task<AddCoachResponseDTO> AddCoach()
@@ -54,9 +54,32 @@ namespace WEB.Blazor.Services
             throw new NotImplementedException();
         }
 
-        public Task<AthleteDetailsDTO> EditDetails()
+        public async Task<AthleteDetailsDTO> EditDetails(EditDetailsDTO editDetailsDTO)
         {
-            throw new NotImplementedException();
+            var token = await _tokenService.GetToken();
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _httpClient.PostAsJsonAsync<EditDetailsDTO>("Athlete/Details/Edit", editDetailsDTO);
+            var result = await response.Content.ReadFromJsonAsync<AthleteDetailsDTO>();
+
+            if (result is null)
+            {
+                return new AthleteDetailsDTO()
+                {
+                    Errors = new List<string>() { "Failed to access the api. The result of the call to the server was null." }
+                };
+            }
+
+            if (!result.Success)
+            {
+                return new AthleteDetailsDTO()
+                {
+                    Errors = result.Errors
+                };
+            }
+
+            return result;
         }
 
         public async Task<AthleteDetailsDTO> MyDetails()

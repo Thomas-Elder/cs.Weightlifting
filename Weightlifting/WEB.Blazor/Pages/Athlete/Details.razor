@@ -6,21 +6,73 @@
 
 <h3>My details</h3>
 
-@if (Result is null)
+@if (Editing)
 {
-    <p><em>Loading...</em></p>
+    <EditForm Model="@editDetailsDTO" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="FirstName">First name</label>
+            <InputText class="form-control" id="FirstName" @bind-Value="editDetailsDTO.FirstName" placeholder="First name" />
+        </div>
+
+        <div class="form-group">
+            <label for="LastName">Last name</label>
+            <InputText class="form-control" id="Email" @bind-Value="editDetailsDTO.LastName" placeholder="Last name" />
+        </div>
+
+        <button class="btn btn-primary" type="submit">Submit</button>
+
+    </EditForm>
+
 } else {
-    <div>@Result.FirstName</div>
-    <button>
-        Edit details
-    </button>
+
+    @if (Athlete is null)
+    {
+        <p><em>Loading...</em></p>
+    } else {
+        <p>Hey @Athlete.FirstName! Here are your details.</p>
+
+        <p>First name: @Athlete.FirstName</p>
+        <p>Last name: @Athlete.LastName</p>
+        
+        @if(Athlete.Sessions.Count() > 0)
+        {
+            @foreach (SessionDetailsDTO session in Athlete.Sessions)
+            {
+                <p>@session.Date</p>
+            }
+        }
+
+        <button @onclick="EditingButton">
+            Edit details
+        </button>
+    }
 }
 
 @code {
-    public AthleteDetailsDTO? Result { get; set; }
+    private AthleteDetailsDTO? Athlete { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Result = await _athleteService.MyDetails();
+        Athlete = await _athleteService.MyDetails();
+    }
+
+    private bool Editing = false;
+    private void EditingButton()
+    {
+        Editing = true;
+    }
+
+    private EditDetailsDTO editDetailsDTO = new();
+    private async Task HandleValidSubmit()
+    {
+        Athlete = await _athleteService.EditDetails(editDetailsDTO);
+
+        if (Athlete.Success)
+        {
+            Editing = false;
+        }
     }
 }
