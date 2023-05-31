@@ -8,7 +8,6 @@ namespace WEB.Blazor.Services.Interfaces
         public Task<AddCoachResponseDTO> AddCoach();
         public Task<AthleteDetailsDTO> Details();
         public Task<AthleteDetailsDTO> MyDetails();
-        public Task<AthleteDetailsDTO> EditDetails();
-
+        public Task<AthleteDetailsDTO> EditDetails(EditDetailsDTO editDetailsDTO);
     }
 }
