@@ -34,7 +34,7 @@ namespace WEB.Blazor.Services
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var result = await _httpClient.GetAsync("api/athlete/check");
+            var result = await _httpClient.GetAsync("athlete/check");
 
             if (result is null)
             {
@@ -49,12 +49,8 @@ namespace WEB.Blazor.Services
             return await result.Content.ReadAsStringAsync();
         }
 
-        public Task<AthleteDetailsDTO> Details()
+        public async Task<AthleteDetailsDTO> Details()
         {
-            // Get token
-            // Attach to request
-            // Send request
-
             throw new NotImplementedException();
         }
 
@@ -63,9 +59,31 @@ namespace WEB.Blazor.Services
             throw new NotImplementedException();
         }
 
-        public Task<AthleteDetailsDTO> MyDetails()
+        public async Task<AthleteDetailsDTO> MyDetails()
         {
-            throw new NotImplementedException();
+            var token = await _tokenService.GetToken();
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var result = await _httpClient.GetFromJsonAsync<AthleteDetailsDTO>("Athlete/MyDetails");
+
+            if (result is null)
+            {
+                return new AthleteDetailsDTO()
+                {
+                    Errors = new List<string>() { "Failed to access the api. The result of the call to the server was null." }
+                };
+            }
+
+            if (!result.Success)
+            {
+                return new AthleteDetailsDTO()
+                {
+                    Errors = result.Errors
+                };
+            }
+
+            return result;
         }
     }
 }
