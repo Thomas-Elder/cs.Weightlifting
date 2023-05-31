@@ -1,0 +1,26 @@
+﻿@page "/Athlete/Details"
+@using DTO.Athletes;
+@inject IAthleteService _athleteService;
+
+@attribute [Authorize(Roles = "Athlete")]
+
+<h3>My details</h3>
+
+@if (Result is null)
+{
+    <p><em>Loading...</em></p>
+} else {
+    <div>@Result.FirstName</div>
+    <button>
+        Edit details
+    </button>
+}
+
+@code {
+    public AthleteDetailsDTO? Result { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Result = await _athleteService.MyDetails();
+    }
+}
