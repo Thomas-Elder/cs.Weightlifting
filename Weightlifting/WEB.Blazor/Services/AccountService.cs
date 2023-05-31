@@ -33,7 +33,7 @@ namespace WEB.Blazor.Services
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var result = await _httpClient.GetAsync("api/account/check");
+            var result = await _httpClient.GetAsync("account/check");
 
             if (result is null)
             {
@@ -53,7 +53,7 @@ namespace WEB.Blazor.Services
 
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("api/account/register/athlete", register);
+                var response = await _httpClient.PostAsJsonAsync("account/register/athlete", register);
                 var result = await response.Content.ReadFromJsonAsync<UserRegistrationResponseDTO>() ?? throw new Exception("Invalid response from server.");
 
                 return result;
@@ -75,7 +75,7 @@ namespace WEB.Blazor.Services
 
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("api/account/register/coach", register);
+                var response = await _httpClient.PostAsJsonAsync("account/register/coach", register);
                 var result = await response.Content.ReadFromJsonAsync<UserRegistrationResponseDTO>() ?? throw new Exception("Invalid response from server.");
 
                 return result;
@@ -97,7 +97,7 @@ namespace WEB.Blazor.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("api/account/login", login);
+                var response = await _httpClient.PostAsJsonAsync("account/login", login);
                 var result = await response.Content.ReadFromJsonAsync<UserAuthenticationResponseDTO>() ?? throw new Exception("Invalid response from server.");
                 
                 await _tokenService.SetToken(result.Token);

@@ -28,7 +28,7 @@ namespace WEB.Blazor.Services
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var result = await _httpClient.GetAsync("api/coach/check");
+            var result = await _httpClient.GetAsync("coach/check");
 
             if (result is null)
             {
