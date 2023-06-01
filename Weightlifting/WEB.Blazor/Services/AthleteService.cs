@@ -1,8 +1,10 @@
 ﻿using DTO.Account;
 using DTO.Athletes;
+
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Reflection;
 using WEB.Blazor.Services.Interfaces;
 
 namespace WEB.Blazor.Services
@@ -21,11 +23,6 @@ namespace WEB.Blazor.Services
             _logger = logger;
             _httpClient = httpClient;
             _tokenService = tokenService;
-        }
-
-        public Task<AddCoachResponseDTO> AddCoach()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<string> Check()
@@ -47,6 +44,46 @@ namespace WEB.Blazor.Services
             }
 
             return await result.Content.ReadAsStringAsync();
+        }
+
+        public async Task<AddCoachResponseDTO> AddCoach(int coachId)
+        {
+            var token = await _tokenService.GetToken();
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _httpClient.GetAsync("Athlete/Coach/Add/" + coachId);
+            var result = await response.Content.ReadFromJsonAsync<AddCoachResponseDTO>();
+
+            if (result is null)
+            {
+                return new AddCoachResponseDTO()
+                {
+                    Errors = new List<string>() { "Failed to access the api. The result of the call to the server was null." }
+                };
+            }
+
+            return result;
+        }
+
+        public async Task<GetCoachesDTO> GetCoaches()
+        {
+            var token = await _tokenService.GetToken();
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _httpClient.GetAsync("Athlete/Coach/Get");
+            var result = await response.Content.ReadFromJsonAsync<GetCoachesDTO>();
+
+            if (result is null)
+            {
+                return new GetCoachesDTO()
+                {
+                    Errors = new List<string>() { "Failed to access the api. The result of the call to the server was null." }
+                };
+            }
+
+            return result;
         }
 
         public async Task<AthleteDetailsDTO> Details()
@@ -71,14 +108,6 @@ namespace WEB.Blazor.Services
                 };
             }
 
-            if (!result.Success)
-            {
-                return new AthleteDetailsDTO()
-                {
-                    Errors = result.Errors
-                };
-            }
-
             return result;
         }
 
@@ -95,14 +124,6 @@ namespace WEB.Blazor.Services
                 return new AthleteDetailsDTO()
                 {
                     Errors = new List<string>() { "Failed to access the api. The result of the call to the server was null." }
-                };
-            }
-
-            if (!result.Success)
-            {
-                return new AthleteDetailsDTO()
-                {
-                    Errors = result.Errors
                 };
             }
 
