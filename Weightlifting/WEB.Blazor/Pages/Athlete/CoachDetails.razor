@@ -1,0 +1,42 @@
+﻿@using DTO.Athletes;
+@inject IAthleteService _athleteService;
+@inject ICoachService _coachService;
+
+<h3>Coach</h3>
+
+@if(HasCoach)
+{
+    // show coach details
+    <p>Hey @Athlete.FirstName! Here are your Coach's details.</p>
+
+    <div class="form-group">
+        <p>First name: @Coach.FirstName</p>
+        <p>Last name: @Coach.LastName</p>
+    </div>
+} else
+{
+
+    // list available coaches to select from
+}
+
+@code {
+    protected CoachDetailsDTO Coach = new();
+    protected AthleteDetailsDTO Athlete = new();
+    protected CoachDetailsDTO AvailableCoaches = new();
+
+    protected bool HasCoach = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await _athleteService.MyDetails();
+
+        if (Athlete.Coach is not null)
+        {
+            HasCoach = true;
+            Coach = Athlete.Coach;
+        } else
+        {
+            // Get all coaches! 
+        }
+    }
+}

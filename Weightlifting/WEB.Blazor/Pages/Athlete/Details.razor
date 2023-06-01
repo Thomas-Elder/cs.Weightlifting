@@ -50,21 +50,21 @@
 }
 
 @code {
-    private AthleteDetailsDTO? Athlete { get; set; }
+    protected AthleteDetailsDTO? Athlete { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         Athlete = await _athleteService.MyDetails();
     }
 
-    private bool Editing = false;
-    private void EditingButton()
+    protected bool Editing = false;
+    protected void EditingButton()
     {
         Editing = true;
     }
 
-    private EditDetailsDTO editDetailsDTO = new();
-    private async Task HandleValidSubmit()
+    protected EditDetailsDTO editDetailsDTO = new();
+    protected async Task HandleValidSubmit()
     {
         Athlete = await _athleteService.EditDetails(editDetailsDTO);
 
