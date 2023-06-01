@@ -25,7 +25,7 @@ namespace API.Controllers
             return Ok("You're an athlete!");
         }
 
-        [HttpPost("coach/add")]
+        [HttpGet("coach/add/{coachId:int}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
         public async Task<IActionResult> AddCoach(int coachId)
         {
