@@ -99,6 +99,35 @@ namespace API.Data.Managers
         }
 
         /// <summary>
+        /// Returns a list of available Coaches.
+        /// </summary>
+        /// <returns>
+        /// An IEnumerable of CoachDetailsDTOs
+        /// </returns>
+        public async Task<GetCoachesDTO> GetCoaches()
+        {
+            var coaches = await _weightliftingContext.Coaches.ToListAsync();
+
+            var coachList = new List<CoachDetailsDTO>();
+
+            foreach (var coach in coaches)
+            {
+                coachList.Add(new CoachDetailsDTO()
+                {
+                    CoachId = coach.Id,
+                    FirstName = coach.FirstName,
+                    LastName = coach.LastName
+                });
+            }
+
+            return new GetCoachesDTO()
+            {
+                Coaches = coachList,
+                Success = true
+            };
+        }
+
+        /// <summary>
         /// Returns the details of the Athlete.
         /// </summary>
         /// Returns an AthleteDetailsDTO.

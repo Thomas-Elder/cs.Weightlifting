@@ -35,6 +35,14 @@ namespace API.Data.Managers.Interfaces
         public Task<AddCoachResponseDTO> AddCoach(int athleteId, int coachId);
 
         /// <summary>
+        /// Returns a list of available Coaches.
+        /// </summary>
+        /// <returns>
+        /// An IEnumerable of CoachDetailsDTOs
+        /// </returns>
+        public Task<GetCoachesDTO> GetCoaches();
+
+        /// <summary>
         /// Returns the details of the Athlete.
         /// </summary>
         /// Returns an AthleteDetailsDTO.
