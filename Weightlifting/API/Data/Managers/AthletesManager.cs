@@ -163,6 +163,7 @@ namespace API.Data.Managers
           var athleteDetailsDTO = new AthleteDetailsDTO();
 
           athleteDetailsDTO.Success = true;
+          athleteDetailsDTO.Id = athlete.Id;
           athleteDetailsDTO.FirstName = athlete.FirstName;
           athleteDetailsDTO.LastName = athlete.LastName;
 
@@ -228,6 +229,7 @@ namespace API.Data.Managers
             var athleteDetailsDTO = new AthleteDetailsDTO();
 
             athleteDetailsDTO.Success = true;
+            athleteDetailsDTO.Id = athlete.Id;
             athleteDetailsDTO.FirstName = athlete.FirstName;
             athleteDetailsDTO.LastName = athlete.LastName;
 
