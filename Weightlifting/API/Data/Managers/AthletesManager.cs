@@ -94,7 +94,13 @@ namespace API.Data.Managers
 
             return new AddCoachResponseDTO()
             {
-                Success = true
+                Success = true,
+                CoachDetails = new CoachDetailsDTO()
+                {
+                    CoachId = coach.Id,
+                    FirstName = coach.FirstName,
+                    LastName = coach.LastName
+                }
             };
         }
 
