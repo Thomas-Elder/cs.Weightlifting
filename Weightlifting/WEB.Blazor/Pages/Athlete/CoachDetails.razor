@@ -15,17 +15,28 @@
     </div>
 } else
 {
+    <p>Hey @Athlete.FirstName, it's easier to train with a coach, select one from this list!</p>
 
-    // list available coaches to select from
+        <select class="form-control" @bind="CoachId">
+
+            @foreach(var coach in AvailableCoaches)
+            {
+                <option value="@coach.CoachId">@coach.FirstName</option>
+            }
+
+        </select>
+
+        <button class="btn btn-primary" type="submit" @onclick="AddCoachSubmit">Add coach</button>
 }
 
 @code {
-    protected CoachDetailsDTO Coach = new();
-    protected AthleteDetailsDTO Athlete = new();
-    protected CoachDetailsDTO AvailableCoaches = new();
 
     protected bool HasCoach = false;
 
+    protected CoachDetailsDTO Coach = new();
+    protected AthleteDetailsDTO Athlete = new();
+    protected IEnumerable<CoachDetailsDTO> AvailableCoaches = new List<CoachDetailsDTO>();
+    
     protected override async Task OnInitializedAsync()
     {
         await _athleteService.MyDetails();
@@ -36,7 +47,19 @@
             Coach = Athlete.Coach;
         } else
         {
-            // Get all coaches! 
+            var result = await _athleteService.GetCoaches();
+
+            AvailableCoaches = result.Coaches;
         }
+    }
+
+    protected int CoachId;
+    protected async Task AddCoachSubmit()
+    {
+        var result = await _athleteService.AddCoach(CoachId);
+
+        Athlete.Coach = result.CoachDetails;
+
+        HasCoach = true;
     }
 }
