@@ -86,7 +86,7 @@ namespace WEB.Blazor.Services
             return result;
         }
 
-        public async Task<AthleteDetailsDTO> Details()
+        public Task<AthleteDetailsDTO> Details()
         {
             throw new NotImplementedException();
         }
@@ -97,7 +97,7 @@ namespace WEB.Blazor.Services
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await _httpClient.PostAsJsonAsync<EditDetailsDTO>("Athlete/Details/Edit", editDetailsDTO);
+            var response = await _httpClient.PostAsJsonAsync("Athlete/Details/Edit", editDetailsDTO);
             var result = await response.Content.ReadFromJsonAsync<AthleteDetailsDTO>();
 
             if (result is null)
