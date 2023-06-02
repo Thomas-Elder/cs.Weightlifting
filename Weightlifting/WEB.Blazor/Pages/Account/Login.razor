@@ -4,45 +4,37 @@
 
 <PageTitle>Login</PageTitle>
 
-@if (!succeeded)
-{
-    <p>Please enter your details below.</p>
 
-    <EditForm Model="@userAuthenticationDTO" OnValidSubmit="@HandleValidSubmit">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
+<p>Please enter your details below.</p>
 
-        <div class="form-group">
-            <label for="Email">Email</label>
-            <InputText class="form-control" id="Email" @bind-Value="userAuthenticationDTO.Email" placeholder="Email" />
-        </div>
+<EditForm Model="@userAuthenticationDTO" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-        <div class="form-group">
-            <label for="Password">Password</label>
-            <InputText class="form-control" id="Password" @bind-Value="userAuthenticationDTO.Password" placeholder="Password" />
-        </div>
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <InputText class="form-control" id="Email" @bind-Value="userAuthenticationDTO.Email" placeholder="Email" />
+    </div>
 
-        <button class="btn btn-primary" type="submit">Submit</button>
+    <div class="form-group">
+        <label for="Password">Password</label>
+        <InputText class="form-control" id="Password" @bind-Value="userAuthenticationDTO.Password" placeholder="Password" />
+    </div>
 
-    </EditForm>
-}
+    <button class="btn btn-primary" type="submit">Submit</button>
+
+</EditForm>
 
 @code {
     private UserAuthenticationDTO userAuthenticationDTO = new();
-    private bool registering;
-    private bool succeeded;
 
     private async Task HandleValidSubmit()
     {
-        registering = true;
-
         var result = await _accountService.Login(userAuthenticationDTO);
 
         if (result.Success)
         {
             _navigationManager.NavigateTo("/Account/Check");
         }
-
-        registering = false;
     }
 }
