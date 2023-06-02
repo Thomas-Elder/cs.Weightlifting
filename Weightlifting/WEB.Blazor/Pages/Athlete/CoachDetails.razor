@@ -1,0 +1,74 @@
+﻿@using DTO.Athletes;
+@inject IAthleteService _athleteService;
+@inject ICoachService _coachService;
+
+<h3>Coach</h3>
+
+@if(HasCoach)
+{
+    <div class="mb-3">
+        <p>Hey @Athlete.FirstName! Here are your Coach's details.</p>
+
+        <div class="form-group">
+            <label>First name : </label>
+            <div>@Athlete.Coach.FirstName</div>
+            <label>Last name: </label>
+            <div>@Athlete.Coach.LastName</div>
+        </div>
+
+        <button class="btn btn-primary" type="submit" @onclick="() => { HasCoach = false; }">Change coach</button>
+    </div>
+} else
+{
+    <div class="mb-3">
+        <p>Hey @Athlete.FirstName, it's easier to train with a coach, select one from this list!</p>
+
+    
+            <select class="form-control" @bind="CoachId">
+                <option value="0" selected>Select a coach</option>
+                @foreach(var coach in AvailableCoaches)
+                {
+                    <option value="@coach.CoachId">@coach.FirstName</option>
+                }
+
+            </select>
+    
+        <button class="btn btn-primary" type="submit" @onclick="AddCoachSubmit">Add coach</button>
+
+        <div>
+            <p>You've selected CoachID: @CoachId</p>
+        </div>
+    </div>
+}
+
+@code {
+
+    protected bool HasCoach = false;
+
+    protected AthleteDetailsDTO Athlete = new();
+    protected IEnumerable<CoachDetailsDTO> AvailableCoaches = new List<CoachDetailsDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Athlete = await _athleteService.MyDetails();
+
+        var result = await _athleteService.GetCoaches();
+
+        AvailableCoaches = result.Coaches;
+
+        if (Athlete.Coach is not null)
+        {
+            HasCoach = true;
+        }
+    }
+
+    protected int CoachId;
+    protected async Task AddCoachSubmit()
+    {
+        var result = await _athleteService.AddCoach(CoachId);
+
+        Athlete.Coach = result.CoachDetails;
+
+        HasCoach = true;
+    }
+}

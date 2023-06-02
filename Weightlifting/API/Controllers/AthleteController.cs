@@ -25,7 +25,7 @@ namespace API.Controllers
             return Ok("You're an athlete!");
         }
 
-        [HttpPost("coach/add")]
+        [HttpGet("coach/add/{coachId:int}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
         public async Task<IActionResult> AddCoach(int coachId)
         {
@@ -60,6 +60,20 @@ namespace API.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("coach/get")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
+        public async Task<IActionResult> GetCoaches()
+        {
+            var result = await _athletesManager.GetCoaches();
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        } 
 
         [HttpGet("details")]
         [Authorize(AuthenticationSchemes = "Bearer")]

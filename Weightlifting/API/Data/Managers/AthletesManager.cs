@@ -94,6 +94,41 @@ namespace API.Data.Managers
 
             return new AddCoachResponseDTO()
             {
+                Success = true,
+                CoachDetails = new CoachDetailsDTO()
+                {
+                    CoachId = coach.Id,
+                    FirstName = coach.FirstName,
+                    LastName = coach.LastName
+                }
+            };
+        }
+
+        /// <summary>
+        /// Returns a list of available Coaches.
+        /// </summary>
+        /// <returns>
+        /// An IEnumerable of CoachDetailsDTOs
+        /// </returns>
+        public async Task<GetCoachesDTO> GetCoaches()
+        {
+            var coaches = await _weightliftingContext.Coaches.ToListAsync();
+
+            var coachList = new List<CoachDetailsDTO>();
+
+            foreach (var coach in coaches)
+            {
+                coachList.Add(new CoachDetailsDTO()
+                {
+                    CoachId = coach.Id,
+                    FirstName = coach.FirstName,
+                    LastName = coach.LastName
+                });
+            }
+
+            return new GetCoachesDTO()
+            {
+                Coaches = coachList,
                 Success = true
             };
         }
@@ -128,6 +163,7 @@ namespace API.Data.Managers
           var athleteDetailsDTO = new AthleteDetailsDTO();
 
           athleteDetailsDTO.Success = true;
+          athleteDetailsDTO.Id = athlete.Id;
           athleteDetailsDTO.FirstName = athlete.FirstName;
           athleteDetailsDTO.LastName = athlete.LastName;
 
@@ -193,6 +229,7 @@ namespace API.Data.Managers
             var athleteDetailsDTO = new AthleteDetailsDTO();
 
             athleteDetailsDTO.Success = true;
+            athleteDetailsDTO.Id = athlete.Id;
             athleteDetailsDTO.FirstName = athlete.FirstName;
             athleteDetailsDTO.LastName = athlete.LastName;
 

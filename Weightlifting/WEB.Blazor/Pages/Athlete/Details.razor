@@ -1,10 +1,8 @@
-﻿@page "/Athlete/Details"
+﻿
 @using DTO.Athletes;
 @inject IAthleteService _athleteService;
 
-@attribute [Authorize(Roles = "Athlete")]
-
-<h3>My details</h3>
+<h3>My Details</h3>
 
 @if (Editing)
 {
@@ -34,9 +32,11 @@
     } else {
         <p>Hey @Athlete.FirstName! Here are your details.</p>
 
-        <p>First name: @Athlete.FirstName</p>
-        <p>Last name: @Athlete.LastName</p>
-        
+        <div class="form-group">
+            <p>First name: @Athlete.FirstName</p>
+            <p>Last name: @Athlete.LastName</p>
+        </div>
+
         @if(Athlete.Sessions.Count() > 0)
         {
             @foreach (SessionDetailsDTO session in Athlete.Sessions)
@@ -45,28 +45,26 @@
             }
         }
 
-        <button @onclick="EditingButton">
-            Edit details
-        </button>
+        <button class="btn btn-primary" @onclick="EditingButton">Edit details</button>
     }
 }
 
 @code {
-    private AthleteDetailsDTO? Athlete { get; set; }
+    protected AthleteDetailsDTO? Athlete { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         Athlete = await _athleteService.MyDetails();
     }
 
-    private bool Editing = false;
-    private void EditingButton()
+    protected bool Editing = false;
+    protected void EditingButton()
     {
         Editing = true;
     }
 
-    private EditDetailsDTO editDetailsDTO = new();
-    private async Task HandleValidSubmit()
+    protected EditDetailsDTO editDetailsDTO = new();
+    protected async Task HandleValidSubmit()
     {
         Athlete = await _athleteService.EditDetails(editDetailsDTO);
 
