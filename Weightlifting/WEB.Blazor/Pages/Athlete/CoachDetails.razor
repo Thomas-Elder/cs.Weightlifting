@@ -54,7 +54,10 @@
 
         var result = await _athleteService.GetCoaches();
 
-        AvailableCoaches = result.Coaches;
+        if (result is not null)
+        {
+            AvailableCoaches = result!.Coaches!;
+        }
 
         if (Athlete.Coach is not null)
         {
