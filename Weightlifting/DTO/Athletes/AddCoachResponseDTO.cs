@@ -2,6 +2,6 @@
 {
     public class AddCoachResponseDTO : ResponseDTO
     {
-        public CoachDetailsDTO CoachDetails;
+        public CoachDetailsDTO? CoachDetails { get; set; }
     }
 }
