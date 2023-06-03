@@ -10,10 +10,8 @@
         <p>Hey @Athlete.FirstName! Here are your Coach's details.</p>
 
         <div class="form-group">
-            <label>First name : </label>
-            <div>@Athlete.Coach.FirstName</div>
-            <label>Last name: </label>
-            <div>@Athlete.Coach.LastName</div>
+            <div>First name : @Athlete!.Coach!.FirstName</div>
+            <div>Last name: @Athlete!.Coach!.LastName</div>
         </div>
 
         <button class="btn btn-primary" type="submit" @onclick="() => { HasCoach = false; }">Change coach</button>
@@ -54,7 +52,10 @@
 
         var result = await _athleteService.GetCoaches();
 
-        AvailableCoaches = result.Coaches;
+        if (result is not null)
+        {
+            AvailableCoaches = result!.Coaches!;
+        }
 
         if (Athlete.Coach is not null)
         {

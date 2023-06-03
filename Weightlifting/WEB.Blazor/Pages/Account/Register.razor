@@ -11,30 +11,30 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
 
-        <div class="form-group">
-            <label for="FirstName">First name</label>
+        <div class="mb-3">
+            <label for="FirstName" class="form-label">First name</label>
             <InputText class="form-control" id="FirstName" @bind-Value="userRegistrationDTO.FirstName" placeholder="First name" />
         </div>
 
-        <div class="form-group">
-            <label for="Email">Email</label>
+        <div class="mb-3">
+            <label for="Email" class="form-label">Email</label>
             <InputText class="form-control" id="Email" @bind-Value="userRegistrationDTO.Email" placeholder="Email" />
         </div>
 
-        <div class="form-group">
-            <label for="Password">Password</label>
+        <div class="mb-3">
+            <label for="Password" class="form-label">Password</label>
             <InputText class="form-control" id="Password" @bind-Value="userRegistrationDTO.Password" placeholder="Password" />
         </div>
 
-        <div class="form-group">
-            <label for="ConfirmPassword">Confirm password</label>
+        <div class="mb-3">
+            <label for="ConfirmPassword" class="form-label">Confirm password</label>
             <InputText class="form-control" id="ConfirmPassword" @bind-Value="userRegistrationDTO.ConfirmPassword" placeholder="Confirm password" />
         </div>
 
-        <div>
+        <div class="mb-3">
             <label for="AccountType">Account Type</label>
             <br />
-            <InputRadioGroup class="form-control" id="AccountType" @bind-Value="@IsCoach">
+            <InputRadioGroup class="form-check-input" id="AccountType" @bind-Value="@IsCoach">
                 <InputRadio Value="@true" />Coach<br>
                 <InputRadio Value="@false" />Athlete<br>
             </InputRadioGroup>
