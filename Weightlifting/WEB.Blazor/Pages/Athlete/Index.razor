@@ -2,15 +2,24 @@
 @attribute [Authorize(Roles = "Athlete")]
 
 <PageTitle>Athlete Home</PageTitle>
-<h1>Welcome to your dashboard</h1>
 
-Testing including other razor pages as components.
+    <div class="container">
+    <h1>Welcome to your dashboard</h1>
 
-<Check />
+    Testing including other razor pages as components.
 
-<Details />
-
-<CoachDetails />
+        <div class="row">
+            <div class="col">
+                <Check />
+            </div>
+            <div class="col">
+                <Details />
+            </div>
+            <div class="col">
+                <CoachDetails />
+            </div>
+        </div>
+    </div>
 
 @code {
 
