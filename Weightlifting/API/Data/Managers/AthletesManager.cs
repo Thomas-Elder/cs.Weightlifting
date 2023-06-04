@@ -3,6 +3,8 @@
 using API.Data.Managers.Interfaces;
 
 using DTO.Athletes;
+using DTO.Sessions;
+using API.Data.Models;
 
 namespace API.Data.Managers
 {
@@ -171,7 +173,7 @@ namespace API.Data.Managers
 
           var sessionDTOs = new List<SessionDetailsDTO>();
 
-          foreach (var session in sessions)
+          foreach (var session in sessions ?? Enumerable.Empty<Session>())
           {
               sessionDTOs.Add(new SessionDetailsDTO()
               {
