@@ -43,22 +43,22 @@ namespace WEB.Blazor.Services
             return await result.Content.ReadAsStringAsync();
         }
 
-        public async Task<AddAthleteToCoachResponseDTO> AddAthlete()
+        public  Task<AddAthleteToCoachResponseDTO> AddAthlete()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<CoachDetailsDTO> Details()
+        public  Task<CoachDetailsDTO> Details()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<CoachDetailsDTO> EditDetails()
+        public  Task<CoachDetailsDTO> EditDetails()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<CoachDetailsDTO> MyDetails()
+        public  Task<CoachDetailsDTO> MyDetails()
         {
             throw new NotImplementedException();
         }

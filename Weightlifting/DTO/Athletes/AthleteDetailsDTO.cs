@@ -1,4 +1,6 @@
-﻿namespace DTO.Athletes
+﻿using DTO.Sessions;
+
+namespace DTO.Athletes
 {
     public class AthleteDetailsDTO : ResponseDTO
     {

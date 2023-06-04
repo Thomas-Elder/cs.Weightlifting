@@ -63,14 +63,14 @@ namespace API.Tests.Data.Managers
         public async void AddSession_WhenCalledWithNonExistingAthleteId_ReturnsAddSessionResponseDTOWithSuccessFalse()
         {
             // Arrange
+            var athleteId = 2;
             var addSessionDTO = new AddSessionDTO()
             {
-                AthleteId = 2,
                 Date = new DateTime(2022, 1, 2)
             };
 
             // Act
-            var result = await _sut.AddSession(addSessionDTO);
+            var result = await _sut.AddSession(athleteId, addSessionDTO);
 
             // Assert
             Assert.False(result.Success);
@@ -80,14 +80,14 @@ namespace API.Tests.Data.Managers
         public async void AddSession_WhenCalledWithExistingAthleteId_ReturnsAddSessionResponseDTOWithSuccessTrue()
         {
             // Arrange
+            var athleteId = 1;
             var addSessionDTO = new AddSessionDTO()
             {
-                AthleteId = 1,
                 Date = new DateTime(2022, 1, 2)
             };
 
             // Act
-            var result = await _sut.AddSession(addSessionDTO);
+            var result = await _sut.AddSession(athleteId, addSessionDTO);
 
             // Assert
             Assert.True(result.Success);
@@ -97,9 +97,9 @@ namespace API.Tests.Data.Managers
         public async void AddSession_WhenCalledWithExistingAthleteIdAndExerciseData_ReturnsAddSessionResponseDTOWithSuccessTrueAndSessionDetailsSaved()
         {
             // Arrange
+            var athleteId = 1;
             var addSessionDTO = new AddSessionDTO()
             {
-                AthleteId = 1,
                 Date = new DateTime(2022, 1, 2),
                 Exercises = new List<ExerciseDTO>()
                 {
@@ -134,7 +134,7 @@ namespace API.Tests.Data.Managers
             };
 
             // Act
-            var result = await _sut.AddSession(addSessionDTO);
+            var result = await _sut.AddSession(athleteId, addSessionDTO);
 
             // Assert
             Assert.True(result.Success);
