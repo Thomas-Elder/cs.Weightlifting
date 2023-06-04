@@ -24,16 +24,16 @@ namespace API.Data.Managers
         /// Adds a Session for an Athlete
         /// </summary>
         /// Checks if the athleteId exists in the database, and returns an AddSessionResponseDTO with Success
-        /// set to false if there is no matching athlete, and Error message in the Errors dict.  
+        /// set to false if there is no matching athlete, and Error message in the Errors list.  
         /// If there is, it creates a Session, and adds all the Exercises, Sets and this Session to the database,
         /// before returning an AddSessionResponseDTO with Success set to true.
         /// <param name="addSessionDTO"></param>
         /// <returns>
         /// An AddSessionResponseDTO with the result of the action.
         /// </returns>
-        public async Task<AddSessionResponseDTO> AddSession(AddSessionDTO addSessionDTO)
+        public async Task<AddSessionResponseDTO> AddSession(int athleteId, AddSessionDTO addSessionDTO)
         {
-            var athlete = await _weightliftingContext.Athletes.FirstOrDefaultAsync(a => a.Id == addSessionDTO.AthleteId);
+            var athlete = await _weightliftingContext.Athletes.FirstOrDefaultAsync(a => a.Id == athleteId);
 
             if (athlete is null)
             {
@@ -89,7 +89,7 @@ namespace API.Data.Managers
         /// Gets the details for a given sessionId.
         /// </summary>
         /// Checks if the sessionId matches an existing Session in the database, if not, returns a SessionDetailsDTO
-        /// with Success set to false, and Error message in the Errors dict.
+        /// with Success set to false, and Error message in the Errors list.
         /// If it exists, the details of the Session are returned in a SessionDetailsDTO with Success set to true.
         /// <param name="sessionId"></param>
         /// <returns>
@@ -148,7 +148,7 @@ namespace API.Data.Managers
         /// Updates the details of a Session.
         /// </summary>
         /// Checks if the sessionId matches an existing Session in the database, if not, returns a SessionDetailsDTO
-        /// with Success set to false, and Error message in the Errors dict.
+        /// with Success set to false, and Error message in the Errors list.
         /// If the Session exists, the details of the Session are updated, and the updated details are returned in a 
         /// editSessionDetailsDTO, with Success set to true.
         /// <param name="editSessionDetailsDTO"></param>
@@ -170,6 +170,8 @@ namespace API.Data.Managers
 
             session.Date = editSessionDetailsDTO.Date;
 
+            _weightliftingContext.SaveChanges();
+
             return new EditSessionDetailsResponseDTO()
             {
                 Success = true,
@@ -179,10 +181,80 @@ namespace API.Data.Managers
         }
 
         /// <summary>
+        /// Gets all sessions for a given athlete
+        /// </summary>
+        /// Checks if the athleteId exists in the database, and returns an GetSessionsResponseDTO with Success
+        /// set to false if there is no matching athlete, and Error message in the Errors list.  
+        /// If there is, it adds all the sessions with matching athleteId to an IEnumerable of SessionDetailsDTOs
+        /// before returning an GetSessionsResponseDTO with Success set to true.
+        /// <param name="athleteId"></param>
+        /// <returns>
+        /// A GetSessionsResponseDTO with the result of the action.
+        /// </returns>
+        public async Task<GetSessionsResponseDTO> GetSessions(int athleteId)
+        {
+            var athlete = await _weightliftingContext.Athletes.FirstOrDefaultAsync(a => a.Id == athleteId);
+
+            if (athlete is null)
+            {
+                return new GetSessionsResponseDTO()
+                {
+                    Success = false,
+                    Errors = new List<string> { "Athlete id doesn't exist" }
+                };
+            }
+
+            var sessions = new List<SessionDetailsDTO>();
+
+            foreach (Session session in athlete.Sessions ?? Enumerable.Empty<Session>())
+            {
+                var exercises = session.Exercises;
+
+                var exerciseDTOs = new List<ExerciseDTO>();
+
+                foreach (Exercise exercise in exercises ?? Enumerable.Empty<Exercise>())
+                {
+                    var sets = exercise.Sets;
+
+                    var setDTOs = new List<SetDTO>();
+
+                    foreach (Set set in sets ?? Enumerable.Empty<Set>())
+                    {
+                        setDTOs.Add(new SetDTO()
+                        {
+                            Weight = set.Weight,
+                            SuccessfulRepetitions = set.SuccessfulRepetitions,
+                            FailedRepetitions = set.FailedRepetitions
+                        });
+                    }
+
+                    exerciseDTOs.Add(new ExerciseDTO()
+                    {
+                        Name = exercise.Name,
+                        Sets = setDTOs
+                    });
+                }
+
+                sessions.Add(new SessionDetailsDTO()
+                {
+                    SessionId = session.Id,
+                    Date = session.Date,
+                    Exercises = exerciseDTOs
+                });
+            }
+
+            return new GetSessionsResponseDTO()
+            {
+                Success = true,
+                SessionDetails = sessions
+            };
+        }
+
+        /// <summary>
         /// Deletes a Session.
         /// </summary>
         /// Checks if the sessionId matches an existing Session in the database, if not, returns a DeleteSessionDTO
-        /// with Success set to false, and Error message in the Errors dict.
+        /// with Success set to false, and Error message in the Errors list.
         /// If the session exists, it is deleted from the database.
         /// <param name="sessionId"></param>
         /// <returns>
