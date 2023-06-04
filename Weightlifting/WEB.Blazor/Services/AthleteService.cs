@@ -1,10 +1,9 @@
-﻿using DTO.Account;
+﻿
 using DTO.Athletes;
+using DTO.Sessions;
 
-using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Reflection;
 using WEB.Blazor.Services.Interfaces;
 
 namespace WEB.Blazor.Services
@@ -122,6 +121,46 @@ namespace WEB.Blazor.Services
             if (result is null)
             {
                 return new AthleteDetailsDTO()
+                {
+                    Errors = new List<string>() { "Failed to access the api. The result of the call to the server was null." }
+                };
+            }
+
+            return result;
+        }
+
+        public async Task<GetSessionsResponseDTO> GetSessions(int athleteId)
+        {
+            var token = await _tokenService.GetToken();
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _httpClient.GetAsync("Sessions/Get/" + athleteId);
+            var result = await response.Content.ReadFromJsonAsync<GetSessionsResponseDTO>();
+
+            if (result is null)
+            {
+                return new GetSessionsResponseDTO()
+                {
+                    Errors = new List<string>() { "Failed to access the api. The result of the call to the server was null." }
+                };
+            }
+
+            return result;
+        }
+
+        public async Task<AddSessionResponseDTO> AddSession(AddSessionDTO sessionDTO)
+        {
+            var token = await _tokenService.GetToken();
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _httpClient.PostAsJsonAsync("Sessions/Add", sessionDTO);
+            var result = await response.Content.ReadFromJsonAsync<AddSessionResponseDTO>();
+
+            if (result is null)
+            {
+                return new AddSessionResponseDTO()
                 {
                     Errors = new List<string>() { "Failed to access the api. The result of the call to the server was null." }
                 };

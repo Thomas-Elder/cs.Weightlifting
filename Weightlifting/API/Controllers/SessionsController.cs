@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using DTO.Sessions;
+using API.Data.Managers;
 
 namespace API.Controllers
 {
@@ -12,17 +13,43 @@ namespace API.Controllers
     public class SessionsController : Controller
     {
         private readonly ISessionsManager _sessionsManager;
+        private readonly IAthletesManager _athletesManager;
 
-        public SessionsController(ISessionsManager sessionsManager)
+        public SessionsController(ISessionsManager sessionsManager, IAthletesManager athletesManager)
         {
             _sessionsManager = sessionsManager;
+            _athletesManager = athletesManager;
         }
 
-        [HttpPost("add")]
+        [HttpPost("Add")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
-        public async Task<IActionResult> Add(AddSessionDTO addSessionDTO)
+        public async Task<IActionResult> Add([FromBody] AddSessionDTO addSessionDTO)
         {
-            var result = await _sessionsManager.AddSession(addSessionDTO);
+            // Check the logged in user's identity
+            var userId = User?.Identity?.Name;
+
+            if (userId is null)
+            {
+                return BadRequest(new AddSessionResponseDTO()
+                {
+                    Success = false,
+                    Errors = new List<string>() { "Error accessing user identity" }
+                });
+            }
+
+            int athleteId;
+
+            // Their user is valid, but are they an athlete?
+            if (!_athletesManager.GetAthleteId(userId, out athleteId))
+            {
+                return BadRequest(new AddSessionResponseDTO()
+                {
+                    Success = false,
+                    Errors = new List<string>() { "No athleteId given, and user is not an Athlete" }
+                });
+            }
+
+            var result = await _sessionsManager.AddSession(athleteId, addSessionDTO);
 
             if (!result.Success)
             {
@@ -32,7 +59,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("details")]
+        [HttpPost("Details/{sessionId:int}")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> Details(int sessionId)
         {
@@ -46,9 +73,9 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("details/edit")]
+        [HttpPost("Details/Edit")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
-        public async Task<IActionResult> EditDetails(EditSessionDetailsDTO editSessionDetailsDTO)
+        public async Task<IActionResult> EditDetails([FromBody] EditSessionDetailsDTO editSessionDetailsDTO)
         {
             var result = await _sessionsManager.EditDetails(editSessionDetailsDTO);
 
@@ -60,7 +87,21 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("delete")]
+        [HttpPost("Get/{athleteId:int}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Get(int athleteId)
+        {
+            var result = await _sessionsManager.Details(athleteId);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost("Delete/{sessionId:int}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = UserRoles.Athlete)]
         public async Task<IActionResult> Delete(int sessionId)
         {
