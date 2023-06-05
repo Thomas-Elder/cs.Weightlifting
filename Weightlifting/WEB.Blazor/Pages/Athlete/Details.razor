@@ -39,14 +39,6 @@
             <p>Last name: @Athlete.LastName</p>
         </div>
 
-        @if(Athlete.Sessions.Count() > 0)
-        {
-            @foreach (SessionDetailsDTO session in Athlete.Sessions)
-            {
-                <p>@session.Date</p>
-            }
-        }
-
         <button class="btn btn-primary" @onclick="EditingButton">Edit details</button>
     }
 }
