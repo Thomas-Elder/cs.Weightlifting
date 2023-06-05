@@ -1,5 +1,50 @@
-﻿<h3>Sessions</h3>
+﻿@using DTO.Athletes;
+@using DTO.Sessions;
+
+@inject IAthleteService _athleteService;
+
+<h3>Sessions</h3>
+
+@if(SessionDetails.Count > 0)
+{
+    @foreach(SessionDetailsDTO session in SessionDetails)
+    {
+        <div class="mb-3">Session date: @session.Date</div>
+    }
+}
+
+<p>Please enter your details below.</p>
+
+<EditForm Model="@addSessionDTO" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label for="Date" class="form-label">Date</label>
+        <InputDate class="form-control" id="Date" @bind-Value="addSessionDTO.Date" placeholder="Date" />
+    </div>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+
+</EditForm>
 
 @code {
+    protected List<SessionDetailsDTO> SessionDetails = new();
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await _athleteService.GetSessions();
 
+        SessionDetails = result.SessionDetails.ToList<SessionDetailsDTO>();
+    }
+
+    protected AddSessionDTO addSessionDTO = new();
+    protected async Task HandleValidSubmit()
+    {
+        var result = await _athleteService.AddSession(addSessionDTO);
+
+        if (result.Success)
+        {
+            SessionDetails.Add(new SessionDetailsDTO() { Date = addSessionDTO.Date });
+        }
+    }
 }
