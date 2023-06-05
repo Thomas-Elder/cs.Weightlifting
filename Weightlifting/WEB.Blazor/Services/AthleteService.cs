@@ -129,13 +129,15 @@ namespace WEB.Blazor.Services
             return result;
         }
 
-        public async Task<GetSessionsResponseDTO> GetSessions(int athleteId)
+        public async Task<GetSessionsResponseDTO> GetSessions()
         {
             var token = await _tokenService.GetToken();
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await _httpClient.GetAsync("Sessions/Get/" + athleteId);
+            var res = await _httpClient.GetFromJsonAsync<GetSessionsResponseDTO>("Sessions/AthleteSessions");
+
+            var response = await _httpClient.GetAsync("Sessions/AthleteSessions");
             var result = await response.Content.ReadFromJsonAsync<GetSessionsResponseDTO>();
 
             if (result is null)

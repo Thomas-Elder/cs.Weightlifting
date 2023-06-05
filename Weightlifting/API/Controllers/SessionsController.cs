@@ -87,11 +87,35 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("Get/{athleteId:int}")]
+        [HttpGet("AthleteSessions")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Get(int athleteId)
+        public async Task<IActionResult> AthleteSessions()
         {
-            var result = await _sessionsManager.Details(athleteId);
+            // Check the logged in user's identity
+            var userId = User?.Identity?.Name;
+
+            if (userId is null)
+            {
+                return BadRequest(new AddSessionResponseDTO()
+                {
+                    Success = false,
+                    Errors = new List<string>() { "Error accessing user identity" }
+                });
+            }
+
+            int athleteId;
+
+            // Their user is valid, but are they an athlete?
+            if (!_athletesManager.GetAthleteId(userId, out athleteId))
+            {
+                return BadRequest(new AddSessionResponseDTO()
+                {
+                    Success = false,
+                    Errors = new List<string>() { "No athleteId given, and user is not an Athlete" }
+                });
+            }
+
+            var result = await _sessionsManager.GetSessions(athleteId);
 
             if (!result.Success)
             {

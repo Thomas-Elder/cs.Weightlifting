@@ -18,6 +18,6 @@ namespace WEB.Blazor.Services.Interfaces
 
         // Session methods
         public Task<AddSessionResponseDTO> AddSession(AddSessionDTO sessionDTO);
-        public Task<GetSessionsResponseDTO> GetSessions(int athleteId);
+        public Task<GetSessionsResponseDTO> GetSessions();
     }
 }
