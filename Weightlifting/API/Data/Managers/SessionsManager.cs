@@ -193,7 +193,11 @@ namespace API.Data.Managers
         /// </returns>
         public async Task<GetSessionsResponseDTO> GetSessions(int athleteId)
         {
-            var athlete = await _weightliftingContext.Athletes.FirstOrDefaultAsync(a => a.Id == athleteId);
+            var athlete = await _weightliftingContext.Athletes
+                .Include(a => a.Sessions)
+                .Include(a => a.Coach)
+                .Where(a => a.Id == athleteId)
+                .SingleOrDefaultAsync();
 
             if (athlete is null)
             {
